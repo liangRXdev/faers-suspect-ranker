@@ -1,0 +1,16 @@
+# Claude Code session 暫存（不進公開 repo）
+.remember/
+
+# OS / 編輯器
+.DS_Store
+Thumbs.db
+desktop.ini
+*.swp
+.vscode/
+.idea/
+
+# 本機機敏設定（API key 一律走 PropertiesService，勿落地）
+*.local
+.env
+.env.*
+.clasp.json

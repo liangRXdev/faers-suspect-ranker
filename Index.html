@@ -1,0 +1,969 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FAERS 多重用藥 ADR 嫌疑藥排序</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&family=JetBrains+Mono&display=swap" rel="stylesheet">
+  <style>
+    :root{
+      --bg-primary:#F5F0E8; --bg-card:#FFFFFF; --accent:#3D7A8A; --accent-hover:#2E6B7A;
+      --text-primary:#2C2C2C; --text-muted:#6B7280; --border:#E0D9CE;
+      --danger:#C0392B; --success:#27AE60; --warning:#E67E22;
+      --radius-card:8px; --radius-input:4px;
+      --shadow-card:0 2px 8px rgba(0,0,0,.08); --transition:.2s ease;
+    }
+    body{background:var(--bg-primary);font-family:'Noto Sans TC',sans-serif;color:var(--text-primary);padding-bottom:48px;}
+    .num{font-family:'JetBrains Mono',monospace;}
+    .tool-card{background:var(--bg-card);border-radius:var(--radius-card);box-shadow:var(--shadow-card);padding:1.25rem;margin-bottom:1rem;}
+    h1{font-size:1.3rem;font-weight:700;}
+    .form-control,.form-select{border-radius:var(--radius-input);border-color:var(--border);font-size:16px;min-height:44px;}
+    .form-control:focus{border-color:var(--accent);box-shadow:0 0 0 .2rem rgba(61,122,138,.15);}
+    .btn-primary{background:var(--accent);border-color:var(--accent);transition:var(--transition);min-height:44px;font-weight:500;}
+    .btn-primary:hover,.btn-primary:active{background:var(--accent-hover);border-color:var(--accent-hover);}
+    .btn-success-custom{background:var(--success);border-color:var(--success);color:#fff;border-radius:var(--radius-input);padding:.375rem .75rem;min-height:44px;font-size:.85rem;border:none;cursor:pointer;transition:var(--transition);}
+    .btn-outline-muted{background:#fff;border:1px solid var(--border);border-radius:var(--radius-input);padding:.375rem .75rem;min-height:44px;font-size:.85rem;cursor:pointer;color:var(--text-muted);transition:var(--transition);}
+    .drug-row{display:flex;flex-wrap:wrap;gap:.4rem;align-items:center;padding:.5rem;border:1px solid var(--border);border-radius:var(--radius-input);margin-bottom:.5rem;background:#fff;}
+    .drug-row .inp-name{flex:1 1 150px;min-width:120px;}
+    .drug-row .date-grp{display:flex;align-items:center;gap:.25rem;flex-wrap:wrap;font-size:.78rem;color:var(--text-muted);}
+    .drug-row .inp-start,.drug-row .inp-stop{max-width:140px;min-height:40px;font-size:14px;}
+    .drug-row .inp-stop:disabled{background:#F3F0EA;opacity:.6;}
+    .ongoing-lbl{display:inline-flex;align-items:center;gap:.2rem;white-space:nowrap;cursor:pointer;}
+    .ongoing-lbl input{width:16px;height:16px;}
+    .btn-del{min-width:44px;min-height:44px;border-radius:var(--radius-input);border:1px solid var(--border);background:#fff;color:var(--danger);font-size:1rem;cursor:pointer;transition:var(--transition);}
+    .btn-del:hover{background:#FEF2F2;}
+    .hint{font-size:.78rem;color:var(--text-muted);}
+    /* 進度條 */
+    .progress-wrap{display:none;margin-top:.75rem;}
+    .progress-bar-custom{height:4px;border-radius:2px;background:var(--accent);transition:width .4s ease;}
+    .progress-bg{height:4px;border-radius:2px;background:var(--border);}
+    /* 結果表 */
+    .table-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch;}
+    .result-table{width:100%;border-collapse:collapse;font-size:.82rem;}
+    .result-table th{position:sticky;top:0;background:var(--accent);color:#fff;padding:.45rem .4rem;font-weight:500;white-space:nowrap;}
+    .result-table td{padding:.45rem .4rem;border-bottom:1px solid var(--border);text-align:center;vertical-align:middle;}
+    .result-table tr:nth-child(even) td{background:#FAF7F1;}
+    .td-left{text-align:left!important;}
+    .bsig{background:var(--danger);} .bweak{background:var(--warning);} .bnone{background:var(--text-muted);} .bexcl{background:#9AA0A6;}
+    .notice{font-size:.78rem;border-left:3px solid var(--warning);background:#FDF6EC;padding:.6rem .8rem;border-radius:var(--radius-input);color:#7A4F19;margin-top:.75rem;}
+    details.method{font-size:.78rem;color:var(--text-muted);margin-top:.5rem;}
+    details.method summary{cursor:pointer;font-weight:500;color:var(--accent);user-select:none;}
+    /* API Key 區塊 */
+    details.key-block{font-size:.8rem;}
+    details.key-block summary{cursor:pointer;color:var(--text-muted);user-select:none;}
+    .key-status{font-size:.75rem;padding:.3rem .6rem;border-radius:var(--radius-input);display:inline-block;margin-top:.4rem;}
+    .key-ok{background:#EBF9F1;color:#1A7A45;} .key-none{background:#FEF9EB;color:#9A6F00;}
+    /* 速率提示 */
+    .rate-badge{font-size:.72rem;font-family:'JetBrains Mono',monospace;padding:.2rem .5rem;border-radius:12px;background:var(--bg-primary);border:1px solid var(--border);color:var(--text-muted);white-space:nowrap;}
+    .version-badge{position:fixed;bottom:12px;right:12px;font-size:.7rem;color:var(--text-muted);font-family:'JetBrains Mono',monospace;}
+    .guideline-footer{font-size:.72rem;color:var(--text-muted);text-align:center;padding:.8rem;}
+    .spinner-inline{display:inline-block;width:.9rem;height:.9rem;border:2px solid rgba(255,255,255,.5);border-right-color:#fff;border-radius:50%;animation:spin .7s linear infinite;vertical-align:-.15em;}
+    @keyframes spin{to{transform:rotate(360deg)}}
+    @media(prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important;}}
+    /* ── PT 搜尋器 ────────────────────────────────────────── */
+    .pt-dropdown{position:absolute;z-index:999;width:100%;max-height:260px;overflow-y:auto;
+      background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-input);
+      box-shadow:var(--shadow-card);margin-top:2px;}
+    .pt-item{padding:.45rem .75rem;cursor:pointer;font-size:.85rem;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:baseline;gap:.5rem;}
+    .pt-item:last-child{border-bottom:none;}
+    .pt-item:hover,.pt-item.active{background:var(--bg-primary);}
+    .pt-item .pt-zh{font-size:.75rem;color:var(--text-muted);white-space:nowrap;}
+    .pt-item .pt-soc{font-size:.7rem;color:var(--accent);white-space:nowrap;}
+    .pt-item mark{background:#FFF3C4;color:inherit;border-radius:2px;padding:0 1px;}
+    .pt-browse{margin-top:.6rem;border:1px solid var(--border);border-radius:var(--radius-input);
+      background:var(--bg-card);max-height:320px;overflow-y:auto;padding:.5rem;}
+    .soc-label{font-size:.75rem;font-weight:700;color:var(--accent);text-transform:uppercase;
+      letter-spacing:.04em;padding:.3rem .2rem .1rem;border-bottom:1px solid var(--border);
+      margin-bottom:.25rem;margin-top:.4rem;}
+    .soc-label:first-child{margin-top:0;}
+    .pt-chip{display:inline-block;font-size:.78rem;padding:.2rem .55rem;margin:.15rem;
+      border:1px solid var(--border);border-radius:12px;cursor:pointer;
+      background:#fff;transition:var(--transition);}
+    .pt-chip:hover{background:var(--accent);color:#fff;border-color:var(--accent);}
+    .pt-selected-tag{font-size:.78rem;padding:.2rem .55rem;border-radius:12px;
+      background:#EBF5F8;border:1px solid var(--accent);color:var(--accent);display:inline-flex;align-items:center;gap:.3rem;}
+    .pt-selected-tag .pt-clear{cursor:pointer;font-size:.9rem;line-height:1;opacity:.7;}
+    .pt-selected-tag .pt-clear:hover{opacity:1;}
+    .pt-fdahint{font-size:.72rem;color:var(--text-muted);padding:.3rem .75rem;font-style:italic;}
+    /* ── 用藥時序軸（Gantt）─────────────────────────────────── */
+    .timeline{margin-top:.75rem;border:1px solid var(--border);border-radius:var(--radius-input);background:#fff;padding:.6rem .5rem .3rem;}
+    .tl-head{font-size:.8rem;font-weight:500;color:var(--accent);margin-bottom:.4rem;display:flex;justify-content:space-between;align-items:center;}
+    .tl-head .tl-hint{font-size:.7rem;color:var(--text-muted);font-weight:400;}
+    .tl-plot{position:relative;width:100%;user-select:none;-webkit-user-select:none;touch-action:pan-y;}
+    .tl-lane{position:absolute;left:0;right:0;height:34px;}
+    .tl-laneband{position:absolute;left:0;right:0;top:0;bottom:0;border-bottom:1px dashed #EFEAE0;}
+    .tl-label{position:absolute;left:0;top:7px;font-size:.72rem;color:var(--text-primary);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-weight:500;}
+    .tl-bar{position:absolute;top:8px;height:18px;border-radius:4px;background:var(--accent);cursor:grab;display:flex;align-items:center;box-shadow:0 1px 3px rgba(0,0,0,.12);}
+    .tl-bar.on-drug{background:var(--accent);}
+    .tl-bar.stopped{background:var(--warning);}
+    .tl-bar.before{background:#B9B7B2;}
+    .tl-bar:active{cursor:grabbing;}
+    .tl-handle{position:absolute;top:0;width:12px;height:100%;cursor:ew-resize;}
+    .tl-handle.l{left:-2px;} .tl-handle.r{right:-2px;}
+    .tl-handle::after{content:'';position:absolute;top:4px;bottom:4px;width:2px;background:rgba(255,255,255,.8);border-radius:1px;}
+    .tl-handle.l::after{left:3px;} .tl-handle.r::after{right:3px;}
+    .tl-gap{position:absolute;top:15px;height:0;border-top:2px dotted var(--warning);}
+    .tl-onset{position:absolute;top:0;bottom:18px;width:2px;background:var(--danger);z-index:5;}
+    .tl-onset-lbl{position:absolute;top:-2px;font-size:.66rem;color:var(--danger);background:#fff;padding:0 2px;transform:translateX(-50%);white-space:nowrap;z-index:6;}
+    .tl-axis{position:relative;height:18px;margin-top:2px;border-top:1px solid var(--border);}
+    .tl-tick{position:absolute;top:2px;font-size:.62rem;color:var(--text-muted);transform:translateX(-50%);font-family:'JetBrains Mono',monospace;white-space:nowrap;}
+    .tl-empty{font-size:.75rem;color:var(--text-muted);padding:.5rem;text-align:center;}
+    /* ── 因果評估面板 ───────────────────────────────────────── */
+    .btn-assess{background:#fff;border:1px solid var(--accent);color:var(--accent);border-radius:var(--radius-input);padding:.25rem .6rem;font-size:.78rem;cursor:pointer;min-height:32px;white-space:nowrap;transition:var(--transition);}
+    .btn-assess:hover{background:var(--accent);color:#fff;}
+    .as-drughead{background:var(--bg-primary);border-radius:var(--radius-input);padding:.5rem .75rem;font-size:.85rem;margin-bottom:.75rem;line-height:1.6;}
+    .as-drughead b{color:var(--accent);}
+    .as-section{border-top:1px solid var(--border);padding-top:.75rem;margin-top:.5rem;}
+    .as-section-title{display:flex;justify-content:space-between;align-items:center;font-weight:700;font-size:.9rem;color:var(--accent);margin-bottom:.5rem;}
+    .as-score{font-family:'JetBrains Mono',monospace;font-size:.8rem;}
+    .as-q{display:flex;align-items:center;gap:.5rem;padding:.4rem 0;border-bottom:1px dashed #EFEAE0;font-size:.82rem;flex-wrap:wrap;}
+    .as-q-text{flex:1 1 220px;min-width:160px;}
+    .as-q-num{color:var(--text-muted);font-family:'JetBrains Mono',monospace;margin-right:.3rem;}
+    .as-opts{display:flex;gap:.25rem;flex-shrink:0;}
+    .as-opt{border:1px solid var(--border);background:#fff;border-radius:var(--radius-input);padding:.25rem .45rem;font-size:.74rem;cursor:pointer;min-height:32px;min-width:54px;color:var(--text-primary);transition:var(--transition);white-space:nowrap;}
+    .as-opt:hover{border-color:var(--accent);}
+    .as-opt.active{background:var(--accent);color:#fff;border-color:var(--accent);font-weight:500;}
+    .as-opt .pt{opacity:.7;font-family:'JetBrains Mono',monospace;}
+    .as-opt.active .pt{opacity:.9;}
+    .cat-badge{padding:.2rem .55rem;border-radius:12px;font-size:.78rem;font-weight:500;color:#fff;}
+    .cat-definite,.cat-certain{background:#8E44AD;} .cat-probable{background:var(--danger);}
+    .cat-possible{background:var(--warning);} .cat-doubtful,.cat-unlikely{background:var(--text-muted);}
+    .cat-conditional,.cat-unassessable{background:#5D6D7E;}
+    .who-cats{display:flex;flex-wrap:wrap;gap:.4rem;}
+    .who-cat{flex:1 1 150px;border:1px solid var(--border);border-radius:var(--radius-input);padding:.45rem .6rem;cursor:pointer;font-size:.76rem;background:#fff;transition:var(--transition);}
+    .who-cat:hover{border-color:var(--accent);}
+    .who-cat.selected{border-color:var(--accent);border-width:2px;background:#F3F8FA;}
+    .who-cat.suggested{box-shadow:0 0 0 2px rgba(142,68,173,.25);}
+    .who-cat .wc-name{font-weight:700;display:block;margin-bottom:.15rem;}
+    .who-cat .wc-crit{color:var(--text-muted);line-height:1.4;}
+  </style>
+</head>
+<body>
+<div class="container py-3" style="max-width:780px;">
+  <h1 class="mb-1">FAERS 多重用藥 ADR 嫌疑藥排序</h1>
+  <p class="hint mb-3">輸入不良反應與各藥起始日 → 反向查詢 FAERS + ROR/PRR 不相稱性 + 時序加權 → 嫌疑藥排名</p>
+
+  <!-- 全域錯誤 -->
+  <div class="alert alert-danger" id="errMsg" role="alert" hidden></div>
+
+  <!-- 輸入卡 -->
+  <div class="tool-card">
+
+    <!-- API Key 設定（摺疊） -->
+    <details class="key-block mb-3">
+      <summary>⚙ OpenFDA API Key 設定 <span id="keyBadge" class="rate-badge ms-2">讀取中…</span></summary>
+      <div class="mt-2 d-flex gap-2 flex-wrap">
+        <input class="form-control" id="keyInput" type="password" placeholder="貼上 API Key（申請：https://open.fda.gov/apis/authentication/）" style="max-width:340px;min-height:40px;font-size:14px;">
+        <button class="btn-outline-muted" id="saveKeyBtn" type="button">儲存</button>
+        <button class="btn-outline-muted" id="clearKeyBtn" type="button">清除</button>
+      </div>
+      <div id="keyMsg" class="hint mt-1"></div>
+      <div class="hint mt-1">無 Key：40 req/min（查詢約 2s/顆）｜有 Key：240 req/min（約 0.3s/顆），Key 免費申請。</div>
+    </details>
+
+    <!-- 症狀 PT 搜尋器 -->
+    <label class="form-label fw-bold mb-1">不良反應症狀（MedDRA PT）</label>
+    <div style="position:relative;">
+      <input class="form-control" id="reaction" autocomplete="off"
+             placeholder="輸入中文或英文關鍵字篩選，或展開分類瀏覽…">
+      <div id="ptDropdown" class="pt-dropdown" hidden></div>
+    </div>
+    <div class="d-flex gap-2 mt-1 flex-wrap align-items-center">
+      <span class="hint" id="ptSelectedTag"></span>
+      <button class="btn-outline-muted" id="ptBrowseBtn" type="button"
+              style="min-height:32px;padding:.2rem .55rem;font-size:.78rem;">
+        ≡ 分類瀏覽
+      </button>
+    </div>
+    <!-- SOC 分類瀏覽面板 -->
+    <div id="ptBrowsePanel" class="pt-browse" hidden></div>
+
+    <!-- 症狀日期 -->
+    <label class="form-label fw-bold mb-1 mt-3">症狀發生日期</label>
+    <input type="date" class="form-control" id="onsetDate" style="max-width:200px;">
+
+    <!-- 藥品列 -->
+    <div class="d-flex justify-content-between align-items-center mt-3 mb-1">
+      <span class="fw-bold">病人用藥清單</span>
+      <button class="btn-outline-muted" id="addDrug" type="button" style="min-height:36px;padding:.25rem .6rem;">＋ 新增藥品</button>
+    </div>
+    <div id="drugRows"></div>
+
+    <!-- 用藥時序視覺化 -->
+    <div id="timelineWrap" class="timeline" hidden>
+      <div class="tl-head">
+        <span>用藥時序軸</span>
+        <span class="tl-hint">拖曳長條移動·兩端調整起訖（紅線＝症狀發生日）</span>
+      </div>
+      <div id="tlPlot" class="tl-plot"></div>
+      <div id="tlAxis" class="tl-axis"></div>
+    </div>
+
+    <!-- 執行按鈕 + 進度 -->
+    <button class="btn btn-primary w-100 mt-2" id="runBtn" type="button">執行分析</button>
+    <div class="progress-wrap" id="progressWrap">
+      <div class="d-flex justify-content-between hint mb-1">
+        <span id="progressLabel">初始化…</span>
+        <span id="progressPct" class="num">0%</span>
+      </div>
+      <div class="progress-bg"><div class="progress-bar-custom" id="progressBar" style="width:0%"></div></div>
+      <div class="hint mt-1" id="progressNote"></div>
+    </div>
+  </div>
+
+  <!-- 結果卡 -->
+  <div class="tool-card" id="resultCard" hidden>
+    <div class="d-flex justify-content-between align-items-center mb-2">
+      <span class="fw-bold">嫌疑藥排序結果</span>
+      <button class="btn-success-custom" id="copyBtn" type="button">複製臨床紀錄</button>
+    </div>
+    <div id="metaLine" class="hint mb-2"></div>
+    <div class="table-wrap"><table class="result-table" id="resultTable"></table></div>
+    <div class="notice">
+      <strong>判讀限制：</strong>FAERS 為自願通報，無分母、有通報偏差與適應症混淆。
+      ROR/PRR 為<strong>訊號偵測</strong>指標，<strong>不等於因果或實際風險高低</strong>；
+      時序加權為啟發式輔助，須結合 Naranjo/WHO-UMC 與完整病歷綜合判斷。
+    </div>
+    <details class="method">
+      <summary>方法與閾值說明</summary>
+      <div class="mt-2">
+        ROR = ad/bc；95% CI 由 ln(ROR)±1.96·SE 推得。任一格=0 採 Haldane +0.5（表中標 †）。<br>
+        訊號判定：a≥3 且 [ROR 下界&gt;1] 或 [PRR≥2 且 χ²(Yates)≥4]。<br>
+        時序：≤90d=1.0、91–180d=0.6、&gt;180d=0.3；症狀早於用藥=0（時序排除）。<br>
+        停藥後發生（dechallenge）：再乘衰減 ≤7d×0.7、8–30d×0.4、&gt;30d×0.1。<br>
+        綜合分數 = 時序權重 × ln(ROR)（ROR≤1 計 0）；用於排序，非機率。
+      </div>
+    </details>
+  </div>
+
+  <!-- 因果評估卡（Naranjo + WHO-UMC）-->
+  <div class="tool-card" id="assessCard" hidden>
+    <div class="d-flex justify-content-between align-items-center mb-2">
+      <span class="fw-bold">個案因果評估</span>
+      <div class="d-flex gap-2">
+        <button class="btn-success-custom" id="copyAssessBtn" type="button">複製評估</button>
+        <button class="btn-outline-muted" id="closeAssessBtn" type="button" style="min-height:36px;">關閉</button>
+      </div>
+    </div>
+    <div id="assessHead" class="as-drughead"></div>
+
+    <!-- Naranjo -->
+    <div class="as-section">
+      <div class="as-section-title">
+        <span>Naranjo ADR 機率量表</span>
+        <span id="naranjoResult" class="as-score"></span>
+      </div>
+      <div id="naranjoBody"></div>
+    </div>
+
+    <!-- WHO-UMC -->
+    <div class="as-section">
+      <div class="as-section-title">
+        <span>WHO-UMC 因果分類</span>
+        <span id="whoSuggestBadge" class="as-score"></span>
+      </div>
+      <div id="whoBody"></div>
+      <div class="hint mb-1 mt-2">系統建議僅供參考，最終分類請點選下方類別由臨床判斷確認：</div>
+      <div id="whoCats" class="who-cats"></div>
+    </div>
+
+    <div class="notice mt-2">
+      Naranjo / WHO-UMC 為個案層級因果評估；與上方 FAERS 群體訊號互補，非取代。
+      預填項目（如「用藥後出現」「時間關係」）由本工具時序資料推得，請務必依實際病歷核對修正。
+    </div>
+  </div>
+
+  <footer class="guideline-footer">
+    參考依據：van Puijenbroek 2002 (ROR)；EVDAS disproportionality criteria；Naranjo CA et al. 1981；WHO-UMC causality system；資料來源 OpenFDA Drug Event API
+  </footer>
+</div>
+
+<div class="version-badge">v<?= VERSION ?> | FAERS ADR Ranker · 教學用</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+// ── 錯誤顯示 ──────────────────────────────────────────────
+function showError(m){var e=document.getElementById('errMsg');e.textContent=m;e.hidden=false;window.scrollTo(0,0);}
+function clearError(){document.getElementById('errMsg').hidden=true;}
+
+// ── 進度條 ────────────────────────────────────────────────
+function progressShow(label,pct,note){
+  document.getElementById('progressWrap').style.display='block';
+  document.getElementById('progressLabel').textContent=label;
+  document.getElementById('progressPct').textContent=pct+'%';
+  document.getElementById('progressBar').style.width=pct+'%';
+  document.getElementById('progressNote').textContent=note||'';
+}
+function progressHide(){document.getElementById('progressWrap').style.display='none';}
+
+// ── API Key 管理 ───────────────────────────────────────────
+function loadKeyStatus(){
+  google.script.run
+    .withSuccessHandler(function(r){
+      var b=document.getElementById('keyBadge');
+      b.textContent=r.hasKey?('有 Key · 240/min'):('無 Key · 40/min');
+      b.className='rate-badge ms-2 '+(r.hasKey?'key-ok':'key-none');
+    })
+    .withFailureHandler(function(){})
+    .getApiKeyStatus();
+}
+document.getElementById('saveKeyBtn').addEventListener('click',function(){
+  var k=document.getElementById('keyInput').value.trim();
+  if(!k){document.getElementById('keyMsg').textContent='請輸入 Key';return;}
+  google.script.run
+    .withSuccessHandler(function(r){
+      document.getElementById('keyMsg').textContent=r.msg;
+      document.getElementById('keyInput').value='';
+      loadKeyStatus();
+    })
+    .withFailureHandler(function(e){document.getElementById('keyMsg').textContent='錯誤：'+e.message;})
+    .saveApiKey(k);
+});
+document.getElementById('clearKeyBtn').addEventListener('click',function(){
+  google.script.run
+    .withSuccessHandler(function(r){document.getElementById('keyMsg').textContent=r.msg;loadKeyStatus();})
+    .withFailureHandler(function(){})
+    .clearApiKey();
+});
+loadKeyStatus();
+
+// ── 藥品列（含起始/停用/仍在用 + 時序軸連動）─────────────
+var _uidSeq = 0;
+function addDrugRow(name, start, stop){
+  var uid = 'd' + (++_uidSeq);
+  var row=document.createElement('div'); row.className='drug-row'; row.dataset.uid=uid;
+
+  var n=document.createElement('input');
+  n.type='text'; n.className='form-control inp-name'; n.placeholder='藥名（學名或商品名）';
+  if(name) n.value=name;
+
+  var grp=document.createElement('div'); grp.className='date-grp';
+  var st=document.createElement('input');
+  st.type='date'; st.className='form-control inp-start'; st.title='起始日'; if(start) st.value=start;
+  var arrow=document.createElement('span'); arrow.textContent='→';
+  var sp=document.createElement('input');
+  sp.type='date'; sp.className='form-control inp-stop'; sp.title='停用日'; if(stop) sp.value=stop;
+  var lbl=document.createElement('label'); lbl.className='ongoing-lbl';
+  var cb=document.createElement('input'); cb.type='checkbox'; cb.className='inp-ongoing';
+  var cbt=document.createElement('span'); cbt.textContent='仍在用';
+  lbl.appendChild(cb); lbl.appendChild(cbt);
+  grp.appendChild(st); grp.appendChild(arrow); grp.appendChild(sp); grp.appendChild(lbl);
+
+  var del=document.createElement('button');
+  del.type='button'; del.className='btn-del'; del.textContent='✕'; del.title='刪除此藥';
+  del.addEventListener('click',function(){
+    if(document.querySelectorAll('.drug-row').length>1){ row.remove(); scheduleTimeline(); }
+  });
+
+  cb.addEventListener('change',function(){
+    sp.disabled=cb.checked; if(cb.checked) sp.value=''; scheduleTimeline();
+  });
+  [n,st,sp].forEach(function(el){ el.addEventListener('input', scheduleTimeline); });
+
+  row.appendChild(n); row.appendChild(grp); row.appendChild(del);
+  document.getElementById('drugRows').appendChild(row);
+  scheduleTimeline();
+}
+document.getElementById('addDrug').addEventListener('click',function(){addDrugRow();});
+addDrugRow();
+document.getElementById('onsetDate').addEventListener('input', scheduleTimeline);
+window.addEventListener('resize', scheduleTimeline);
+
+// ── 讀取目前藥品模型 ──────────────────────────────────────
+function readDrugModel(){
+  var arr=[];
+  document.querySelectorAll('.drug-row').forEach(function(r){
+    arr.push({
+      uid: r.dataset.uid, el: r,
+      name: r.querySelector('.inp-name').value.trim(),
+      start: r.querySelector('.inp-start').value || null,
+      stop: r.querySelector('.inp-stop').value || null,
+      ongoing: r.querySelector('.inp-ongoing').checked
+    });
+  });
+  return arr;
+}
+
+// ══════════════════════════════════════════════════════════
+// 用藥時序軸（Gantt）— 可拖曳調整，回寫日期輸入
+// ══════════════════════════════════════════════════════════
+var GUTTER=92, LANE_H=34, _tlRAF=null;
+function pd(s){ if(!s) return null; var p=s.split('-'); return new Date(+p[0],+p[1]-1,+p[2]); }
+function fd(dt){ var m=('0'+(dt.getMonth()+1)).slice(-2),d=('0'+dt.getDate()).slice(-2); return dt.getFullYear()+'-'+m+'-'+d; }
+function addD(dt,n){ var x=new Date(dt.getTime()); x.setDate(x.getDate()+n); return x; }
+function dDiff(a,b){ return Math.round((a-b)/86400000); }
+function scheduleTimeline(){ if(_tlRAF) cancelAnimationFrame(_tlRAF); _tlRAF=requestAnimationFrame(renderTimeline); }
+
+function renderTimeline(){
+  var wrap=document.getElementById('timelineWrap');
+  var plot=document.getElementById('tlPlot');
+  var axis=document.getElementById('tlAxis');
+  var model=readDrugModel().filter(function(d){return d.start;});
+  var onset=pd(document.getElementById('onsetDate').value);
+
+  if(!model.length){ wrap.hidden=true; return; }
+  wrap.hidden=false; plot.innerHTML=''; axis.innerHTML='';
+
+  var W=plot.clientWidth||600, plotW=Math.max(W-GUTTER-8,80);
+  var dates=[];
+  model.forEach(function(d){
+    dates.push(pd(d.start));
+    var end=d.ongoing?(onset||addD(pd(d.start),30)):(pd(d.stop)||onset||addD(pd(d.start),30));
+    dates.push(end);
+  });
+  if(onset) dates.push(onset);
+  var d0=new Date(Math.min.apply(null,dates)), d1=new Date(Math.max.apply(null,dates));
+  var span=Math.max(dDiff(d1,d0),1), pad=Math.max(2,Math.round(span*0.06));
+  d0=addD(d0,-pad); d1=addD(d1,pad); span=Math.max(dDiff(d1,d0),1);
+  var pxPerDay=plotW/span;
+  function X(dt){ return GUTTER+dDiff(dt,d0)*pxPerDay; }
+
+  plot.style.height=(model.length*LANE_H)+'px';
+
+  if(onset){
+    var ox=X(onset);
+    var line=document.createElement('div'); line.className='tl-onset';
+    line.style.left=ox+'px'; line.style.height=(model.length*LANE_H)+'px'; plot.appendChild(line);
+    var olbl=document.createElement('div'); olbl.className='tl-onset-lbl';
+    olbl.style.left=ox+'px'; olbl.textContent='症狀 '+fd(onset).slice(5); plot.appendChild(olbl);
+  }
+
+  model.forEach(function(d,i){
+    var lane=document.createElement('div'); lane.className='tl-lane'; lane.style.top=(i*LANE_H)+'px';
+    var band=document.createElement('div'); band.className='tl-laneband'; lane.appendChild(band);
+    var lab=document.createElement('div'); lab.className='tl-label'; lab.style.width=(GUTTER-6)+'px';
+    lab.textContent=d.name||'(未命名)'; lab.title=d.name; lane.appendChild(lab);
+
+    var sDate=pd(d.start), eDate=d.ongoing?d1:(pd(d.stop)||d1);
+    if(eDate<sDate) eDate=sDate;
+    var bx=X(sDate), bw=Math.max(X(eDate)-bx,6);
+
+    var cls='on-drug';
+    if(onset){
+      if(onset<sDate) cls='before';
+      else if(!d.ongoing && pd(d.stop) && onset>pd(d.stop)) cls='stopped';
+    }
+    if(cls==='stopped' && onset){
+      var gap=document.createElement('div'); gap.className='tl-gap';
+      var gx=X(pd(d.stop)); gap.style.left=gx+'px'; gap.style.width=Math.max(X(onset)-gx,0)+'px';
+      lane.appendChild(gap);
+    }
+
+    var bar=document.createElement('div'); bar.className='tl-bar '+cls;
+    bar.style.left=bx+'px'; bar.style.width=bw+'px';
+    _attachDrag(bar,'move',d,pxPerDay);
+    var hl=document.createElement('div'); hl.className='tl-handle l'; _attachDrag(hl,'start',d,pxPerDay); bar.appendChild(hl);
+    if(!d.ongoing){ var hr=document.createElement('div'); hr.className='tl-handle r'; _attachDrag(hr,'stop',d,pxPerDay); bar.appendChild(hr); }
+    lane.appendChild(bar); plot.appendChild(lane);
+  });
+
+  for(var k=0;k<=4;k++){
+    var t=addD(d0,Math.round(span*k/4));
+    var tick=document.createElement('div'); tick.className='tl-tick';
+    tick.style.left=X(t)+'px'; tick.textContent=fd(t).slice(2); axis.appendChild(tick);
+  }
+}
+
+function _attachDrag(handle,mode,d,pxPerDay){
+  handle.addEventListener('pointerdown',function(ev){
+    ev.preventDefault(); ev.stopPropagation();
+    handle.setPointerCapture(ev.pointerId);
+    var startX=ev.clientX, s0=pd(d.start), e0=d.stop?pd(d.stop):null;
+    var startInp=d.el.querySelector('.inp-start'), stopInp=d.el.querySelector('.inp-stop');
+    function move(e){
+      var dxDays=Math.round((e.clientX-startX)/pxPerDay);
+      if(mode==='move'){ startInp.value=fd(addD(s0,dxDays)); if(e0) stopInp.value=fd(addD(e0,dxDays)); }
+      else if(mode==='start'){ var ns=addD(s0,dxDays); if(e0&&ns>e0) ns=e0; startInp.value=fd(ns); }
+      else if(mode==='stop'){ var ne=addD(e0||s0,dxDays); if(ne<s0) ne=s0; stopInp.value=fd(ne); }
+      scheduleTimeline();
+    }
+    function up(){ try{handle.releasePointerCapture(ev.pointerId);}catch(x){} handle.removeEventListener('pointermove',move); handle.removeEventListener('pointerup',up); }
+    handle.addEventListener('pointermove',move); handle.addEventListener('pointerup',up);
+  });
+}
+
+// ── 主查詢 ────────────────────────────────────────────────
+var lastData=null;
+document.getElementById('runBtn').addEventListener('click',function(){
+  clearError();
+  var reaction=document.getElementById('reaction').value.trim();
+  var onsetDate=document.getElementById('onsetDate').value;
+  var drugs=[];
+  document.querySelectorAll('.drug-row').forEach(function(r){
+    var nm=r.querySelector('.inp-name').value.trim();
+    if(nm) drugs.push({
+      name:nm,
+      startDate:r.querySelector('.inp-start').value||null,
+      stopDate: r.querySelector('.inp-ongoing').checked ? null : (r.querySelector('.inp-stop').value||null)
+    });
+  });
+  if(!reaction){showError('請輸入症狀（英文 MedDRA PT）');return;}
+  if(!drugs.length){showError('請至少輸入一項藥品');return;}
+
+  var btn=document.getElementById('runBtn');
+  btn.disabled=true;
+  btn.innerHTML='<span class="spinner-inline"></span> 查詢中（序列化節流）…';
+  document.getElementById('resultCard').hidden=true;
+  // 預估耗時提示（前端無法知道是否有 key，僅提示範圍）
+  var est=drugs.length;
+  progressShow('連接 OpenFDA…',5,'首次查詢無快取，預估 '+Math.ceil(est*0.3)+'–'+Math.ceil(est*2)+' 秒（視 Key 設定）');
+
+  google.script.run
+    .withSuccessHandler(function(res){
+      btn.disabled=false; btn.textContent='執行分析'; progressHide();
+      if(!res.success){showError(res.error);return;}
+      lastData=res.data; renderResults(res.data);
+    })
+    .withFailureHandler(function(err){
+      btn.disabled=false; btn.textContent='執行分析'; progressHide();
+      showError('系統錯誤：'+err.message);
+    })
+    .analyzeADR({reaction:reaction,onsetDate:onsetDate,drugs:drugs});
+});
+
+// ── 結果渲染（全 DOM 建構，禁用 innerHTML 防 XSS）──────────
+function mk(tag,opts){
+  var el=document.createElement(tag);
+  if(opts) Object.keys(opts).forEach(function(k){el[k]=opts[k];});
+  return el;
+}
+function badge(text,cls){var b=mk('span');b.className='badge '+cls;b.textContent=text;return b;}
+function cell(content,cls){
+  var td=mk('td'); if(cls) td.className=cls;
+  if(content!==null&&content!==undefined&&content.nodeType) td.appendChild(content);
+  else td.textContent=(content===null||content===undefined)?'—':String(content);
+  return td;
+}
+
+function renderResults(data){
+  document.getElementById('resultCard').hidden=false;
+  var m=data.meta;
+  document.getElementById('metaLine').textContent=
+    '症狀「'+m.reaction+'」通報 '+m.nEvent.toLocaleString()+' 筆 / 全庫 '+m.N.toLocaleString()+' 筆 ｜ '+m.dataLag;
+
+  var tbl=document.getElementById('resultTable'); tbl.innerHTML='';
+  if(data.note){
+    var cap=mk('caption');cap.style.captionSide='top';cap.style.color='var(--danger)';
+    cap.style.padding='.4rem 0';cap.textContent=data.note; tbl.appendChild(cap);
+  }
+
+  var hdr=mk('tr');
+  ['#','藥品','a','ROR (95% CI)','PRR','χ²(Yates)','訊號','潛伏 (天)','時序','綜合分數','因果評估']
+  .forEach(function(h){var th=mk('th');th.textContent=h;hdr.appendChild(th);});
+  tbl.appendChild(hdr);
+
+  data.results.forEach(function(r){
+    var tr=mk('tr');
+    tr.appendChild(cell(r.rank));
+    var td2=cell(r.drug,'td-left'); td2.style.fontWeight='500'; tr.appendChild(td2);
+    tr.appendChild(cell(r.a,'num'));
+
+    var rorStr=r.ror+' ('+r.rorLow+'–'+r.rorHigh+')'+(r.haldane?' †':'');
+    tr.appendChild(cell(rorStr,'num'));
+    tr.appendChild(cell(r.prr,'num'));
+    tr.appendChild(cell(r.chi2,'num'));
+
+    // 訊號 badge
+    var sigTd=mk('td');
+    if(r.temporalWeight===0)    sigTd.appendChild(badge('時序排除','badge bexcl'));
+    else if(r.signal)           sigTd.appendChild(badge('訊號 '+r.signalBasis,'badge bsig'));
+    else                        sigTd.appendChild(badge(r.signalBasis,'badge bnone'));
+    tr.appendChild(sigTd);
+
+    tr.appendChild(cell(r.latencyDays,'num'));
+
+    // 時序欄：weight badge + flag 小字
+    var wTd=mk('td');
+    var wCls=r.temporalWeight===0?'badge bexcl':(r.temporalWeight>=1?'badge bsig':'badge bweak');
+    wTd.appendChild(badge(String(r.temporalWeight),wCls));
+    var fl=mk('div');fl.className='hint';fl.textContent=r.temporalFlag; wTd.appendChild(fl);
+    tr.appendChild(wTd);
+
+    tr.appendChild(cell(r.composite,'num'));
+
+    // 因果評估按鈕
+    var asTd=mk('td');
+    var asBtn=mk('button'); asBtn.type='button'; asBtn.className='btn-assess'; asBtn.textContent='評分';
+    asBtn.addEventListener('click',function(){
+      var others=data.results.filter(function(x){return x.signal && x.drug!==r.drug;}).map(function(x){return x.drug;});
+      openAssessment(r, others, data.meta);
+    });
+    asTd.appendChild(asBtn); tr.appendChild(asTd);
+    tbl.appendChild(tr);
+  });
+
+  document.getElementById('resultCard').scrollIntoView({behavior:'smooth',block:'start'});
+}
+
+// ══════════════════════════════════════════════════════════
+// MedDRA PT 症狀庫（SAMPLE）— 開源版僅含範例，主要查詢依賴 OpenFDA 動態建議
+// ⚠ 完整 MedDRA PT 清單受 MSSO 授權，請自備 license 擴充，勿公開散布
+// ══════════════════════════════════════════════════════════
+var PT_DB = [
+  // ⚠ SAMPLE ONLY — 範例清單，僅供示範 SOC 分群與搜尋 UI。
+  // MedDRA PT 術語受 MSSO 授權，請勿在公開 repo 內嵌完整 PT 清單。
+  // 正式使用：取得 MedDRA license 後自行擴充本陣列，
+  // 或直接依賴下方 OpenFDA 動態建議（fetchFDA），無需本地清單。
+  {pt:'Rash', zh:'皮疹', soc:'皮膚'},
+  {pt:'Stevens-Johnson syndrome', zh:'SJS', soc:'皮膚'},
+  {pt:'Drug reaction with eosinophilia and systemic symptoms', zh:'DRESS', soc:'皮膚'},
+  {pt:'Angioedema', zh:'血管性水腫', soc:'免疫/過敏'},
+  {pt:'Anaphylactic reaction', zh:'過敏性反應', soc:'免疫/過敏'},
+  {pt:'Drug hypersensitivity', zh:'藥物過敏', soc:'免疫/過敏'},
+  {pt:'Hepatic function abnormal', zh:'肝功能異常', soc:'肝膽'},
+  {pt:'Drug-induced liver injury', zh:'DILI', soc:'肝膽'},
+  {pt:'Acute kidney injury', zh:'急性腎損傷', soc:'腎臟'},
+  {pt:'Thrombocytopenia', zh:'血小板減少', soc:'血液'},
+  {pt:'Neutropenia', zh:'嗜中性球減少', soc:'血液'},
+  {pt:'Electrocardiogram QT prolonged', zh:'QTc 延長', soc:'心臟'},
+  {pt:'Rhabdomyolysis', zh:'橫紋肌溶解', soc:'肌肉骨骼'},
+  {pt:'Hyponatraemia', zh:'低血鈉', soc:'內分泌/代謝'},
+  {pt:'Serotonin syndrome', zh:'血清素症候群', soc:'神經/精神'},
+  {pt:'Nausea', zh:'噁心', soc:'腸胃'},
+  {pt:'Pyrexia', zh:'發燒', soc:'全身'}
+];
+
+// ══════════════════════════════════════════════════════════
+// PT 搜尋器核心
+// ══════════════════════════════════════════════════════════
+(function(){
+  var inp      = document.getElementById('reaction');
+  var dropdown = document.getElementById('ptDropdown');
+  var browsePanel = document.getElementById('ptBrowsePanel');
+  var selectedTag = document.getElementById('ptSelectedTag');
+  var browseBtn   = document.getElementById('ptBrowseBtn');
+  var fdaTimer = null, activeIdx = -1, items = [];
+
+  // ── 高亮匹配關鍵字 ──────────────────────────────────────
+  function highlight(text, q){
+    if(!q) return document.createTextNode(text);
+    var re = new RegExp('('+q.replace(/[.*+?^${}()|[\]\\]/g,'\\$&')+')','gi');
+    var span = document.createElement('span');
+    span.innerHTML = text.replace(re,'<mark>$1</mark>');
+    return span;
+  }
+
+  // ── 本地庫過濾 ─────────────────────────────────────────
+  function filterLocal(q){
+    if(!q) return PT_DB.slice(0,30);
+    var ql = q.toLowerCase();
+    return PT_DB.filter(function(r){
+      return r.pt.toLowerCase().indexOf(ql)>-1 || r.zh.indexOf(q)>-1 || r.soc.indexOf(q)>-1;
+    }).slice(0,40);
+  }
+
+  // ── 建立下拉 DOM ───────────────────────────────────────
+  function buildDropdown(list, q, fdaExtra){
+    dropdown.innerHTML=''; activeIdx=-1; items=[];
+    if(!list.length && !fdaExtra){ dropdown.hidden=true; return; }
+
+    list.forEach(function(r){
+      var div=document.createElement('div'); div.className='pt-item'; div.tabIndex=0;
+      var left=document.createElement('span'); left.appendChild(highlight(r.pt, q));
+      var zh=document.createElement('span'); zh.className='pt-zh'; zh.textContent=r.zh;
+      var soc=document.createElement('span'); soc.className='pt-soc ms-auto'; soc.textContent=r.soc;
+      left.appendChild(zh);
+      div.appendChild(left); div.appendChild(soc);
+      div.addEventListener('mousedown',function(e){e.preventDefault(); selectPT(r.pt);});
+      dropdown.appendChild(div);
+      items.push(div);
+    });
+
+    if(fdaExtra && fdaExtra.length){
+      var sep=document.createElement('div');
+      sep.className='pt-fdahint'; sep.textContent='── OpenFDA 動態建議 ──';
+      dropdown.appendChild(sep);
+      fdaExtra.forEach(function(pt){
+        if(PT_DB.some(function(r){return r.pt.toLowerCase()===pt.toLowerCase();})) return;
+        var div=document.createElement('div'); div.className='pt-item'; div.tabIndex=0;
+        var span=document.createElement('span'); span.appendChild(highlight(pt,q));
+        var tag=document.createElement('span'); tag.className='pt-soc'; tag.textContent='FAERS實測';
+        div.appendChild(span); div.appendChild(tag);
+        div.addEventListener('mousedown',function(e){e.preventDefault(); selectPT(pt);});
+        dropdown.appendChild(div);
+        items.push(div);
+      });
+    }
+    dropdown.hidden = false;
+  }
+
+  // ── 選定 PT ────────────────────────────────────────────
+  function selectPT(pt){
+    inp.value = pt;
+    dropdown.hidden = true;
+    browsePanel.hidden = true;
+    // 顯示選中 tag
+    selectedTag.innerHTML='';
+    var tag=document.createElement('span'); tag.className='pt-selected-tag';
+    var local=PT_DB.find(function(r){return r.pt===pt;});
+    tag.textContent = local ? pt+' ('+local.zh+')' : pt;
+    var x=document.createElement('span'); x.className='pt-clear'; x.textContent='×';
+    x.title='清除'; x.addEventListener('click',function(){ inp.value=''; selectedTag.innerHTML=''; inp.focus(); });
+    tag.appendChild(x);
+    selectedTag.appendChild(tag);
+  }
+
+  // ── 即時 OpenFDA 動態補全（debounce 500ms）─────────────
+  function fetchFDA(q){
+    clearTimeout(fdaTimer);
+    fdaTimer = setTimeout(function(){
+      var url='https://api.fda.gov/drug/event.json?count=patient.reaction.reactionmeddrapt.exact'
+              +'&search=patient.reaction.reactionmeddrapt:"'+encodeURIComponent(q)+'"&limit=8';
+      fetch(url).then(function(r){return r.json();}).then(function(j){
+        if(j.results) buildDropdown(filterLocal(q), q, j.results.map(function(x){return x.term;}));
+      }).catch(function(){});
+    }, 500);
+  }
+
+  // ── 輸入事件 ───────────────────────────────────────────
+  inp.addEventListener('input', function(){
+    var q = inp.value.trim();
+    selectedTag.innerHTML='';
+    if(!q){ dropdown.hidden=true; return; }
+    buildDropdown(filterLocal(q), q, null);
+    if(q.length >= 3) fetchFDA(q);
+  });
+  inp.addEventListener('focus', function(){
+    var q=inp.value.trim();
+    if(!q) buildDropdown(PT_DB.slice(0,20),'',null);
+  });
+  inp.addEventListener('blur',function(){ setTimeout(function(){dropdown.hidden=true;},150); });
+
+  // ── 鍵盤導航 ───────────────────────────────────────────
+  inp.addEventListener('keydown',function(e){
+    if(dropdown.hidden) return;
+    if(e.key==='ArrowDown'){e.preventDefault(); activeIdx=Math.min(activeIdx+1,items.length-1); items.forEach(function(el,i){el.classList.toggle('active',i===activeIdx);}); }
+    else if(e.key==='ArrowUp'){e.preventDefault(); activeIdx=Math.max(activeIdx-1,0); items.forEach(function(el,i){el.classList.toggle('active',i===activeIdx);}); }
+    else if(e.key==='Enter'&&activeIdx>=0){e.preventDefault(); items[activeIdx].dispatchEvent(new MouseEvent('mousedown'));}
+    else if(e.key==='Escape'){dropdown.hidden=true;}
+  });
+
+  // ── 分類瀏覽面板 ────────────────────────────────────────
+  browseBtn.addEventListener('click',function(){
+    if(!browsePanel.hidden){browsePanel.hidden=true;return;}
+    browsePanel.innerHTML='';
+    var socs={};
+    PT_DB.forEach(function(r){ if(!socs[r.soc]) socs[r.soc]=[]; socs[r.soc].push(r); });
+    Object.keys(socs).forEach(function(s){
+      var lbl=document.createElement('div'); lbl.className='soc-label'; lbl.textContent=s;
+      browsePanel.appendChild(lbl);
+      socs[s].forEach(function(r){
+        var chip=document.createElement('span'); chip.className='pt-chip';
+        chip.textContent=r.pt+' '+r.zh;
+        chip.title=r.pt;
+        chip.addEventListener('click',function(){ selectPT(r.pt); browsePanel.hidden=true; });
+        browsePanel.appendChild(chip);
+      });
+    });
+    browsePanel.hidden=false;
+  });
+})();
+
+// ══════════════════════════════════════════════════════════
+// 個案因果評估：Naranjo + WHO-UMC（純前端）
+// 量表題目為自行精簡之中文版；計分與分級依原始量表
+// Ref: Naranjo CA et al. Clin Pharmacol Ther 1981; WHO-UMC system
+// ══════════════════════════════════════════════════════════
+var NARANJO = [
+  {q:'此不良反應過去是否已有確切文獻報告？',           y:1,  n:0,  u:0},
+  {q:'不良反應是否在使用可疑藥物之後才出現？',         y:2,  n:-1, u:0},
+  {q:'停藥或給予特異性拮抗劑後，反應是否改善？',       y:1,  n:0,  u:0},
+  {q:'再次給藥（rechallenge）後反應是否再現？',         y:2,  n:-1, u:0},
+  {q:'是否有藥物以外之原因可單獨解釋此反應？',         y:-1, n:2,  u:0},
+  {q:'給予安慰劑時反應是否仍出現？',                   y:-1, n:1,  u:0},
+  {q:'血中／體液藥物濃度是否達已知毒性範圍？',         y:1,  n:0,  u:0},
+  {q:'劑量增加時反應加重，或減量時減輕？',             y:1,  n:0,  u:0},
+  {q:'病人過去使用相同／類似藥物時是否曾有類似反應？', y:1,  n:0,  u:0},
+  {q:'此不良事件是否經客觀證據（檢驗／檢查）證實？',   y:1,  n:0,  u:0}
+];
+function naranjoCategory(score){
+  if(score>=9) return {label:'確定 Definite',  cls:'cat-definite'};
+  if(score>=5) return {label:'很可能 Probable', cls:'cat-probable'};
+  if(score>=1) return {label:'可能 Possible',   cls:'cat-possible'};
+  return            {label:'存疑 Doubtful',   cls:'cat-doubtful'};
+}
+
+// WHO-UMC 結構化題目（精簡中文）
+var WHO_Q = [
+  {key:'temporal', label:'用藥與反應的時間關係是否合理？',
+   opts:[{v:'yes',t:'合理'},{v:'no',t:'不合理'},{v:'unknown',t:'不明'}]},
+  {key:'other', label:'是否能以疾病或其他藥物解釋此反應？',
+   opts:[{v:'no',t:'否'},{v:'possible',t:'可能'},{v:'yes',t:'是'},{v:'unknown',t:'不明'}]},
+  {key:'dechall', label:'停藥後反應是否改善（dechallenge）？',
+   opts:[{v:'pos',t:'陽性'},{v:'neg',t:'陰性'},{v:'notdone',t:'未做'},{v:'unknown',t:'不明'}]},
+  {key:'rechall', label:'再投予是否再現（rechallenge）？',
+   opts:[{v:'pos',t:'陽性'},{v:'neg',t:'陰性'},{v:'notdone',t:'未做'}]},
+  {key:'known', label:'是否為該藥已知之藥理／臨床反應？',
+   opts:[{v:'yes',t:'是'},{v:'no',t:'否'},{v:'unknown',t:'不明'}]}
+];
+var WHO_CATS = [
+  {key:'certain',     name:'Certain 確定',        crit:'時間關係合理·無法以他因解釋·停藥陽性·為已知反應·（必要時）再投予陽性'},
+  {key:'probable',    name:'Probable 很可能',     crit:'時間關係合理·不太能歸因他因·停藥陽性·再投予非必要'},
+  {key:'possible',    name:'Possible 可能',       crit:'時間關係合理·但可能以疾病/他藥解釋·停藥資訊不明'},
+  {key:'unlikely',    name:'Unlikely 不太可能',   crit:'時間關係不合理·疾病/他藥更能解釋'},
+  {key:'conditional', name:'Conditional 待確認',  crit:'需更多資料始能評估'},
+  {key:'unassessable',name:'Unassessable 無法評估',crit:'資料不足或互相矛盾，無法判斷'}
+];
+function whoSuggest(t){
+  if((!t.temporal||t.temporal==='unknown') && (!t.other||t.other==='unknown')) return 'unassessable';
+  if(t.temporal==='no' || t.other==='yes') return 'unlikely';
+  if(t.temporal==='yes' && t.other==='no' && t.dechall==='pos' && t.known==='yes' && t.rechall==='pos') return 'certain';
+  if(t.temporal==='yes' && t.other==='no' && (t.dechall==='pos' || t.dechall==='unknown' || t.dechall==='notdone')) return 'probable';
+  if(t.temporal==='yes' && (t.other==='possible' || t.dechall==='notdone' || t.dechall==='unknown' || t.dechall==='neg')) return 'possible';
+  return 'conditional';
+}
+
+var _asState = null; // {drug, naranjo:[], who:{}, whoFinal, meta}
+
+function openAssessment(r, others, meta){
+  var card=document.getElementById('assessCard');
+  card.hidden=false;
+
+  // 預填：用工具已知時序資料
+  var pre = new Array(10).fill(null);
+  pre[0] = r.signal ? 'y' : 'u';                 // Q1 過去報告 ← FAERS 訊號
+  pre[1] = (r.temporalWeight===0) ? 'n' : 'y';   // Q2 用藥後出現 ← 時序
+  var whoPre = {
+    temporal: (r.temporalWeight===0)?'no':(r.temporalWeight>0?'yes':'unknown'),
+    other: (others && others.length)?'possible':'unknown',
+    dechall:'unknown', rechall:'notdone', known:'unknown'
+  };
+  _asState = { drug:r.drug, r:r, meta:meta, naranjo:pre, who:whoPre, whoFinal:null, others:others||[] };
+
+  // 標題
+  var head=document.getElementById('assessHead');
+  head.innerHTML='';
+  var l1=document.createElement('div');
+  l1.innerHTML='評估藥品：<b>'+escapeHtml(r.drug)+'</b>　ROR '+r.ror+' ('+r.rorLow+'–'+r.rorHigh+')　訊號：'+(r.signal?r.signalBasis:'未達閾值');
+  var l2=document.createElement('div'); l2.className='hint';
+  l2.textContent='潛伏 '+(r.latencyDays===null?'—':r.latencyDays+'d')+'｜時序：'+r.temporalFlag
+    +(others&&others.length?('｜其他具訊號藥：'+others.join('、')):'');
+  head.appendChild(l1); head.appendChild(l2);
+
+  renderNaranjo(); renderWho();
+  card.scrollIntoView({behavior:'smooth',block:'start'});
+}
+
+function renderNaranjo(){
+  var body=document.getElementById('naranjoBody'); body.innerHTML='';
+  NARANJO.forEach(function(item,i){
+    var row=mk('div'); row.className='as-q';
+    var txt=mk('div'); txt.className='as-q-text';
+    var num=mk('span'); num.className='as-q-num'; num.textContent=(i+1)+'.';
+    txt.appendChild(num); txt.appendChild(document.createTextNode(item.q));
+    var opts=mk('div'); opts.className='as-opts';
+    [['y','是',item.y],['n','否',item.n],['u','不知',item.u]].forEach(function(o){
+      var b=mk('button'); b.type='button'; b.className='as-opt'+(_asState.naranjo[i]===o[0]?' active':'');
+      var sign=o[2]>0?'+'+o[2]:String(o[2]);
+      b.innerHTML=o[1]+' <span class="pt">('+sign+')</span>';
+      b.addEventListener('click',function(){ _asState.naranjo[i]=o[0]; renderNaranjo(); });
+      opts.appendChild(b);
+    });
+    row.appendChild(txt); row.appendChild(opts); body.appendChild(row);
+  });
+  // 計分
+  var score=0, done=0;
+  _asState.naranjo.forEach(function(ans,i){
+    if(ans){ done++; score += ans==='y'?NARANJO[i].y : ans==='n'?NARANJO[i].n : NARANJO[i].u; }
+  });
+  _asState.naranjoScore=score; _asState.naranjoDone=done;
+  var el=document.getElementById('naranjoResult'); el.innerHTML='';
+  var cat=naranjoCategory(score);
+  var sc=mk('span'); sc.textContent='總分 '+score+'　';
+  var cb=mk('span'); cb.className='cat-badge '+cat.cls; cb.textContent=cat.label;
+  el.appendChild(sc); el.appendChild(cb);
+  if(done<10){ var w=mk('span'); w.className='hint'; w.textContent='　(未完成 '+(10-done)+' 題)'; el.appendChild(w); }
+  _asState.naranjoCat=cat.label;
+}
+
+function renderWho(){
+  var body=document.getElementById('whoBody'); body.innerHTML='';
+  WHO_Q.forEach(function(item){
+    var row=mk('div'); row.className='as-q';
+    var txt=mk('div'); txt.className='as-q-text'; txt.textContent=item.label;
+    var opts=mk('div'); opts.className='as-opts';
+    item.opts.forEach(function(o){
+      var b=mk('button'); b.type='button';
+      b.className='as-opt'+(_asState.who[item.key]===o.v?' active':'');
+      b.textContent=o.t;
+      b.addEventListener('click',function(){ _asState.who[item.key]=o.v; renderWho(); });
+      opts.appendChild(b);
+    });
+    row.appendChild(txt); row.appendChild(opts); body.appendChild(row);
+  });
+  // 建議分類
+  var sug=whoSuggest(_asState.who);
+  var sugObj=WHO_CATS.find(function(c){return c.key===sug;});
+  var badge=document.getElementById('whoSuggestBadge'); badge.innerHTML='';
+  var b=mk('span'); b.className='cat-badge cat-'+sug; b.textContent='建議：'+sugObj.name;
+  badge.appendChild(b);
+  // 類別卡
+  var wc=document.getElementById('whoCats'); wc.innerHTML='';
+  WHO_CATS.forEach(function(c){
+    var d=mk('div'); d.className='who-cat'+(c.key===sug?' suggested':'')+(_asState.whoFinal===c.key?' selected':'');
+    var nm=mk('span'); nm.className='wc-name'; nm.textContent=c.name;
+    var cr=mk('div'); cr.className='wc-crit'; cr.textContent=c.crit;
+    d.appendChild(nm); d.appendChild(cr);
+    d.addEventListener('click',function(){ _asState.whoFinal=c.key; renderWho(); });
+    wc.appendChild(d);
+  });
+  _asState.whoSuggest=sugObj.name;
+}
+
+function escapeHtml(s){ return String(s).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];}); }
+
+document.getElementById('closeAssessBtn').addEventListener('click',function(){
+  document.getElementById('assessCard').hidden=true;
+});
+document.getElementById('copyAssessBtn').addEventListener('click',function(){
+  if(!_asState) return;
+  var s=_asState, lines=[];
+  lines.push('【個案因果評估】藥品：'+s.drug);
+  lines.push('FAERS：ROR '+s.r.ror+' ('+s.r.rorLow+'–'+s.r.rorHigh+'), 訊號 '+(s.r.signal?s.r.signalBasis:'未達閾值')+', 時序 '+s.r.temporalFlag);
+  lines.push('— Naranjo —');
+  NARANJO.forEach(function(item,i){
+    var a=s.naranjo[i]; var at=a==='y'?'是':a==='n'?'否':a==='u'?'不知':'未答';
+    lines.push((i+1)+'. '+item.q+' → '+at);
+  });
+  lines.push('Naranjo 總分：'+s.naranjoScore+'（'+s.naranjoCat+'）'+(s.naranjoDone<10?' [未完成'+(10-s.naranjoDone)+'題]':''));
+  lines.push('— WHO-UMC —');
+  WHO_Q.forEach(function(item){
+    var v=s.who[item.key]; var o=item.opts.find(function(x){return x.v===v;});
+    lines.push(item.label+' → '+(o?o.t:'未答'));
+  });
+  var finalCat=s.whoFinal?WHO_CATS.find(function(c){return c.key===s.whoFinal;}).name:('（未確認，系統建議：'+s.whoSuggest+'）');
+  lines.push('WHO-UMC 分類：'+finalCat);
+  lines.push('※ 個案評估與 FAERS 群體訊號互補；預填項目須依病歷核對。');
+  var btn=document.getElementById('copyAssessBtn');
+  navigator.clipboard.writeText(lines.join('\n')).then(function(){
+    btn.textContent='已複製 ✓'; setTimeout(function(){btn.textContent='複製評估';},1800);
+  }).catch(function(){showError('複製失敗，請手動框選。');});
+});
+
+// ── 複製臨床紀錄 ──────────────────────────────────────────
+document.getElementById('copyBtn').addEventListener('click',function(){
+  if(!lastData) return;
+  var m=lastData.meta, lines=[];
+  lines.push('【FAERS ADR 嫌疑藥排序】症狀: '+m.reaction);
+  lines.push('該症狀通報 '+m.nEvent+' 筆 / 全庫 '+m.N+' 筆（'+m.dataLag+'）');
+  lines.push('排名\t藥品\ta\tROR(95%CI)\tPRR\tχ²\t訊號\t潛伏(天)\t時序權重\t綜合分數');
+  lastData.results.forEach(function(r){
+    lines.push([r.rank,r.drug,r.a,
+      r.ror+'('+r.rorLow+'-'+r.rorHigh+')',r.prr,r.chi2,
+      (r.temporalWeight===0?'時序排除':(r.signal?'訊號'+r.signalBasis:r.signalBasis)),
+      (r.latencyDays===null?'—':r.latencyDays),r.temporalWeight,r.composite
+    ].join('\t'));
+  });
+  lines.push('');
+  lines.push('† Haldane +0.5 校正（任一格為0）');
+  lines.push('※ 訊號偵測≠因果；FAERS無分母，需結合臨床綜合判斷。');
+  var btn=document.getElementById('copyBtn');
+  navigator.clipboard.writeText(lines.join('\n')).then(function(){
+    btn.textContent='已複製 ✓';
+    setTimeout(function(){btn.textContent='複製臨床紀錄';},1800);
+  }).catch(function(){showError('複製失敗，請手動框選。');});
+});
+</script>
+</body>
+</html>
