@@ -1,6 +1,6 @@
 // ============================================================
 // FAERS 多重用藥 ADR 嫌疑藥排序工具（開源教學版 / Educational）
-// Version: 2.2.0  |  Author: <your-name-or-handle>  |  License: MIT
+// Version: 2.2.0  |  Author: liangRXdev  |  License: MIT
 // ⚠ 教學/練習用途，非臨床決策工具 — 詳見 DISCLAIMER.md
 // 方法：反向查詢 (症狀→藥) + ROR/PRR 不相稱性分析 + 本地時序加權
 // Guideline ref: EVDAS disproportionality criteria; van Puijenbroek 2002 (ROR)
