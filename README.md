@@ -4,6 +4,8 @@
 > 反向查詢（症狀 → 藥）＋ ROR/PRR 不相稱性分析 ＋ 本地時序加權，
 > 並可對單一藥品進行 Naranjo / WHO-UMC 因果評分。
 
+[![Live Demo](https://img.shields.io/badge/Live%20Demo-Click%20Here-blue?style=for-the-badge)](https://liangrxdev.github.io/faers-suspect-ranker/)
+
 > ## ⚠️ 僅供教學 / 練習用途
 > 本工具**不是醫療器材，不是診斷工具，不得用於任何臨床決策**。
 > 訊號偵測 ≠ 因果。使用前**務必閱讀** [DISCLAIMER.md](./DISCLAIMER.md)。
