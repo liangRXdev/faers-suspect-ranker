@@ -68,8 +68,28 @@
 - **WHO-UMC system**：Certain / Probable / Possible / Unlikely / Conditional / Unassessable，
   依準則由評估者判斷；本工具提供建議分類，最終由臨床確認。
   參考：The Use of the WHO-UMC System for Standardised Case Causality Assessment, Uppsala Monitoring Centre.
+- **ALDEN**（SJS/TEN 專用，多藥競爭）：僅在症狀為 Stevens-Johnson syndrome / toxic
+  epidermal necrolysis 時提供，**不適用 DRESS／AGEP**。每藥計 6 步，中間分 = 各步加總，
+  再經步驟6 競爭調整為最終分。參考：Sassolas B, et al. *Clin Pharmacol Ther*. 2010;88(1):60-8.
 
-> 本工具的量表題目為**自行精簡之中文版**，計分與分級依原始文獻；
+#### ALDEN 點值（依 Sassolas 2010；理論範圍 −12～+10）
+
+| 步驟 | 選項 → 點值 |
+|---|---|
+| 1 延遲（用藥→症狀） | 5–28d **+3**、29–56d **+2**、1–4d **+1**、>56d **−1**、用藥晚於症狀 **−3**；rechallenge 陽性時窗調整為 1–4d **+3**、5–56d **+1** |
+| 2 藥物仍在體內 | Definite **0**、Doubtful **−1**、Excluded **−3**（本工具：未填 t½ 以停藥天數簡化預填，填 t½ 改用 `5×t½`，可手動覆寫） |
+| 3 Pre/Rechallenge | 同藥→SJS/TEN **+4**、同藥→他反應或類似藥→SJS/TEN **+2**、類似藥→他反應 **+1**、無接觸 **0**、同藥無反應 **−2** |
+| 4 Dechallenge | 已停藥/不知 **0**、病程中續用未惡化 **−2** |
+| 5 Notoriety | Strongly **+3**、Associated **+2**、Suspect **+1**、Unknown **0**、Not suspected **−1**（UI 旁顯示本工具 FAERS ROR 供參考，不自動代入） |
+| 6 其他病因 | 若存在他藥中間分 >3 且**高於**本藥，本藥最終分 **−1** |
+
+分級：**≥6** Very probable、**4–5** Probable、**2–3** Possible、**0–1** Unlikely、**<0** Very unlikely。
+
+> ⚠ ALDEN 為 SJS/TEN 之**已驗證**演算法（與 EuroSCAR r=0.90），與本工具其他啟發式時序加權
+> 不同層級。本工具步驟2 採簡化實作（見上），Notoriety 與 Pre/Rechallenge 仰賴使用者輸入；
+> 結果僅供教學與個案討論，**請對照原始量表全文核對**。
+
+> 本工具的 Naranjo / WHO-UMC 題目為**自行精簡之中文版**，計分與分級依原始文獻；
 > 正式文件請對照原始量表全文。
 
 ## 5. 與既有方法學的關係（定位本工具）
