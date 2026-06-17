@@ -16,8 +16,22 @@
 傳統「藥 → 症狀」查詢無法直接回答。本工具改用 **症狀 → 藥** 的反向查詢，
 對病人用藥清單中的每顆藥計算不相稱性與時序合理性，輸出嫌疑藥排名。
 
-技術上僅依賴單一 OpenFDA endpoint（`/drug/event.json`），
-後端為 Google Apps Script（GAS），無需自架伺服器。
+技術上僅依賴單一 OpenFDA endpoint（`/drug/event.json`）。提供兩種部署：
+**GitHub Pages 純前端版**（瀏覽器直接查詢，零後端）或 **Google Apps Script（GAS）版**。
+
+### 臨床動機：先問「這是不是處方瀑布」
+
+老年與多重用藥族群的 ADR 常以「跌倒、混亂、水腫、便秘」等**像老化的症狀**呈現，
+易被當成新疾病而再加一顆藥，形成**處方瀑布（prescribing cascade）**。
+看到新症狀時，Rochon & Gurwitz（*Lancet* 2017）建議先問三件事：
+
+1. 這個新症狀，**是不是前一個藥的不良反應**？（而不是急著加藥）
+2. 引發的「起始藥」**真的還需要嗎**？能否換更安全替代或減量？
+3. 繼續用起始藥的**利弊**為何？與病人共享決策。
+
+本工具把第 1 問操作化：用 **症狀 → 藥** 的反向查詢，對清單中每顆藥同時看
+「群體不相稱性訊號」與「個案時序合理性」，協助把可疑的起始藥排到前面——
+**作為討論起點，不是因果定論**。
 
 ## 功能
 
@@ -44,7 +58,35 @@
                                     api.fda.gov/drug/event.json
 ```
 
-## 部署（Google Apps Script）
+> 純前端版為等價鏡像：`docs/app.js` 取代 `Code.gs`（以 `fetch` + 記憶體快取 + `localStorage`
+> 取代 `UrlFetchApp` + `CacheService` + `PropertiesService`），`docs/index.html` 為 UI。
+
+## 部署方式（二選一）
+
+兩種模式共用同一套統計與時序邏輯，差別只在「查詢由誰送出」與「API Key 存哪」：
+
+| | GitHub Pages（純前端） | Google Apps Script（GAS） |
+|---|---|---|
+| 後端 | 無，瀏覽器直接打 OpenFDA | GAS Web App |
+| 程式 | `docs/index.html` + `docs/app.js` | `Code.gs` + `Index.html` |
+| API Key | 瀏覽器 `localStorage`（本機，使用者自備） | `PropertiesService`（伺服器端） |
+| 適用 | 教學展示、快速試用、零維運 | 機構內部署、集中管理 Key |
+
+> ⚠ 無 bundler，故統計數學在兩端各有一份。**改任一端的公式或閾值，另一端須同步改**
+> （`Code.gs` ↔ `docs/app.js`），並更新 `docs/methodology.md`。
+
+### A. GitHub Pages 靜態部署
+
+1. Fork / clone 本 repo。
+2. Settings → Pages → Source 選 **Deploy from a branch**，branch = `main`、資料夾 = **`/docs`**，存檔。
+3. 數分鐘後造訪 `https://<你的帳號>.github.io/<repo>/`。
+4. （選用）在介面「API Key 設定」貼上免費 [OpenFDA key](https://open.fda.gov/apis/authentication/)，
+   僅存於你的瀏覽器 localStorage，不上傳任何第三方。
+
+> 本機預覽：`cd docs && python -m http.server` 後開 `http://localhost:8000`
+> （需透過 HTTP 而非 `file://`，否則 `fetch` 會被 CORS 擋）。
+
+### B. 部署（Google Apps Script）
 
 1. 建立新的 GAS 專案，新增兩個檔：
    - `Code.gs`（貼上本 repo 的 `Code.gs`）
