@@ -220,6 +220,7 @@
     </div>
     <div id="metaLine" class="hint mb-2"></div>
     <div class="table-wrap"><table class="result-table" id="resultTable"></table></div>
+    <div id="aldenLaunchWrap" class="mt-2"></div>
     <div class="notice">
       <strong>判讀限制：</strong>FAERS 為自願通報，無分母、有通報偏差與適應症混淆。
       ROR/PRR 為<strong>訊號偵測</strong>指標，<strong>不等於因果或實際風險高低</strong>；
@@ -274,8 +275,38 @@
     </div>
   </div>
 
+  <!-- ALDEN 評估卡（SJS/TEN 專用，多藥競爭）-->
+  <div class="tool-card" id="aldenCard" hidden>
+    <div class="d-flex justify-content-between align-items-center mb-2">
+      <span class="fw-bold">ALDEN 因果評估（SJS/TEN 專用）</span>
+      <div class="d-flex gap-2">
+        <button class="btn-success-custom" id="copyAldenBtn" type="button">複製 ALDEN</button>
+        <button class="btn-outline-muted" id="closeAldenBtn" type="button" style="min-height:36px;">關閉</button>
+      </div>
+    </div>
+    <div id="aldenHead" class="as-drughead"></div>
+    <div class="table-wrap"><table class="result-table" id="aldenTable"></table></div>
+    <div class="notice mt-2">
+      <strong>ALDEN 限用於 SJS/TEN</strong>（表皮壞死溶解），<strong>不適用 DRESS／AGEP</strong>。
+      點值依 Sassolas 2010；延遲分帶由時序帶入；「藥物仍在體內」未填 t½ 時以停藥天數簡化判定，
+      填入 t½（小時）則改用 5×t½。<strong>步驟6 競爭調整</strong>：若有他藥中間分更高且 &gt;3，則本藥 −1。
+      個案評估與 FAERS 群體訊號互補；<strong>教學用，請依病歷與原始量表核對</strong>。
+    </div>
+    <details class="method">
+      <summary>ALDEN 計分與分級</summary>
+      <div class="mt-2">
+        中間分 = 延遲 + 體內 + Pre/Rechallenge + Dechallenge + Notoriety（各步點值見下拉選項）。<br>
+        延遲（用藥→症狀）：5–28d=+3、29–56d=+2、1–4d=+1、&gt;56d=−1、用藥晚於症狀=−3
+        （rechallenge 陽性時時間窗調整為 1–4d=+3、5–56d=+1）。<br>
+        步驟6（其他病因）：若存在他藥中間分 &gt;3 且高於本藥，本藥 −1（最終分）。<br>
+        分級：≥6 非常可能、4–5 可能、2–3 可能相關、0–1 不太可能、&lt;0 幾乎排除（理論範圍 −12～+10）。<br>
+        Ref: Sassolas B, et al. Clin Pharmacol Ther. 2010;88(1):60-8.
+      </div>
+    </details>
+  </div>
+
   <footer class="guideline-footer">
-    參考依據：van Puijenbroek 2002 (ROR)；EVDAS disproportionality criteria；Naranjo CA et al. 1981；WHO-UMC causality system；資料來源 OpenFDA Drug Event API
+    參考依據：van Puijenbroek 2002 (ROR)；EVDAS disproportionality criteria；Naranjo CA et al. 1981；WHO-UMC causality system；ALDEN Sassolas 2010；資料來源 OpenFDA Drug Event API
   </footer>
 </div>
 
@@ -484,7 +515,7 @@ function _attachDrag(handle,mode,d,pxPerDay){
 }
 
 // ── 主查詢 ────────────────────────────────────────────────
-var lastData=null;
+var lastData=null, lastDrugsInput=null;
 document.getElementById('runBtn').addEventListener('click',function(){
   clearError();
   var reaction=document.getElementById('reaction').value.trim();
@@ -513,7 +544,7 @@ document.getElementById('runBtn').addEventListener('click',function(){
     .withSuccessHandler(function(res){
       btn.disabled=false; btn.textContent='執行分析'; progressHide();
       if(!res.success){showError(res.error);return;}
-      lastData=res.data; renderResults(res.data);
+      lastData=res.data; lastDrugsInput=drugs; renderResults(res.data);
     })
     .withFailureHandler(function(err){
       btn.disabled=false; btn.textContent='執行分析'; progressHide();
@@ -592,6 +623,17 @@ function renderResults(data){
     asTd.appendChild(asBtn); tr.appendChild(asTd);
     tbl.appendChild(tr);
   });
+
+  // ALDEN 啟動鈕：僅 SJS/TEN 顯示
+  var alw=document.getElementById('aldenLaunchWrap'); alw.innerHTML='';
+  if(isSjsTen(m.reaction) && data.results.length){
+    var ab=mk('button'); ab.type='button'; ab.className='btn-assess';
+    ab.textContent='⚕ 啟動 ALDEN 評估（SJS/TEN 專用 · 跨藥競爭）';
+    ab.addEventListener('click',function(){ openAlden(data, lastDrugsInput); });
+    alw.appendChild(ab);
+  } else {
+    document.getElementById('aldenCard').hidden=true;
+  }
 
   document.getElementById('resultCard').scrollIntoView({behavior:'smooth',block:'start'});
 }
@@ -962,6 +1004,216 @@ document.getElementById('copyBtn').addEventListener('click',function(){
   navigator.clipboard.writeText(lines.join('\n')).then(function(){
     btn.textContent='已複製 ✓';
     setTimeout(function(){btn.textContent='複製臨床紀錄';},1800);
+  }).catch(function(){showError('複製失敗，請手動框選。');});
+});
+
+// ══════════════════════════════════════════════════════════
+// ALDEN — SJS/TEN 專用個案因果演算法（純前端，多藥競爭）
+// 點值依 Sassolas B, et al. Clin Pharmacol Ther. 2010;88(1):60-8.
+// ⚠ 僅適用 SJS/TEN，不適用 DRESS/AGEP。教學用，請對照原始量表。
+// ══════════════════════════════════════════════════════════
+function isSjsTen(reaction){
+  var r=(reaction||'').toLowerCase();
+  return r.indexOf('stevens-johnson')>-1 || r.indexOf('stevens johnson')>-1 ||
+         r.indexOf('epidermal necrolysis')>-1 || r==='sjs' || r==='ten' || r==='sjs/ten';
+}
+var ALDEN_BODY=[
+  {v:'definite', t:'仍在體內 Definite',  pt:0},
+  {v:'doubtful', t:'已清除但有疑 Doubtful', pt:-1},
+  {v:'excluded', t:'已清除 Excluded',    pt:-3}
+];
+var ALDEN_PRECHAL=[
+  {v:'rechpos', t:'曾服同藥→SJS/TEN (rechallenge+)', pt:4},
+  {v:'cross',   t:'同藥→他反應 或 類似藥→SJS/TEN',   pt:2},
+  {v:'similar', t:'類似藥→他反應',                   pt:1},
+  {v:'none',    t:'無曾接觸',                         pt:0},
+  {v:'neg',     t:'曾服同藥無反應 (prechallenge−)',   pt:-2}
+];
+var ALDEN_DECHAL=[
+  {v:'stop', t:'已停藥／不知', pt:0},
+  {v:'cont', t:'病程中續用且未惡化', pt:-2}
+];
+var ALDEN_NOTOR=[
+  {v:'strong',  t:'Strongly associated', pt:3},
+  {v:'assoc',   t:'Associated',          pt:2},
+  {v:'suspect', t:'Suspect',             pt:1},
+  {v:'unknown', t:'Unknown',             pt:0},
+  {v:'not',     t:'Not suspected',       pt:-1}
+];
+function _aldenPt(list,v){ var o=list.find(function(x){return x.v===v;}); return o?o.pt:0; }
+function _daysBetween(a,b){ return Math.round((new Date(a)-new Date(b))/86400000); }
+
+// 步驟1：延遲分帶（含 rechallenge 時間窗調整）
+function aldenDelay(latency, rechPos){
+  if(latency===null||latency===undefined) return {pt:0, lbl:'缺日期'};
+  if(latency<0) return {pt:-3, lbl:'用藥晚於症狀·Excluded'};
+  if(rechPos){
+    if(latency<=4)  return {pt:3, lbl:'1–4d Suggestive(rech)'};
+    if(latency<=56) return {pt:1, lbl:'5–56d Compatible(rech)'};
+    return {pt:-1, lbl:'>56d Unlikely'};
+  }
+  if(latency<=4)  return {pt:1, lbl:'≤4d Likely'};
+  if(latency<=28) return {pt:3, lbl:'5–28d Suggestive'};
+  if(latency<=56) return {pt:2, lbl:'29–56d Compatible'};
+  return {pt:-1, lbl:'>56d Unlikely'};
+}
+// 步驟2 預填：未填 t½ → 停藥 gap 簡化；填 t½ → 5×t½
+function aldenBodyPrefill(ongoing, gap, thalfHr){
+  if(ongoing || gap===null || gap<=0) return 'definite';
+  if(thalfHr && thalfHr>0){ return (gap <= (5*thalfHr/24)) ? 'definite' : 'excluded'; }
+  return gap<=7 ? 'definite' : 'doubtful';
+}
+function aldenCategory(s){
+  if(s>=6) return {label:'Very probable 非常可能', cls:'cat-definite'};
+  if(s>=4) return {label:'Probable 可能',         cls:'cat-probable'};
+  if(s>=2) return {label:'Possible 可能相關',     cls:'cat-possible'};
+  if(s>=0) return {label:'Unlikely 不太可能',     cls:'cat-doubtful'};
+  return     {label:'Very unlikely 幾乎排除',   cls:'cat-unlikely'};
+}
+
+var _aldenState=null;
+function openAlden(data, drugsInput){
+  var onset=document.getElementById('onsetDate').value||null;
+  var byName={}; (drugsInput||[]).forEach(function(d){ byName[d.name]=d; });
+  var rows=data.results.map(function(r){
+    var inp=byName[r.drug]||{};
+    var stop=inp.stopDate||null, ongoing=!stop;
+    var gap=(stop&&onset)?_daysBetween(onset,stop):null;
+    return {
+      drug:r.drug, latency:r.latencyDays, ror:r.ror, rorLow:r.rorLow,
+      signal:r.signal, signalBasis:r.signalBasis,
+      ongoing:ongoing, gap:gap, thalf:null, bodyTouched:false,
+      body:aldenBodyPrefill(ongoing,gap,null),
+      prechal:'none', dechal:'stop', notoriety:'unknown'
+    };
+  });
+  _aldenState={ reaction:data.meta.reaction, rows:rows };
+  var head=document.getElementById('aldenHead'); head.innerHTML='';
+  var h=mk('div');
+  h.innerHTML='症狀：<b>'+escapeHtml(data.meta.reaction)+'</b>（SJS/TEN 專用）　評估藥品 '+rows.length+' 項';
+  var h2=mk('div'); h2.className='hint';
+  h2.textContent='延遲分帶由時序帶入；Notoriety 旁顯示本工具 FAERS ROR 供參考；t½（小時）選填。';
+  head.appendChild(h); head.appendChild(h2);
+  document.getElementById('aldenCard').hidden=false;
+  renderAlden();
+  document.getElementById('aldenCard').scrollIntoView({behavior:'smooth',block:'start'});
+}
+
+function _aldenSelect(list, current, onChange){
+  var sel=mk('select'); sel.className='form-select';
+  sel.style.minHeight='34px'; sel.style.fontSize='.74rem'; sel.style.minWidth='120px'; sel.style.padding='.15rem .3rem';
+  list.forEach(function(o){
+    var op=mk('option'); op.value=o.v;
+    op.textContent=o.t+' ('+(o.pt>0?'+'+o.pt:o.pt)+')';
+    if(o.v===current) op.selected=true;
+    sel.appendChild(op);
+  });
+  sel.addEventListener('change',function(){ onChange(sel.value); });
+  return sel;
+}
+
+function renderAlden(){
+  var rows=_aldenState.rows;
+  // 中間分
+  rows.forEach(function(row){
+    var rech = row.prechal==='rechpos';
+    row._delay = aldenDelay(row.latency, rech);
+    row._inter = row._delay.pt + _aldenPt(ALDEN_BODY,row.body) + _aldenPt(ALDEN_PRECHAL,row.prechal)
+               + _aldenPt(ALDEN_DECHAL,row.dechal) + _aldenPt(ALDEN_NOTOR,row.notoriety);
+  });
+  // 步驟6：若有他藥中間分更高且 >3，本藥 −1
+  rows.forEach(function(row){
+    var otherMax=-Infinity;
+    rows.forEach(function(o){ if(o!==row && o._inter>otherMax) otherMax=o._inter; });
+    row._adj = (otherMax>3 && otherMax>row._inter) ? -1 : 0;
+    row._final = row._inter + row._adj;
+  });
+
+  var tbl=document.getElementById('aldenTable'); tbl.innerHTML='';
+  var hdr=mk('tr');
+  ['藥品','延遲','體內','Pre/Rechallenge','Dechallenge','Notoriety','t½(h)','中間分','步驟6','最終·分級']
+    .forEach(function(h){ var th=mk('th'); th.textContent=h; hdr.appendChild(th); });
+  tbl.appendChild(hdr);
+
+  rows.forEach(function(row){
+    var tr=mk('tr');
+    // 藥品
+    var td1=cell(row.drug,'td-left'); td1.style.fontWeight='500'; tr.appendChild(td1);
+    // 延遲（唯讀）
+    var tdD=mk('td');
+    var db=badge(String(row._delay.pt>0?'+'+row._delay.pt:row._delay.pt),
+                 'badge '+(row._delay.pt>0?'bsig':(row._delay.pt<0?'bexcl':'bnone')));
+    tdD.appendChild(db);
+    var dl=mk('div'); dl.className='hint'; dl.textContent=row._delay.lbl
+      +'（潛伏 '+(row.latency===null?'—':row.latency+'d')+'）'; tdD.appendChild(dl);
+    tr.appendChild(tdD);
+    // 體內
+    var tdB=mk('td');
+    tdB.appendChild(_aldenSelect(ALDEN_BODY,row.body,function(v){ row.body=v; row.bodyTouched=true; renderAlden(); }));
+    var bh=mk('div'); bh.className='hint';
+    bh.textContent = row.ongoing ? '用藥中' : (row.gap===null?'無停藥日':('停藥後 '+row.gap+'d'));
+    tdB.appendChild(bh);
+    tr.appendChild(tdB);
+    // Pre/Rechallenge
+    var tdP=cell(null); tdP.appendChild(_aldenSelect(ALDEN_PRECHAL,row.prechal,function(v){ row.prechal=v; renderAlden(); })); tr.appendChild(tdP);
+    // Dechallenge
+    var tdC=cell(null); tdC.appendChild(_aldenSelect(ALDEN_DECHAL,row.dechal,function(v){ row.dechal=v; renderAlden(); })); tr.appendChild(tdC);
+    // Notoriety + ROR 提示
+    var tdN=mk('td');
+    tdN.appendChild(_aldenSelect(ALDEN_NOTOR,row.notoriety,function(v){ row.notoriety=v; renderAlden(); }));
+    var nh=mk('div'); nh.className='hint';
+    nh.textContent='FAERS ROR '+row.ror+(row.signal?'（訊號 '+row.signalBasis+'）':''); tdN.appendChild(nh);
+    tr.appendChild(tdN);
+    // t½（選填）
+    var tdT=mk('td');
+    var ti=mk('input'); ti.type='number'; ti.min='0'; ti.step='0.1'; ti.className='form-control';
+    ti.style.maxWidth='70px'; ti.style.minHeight='34px'; ti.style.fontSize='.76rem';
+    if(row.thalf!=null) ti.value=row.thalf;
+    ti.placeholder='選填';
+    ti.addEventListener('input',function(){
+      var v=parseFloat(ti.value); row.thalf=isNaN(v)?null:v;
+      if(!row.bodyTouched) row.body=aldenBodyPrefill(row.ongoing,row.gap,row.thalf);
+      renderAlden();
+    });
+    tdT.appendChild(ti); tr.appendChild(tdT);
+    // 中間分
+    tr.appendChild(cell(String(row._inter),'num'));
+    // 步驟6 調整
+    tr.appendChild(cell(row._adj?String(row._adj):'0','num'));
+    // 最終 + 分級
+    var tdF=mk('td');
+    var cat=aldenCategory(row._final);
+    var fs=mk('div'); fs.className='num'; fs.style.fontWeight='700'; fs.textContent=String(row._final); tdF.appendChild(fs);
+    var cb=mk('span'); cb.className='cat-badge '+cat.cls; cb.textContent=cat.label; tdF.appendChild(cb);
+    tr.appendChild(tdF);
+
+    tbl.appendChild(tr);
+  });
+}
+
+document.getElementById('closeAldenBtn').addEventListener('click',function(){
+  document.getElementById('aldenCard').hidden=true;
+});
+document.getElementById('copyAldenBtn').addEventListener('click',function(){
+  if(!_aldenState) return;
+  var lines=[];
+  lines.push('【ALDEN 因果評估（SJS/TEN 專用）】症狀：'+_aldenState.reaction);
+  _aldenState.rows.forEach(function(r){
+    var cat=aldenCategory(r._final);
+    lines.push('— '+r.drug+'：最終 '+r._final+'（'+cat.label+'）｜中間 '+r._inter+' 步驟6 '+(r._adj||0));
+    lines.push('   延遲 '+r._delay.lbl+' '+(r._delay.pt>0?'+'+r._delay.pt:r._delay.pt)
+      +'｜體內 '+ALDEN_BODY.find(function(x){return x.v===r.body;}).t
+      +'｜'+ALDEN_PRECHAL.find(function(x){return x.v===r.prechal;}).t
+      +'｜'+ALDEN_DECHAL.find(function(x){return x.v===r.dechal;}).t
+      +'｜Notoriety '+ALDEN_NOTOR.find(function(x){return x.v===r.notoriety;}).t
+      +(r.thalf!=null?('｜t½ '+r.thalf+'h'):'')
+      +'｜FAERS ROR '+r.ror);
+  });
+  lines.push('分級：≥6 非常可能／4–5 可能／2–3 可能相關／0–1 不太可能／<0 幾乎排除');
+  lines.push('※ ALDEN 限 SJS/TEN，不適用 DRESS/AGEP；點值依 Sassolas 2010；教學用，請依病歷與原表核對。');
+  var btn=document.getElementById('copyAldenBtn');
+  navigator.clipboard.writeText(lines.join('\n')).then(function(){
+    btn.textContent='已複製 ✓'; setTimeout(function(){btn.textContent='複製 ALDEN';},1800);
   }).catch(function(){showError('複製失敗，請手動框選。');});
 });
 </script>
