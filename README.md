@@ -1,132 +1,134 @@
-# FAERS ADR Ranker（教學版）
+# FAERS ADR Ranker (teaching edition)
 
-> 從 FAERS 開放資料反向查詢多重用藥的**嫌疑藥排序**：
-> 反向查詢（症狀 → 藥）＋ ROR/PRR 不相稱性分析 ＋ 本地時序加權，
-> 並可對單一藥品進行 Naranjo / WHO-UMC 因果評分。
+**English** | [繁體中文](README.zh-TW.md)
+
+> **Suspect-drug ranking** for polypharmacy via reverse lookup of FAERS open data:
+> reverse query (symptom → drug) + ROR/PRR disproportionality analysis + local temporal weighting,
+> with Naranjo / WHO-UMC causality scoring for any single drug.
 
 [![Live Demo](https://img.shields.io/badge/Live%20Demo-Click%20Here-blue?style=for-the-badge)](https://liangrxdev.github.io/faers-suspect-ranker/)
 
-> ## ⚠️ 僅供教學 / 練習用途
-> 本工具**不是醫療器材，不是診斷工具，不得用於任何臨床決策**。
-> 訊號偵測 ≠ 因果。使用前**務必閱讀** [DISCLAIMER.md](./DISCLAIMER.md)。
+> ## ⚠️ For teaching / practice only
+> This tool **is not a medical device, not a diagnostic tool, and must not be used for any clinical decision**.
+> Signal detection ≠ causality. **Read** [DISCLAIMER.md](./DISCLAIMER.md) before use.
 
 ---
 
-## 這是什麼
+## What is this
 
-多重用藥情境下，當病人出現某不良反應，藥師需逐一比對「哪一顆藥最可能是元兇」。
-傳統「藥 → 症狀」查詢無法直接回答。本工具改用 **症狀 → 藥** 的反向查詢，
-對病人用藥清單中的每顆藥計算不相稱性與時序合理性，輸出嫌疑藥排名。
+In polypharmacy, when a patient develops an adverse reaction, the pharmacist has to work out "which drug is the most likely culprit" one by one.
+A traditional "drug → symptom" lookup can't answer that directly. This tool uses a **symptom → drug** reverse query instead,
+computing disproportionality and temporal plausibility for every drug on the patient's list and outputting a ranking of suspect drugs.
 
-技術上僅依賴單一 OpenFDA endpoint（`/drug/event.json`）。提供兩種部署：
-**GitHub Pages 純前端版**（瀏覽器直接查詢，零後端）或 **Google Apps Script（GAS）版**。
+Technically it relies on a single OpenFDA endpoint (`/drug/event.json`). Two deployments are provided:
+a **GitHub Pages pure-frontend version** (queried directly from the browser, zero backend) or a **Google Apps Script (GAS) version**.
 
-### 臨床動機：先問「這是不是處方瀑布」
+### Clinical motivation: first ask "is this a prescribing cascade?"
 
-老年與多重用藥族群的 ADR 常以「跌倒、混亂、水腫、便秘」等**像老化的症狀**呈現，
-易被當成新疾病而再加一顆藥，形成**處方瀑布（prescribing cascade）**。
-看到新症狀時，Rochon & Gurwitz（*Lancet* 2017）建議先問三件事：
+ADRs in older and polypharmacy patients often present as **age-like symptoms** such as falls, confusion, edema or constipation,
+and are easily taken for a new disease and treated with yet another drug — a **prescribing cascade**.
+When a new symptom appears, Rochon & Gurwitz (*Lancet* 2017) suggest asking three things first:
 
-1. 這個新症狀，**是不是前一個藥的不良反應**？（而不是急著加藥）
-2. 引發的「起始藥」**真的還需要嗎**？能否換更安全替代或減量？
-3. 繼續用起始藥的**利弊**為何？與病人共享決策。
+1. Is this new symptom **an adverse reaction to an earlier drug**? (rather than rushing to add a drug)
+2. Is the triggering "index drug" **really still needed**? Can it be switched to a safer alternative or reduced?
+3. What are the **benefits and harms** of continuing the index drug? Share the decision with the patient.
 
-本工具把第 1 問操作化：用 **症狀 → 藥** 的反向查詢，對清單中每顆藥同時看
-「群體不相稱性訊號」與「個案時序合理性」，協助把可疑的起始藥排到前面——
-**作為討論起點，不是因果定論**。
+This tool operationalizes question 1: using a **symptom → drug** reverse query, it looks at both
+"population disproportionality signals" and "individual temporal plausibility" for every drug on the list, helping move suspicious index drugs to the top —
+**as a starting point for discussion, not a causal conclusion**.
 
-## 功能
+## Features
 
-- **反向查詢**：以症狀（MedDRA PT）為條件，對每顆藥取 2×2 列聯表
-- **不相稱性**：ROR（含 95% CI）、PRR、Yates χ²，Haldane-Anscombe 零格校正
-- **訊號判定**：a≥3 且（ROR 下界 > 1）或（PRR≥2 且 χ²≥4）
-- **時序加權**：依潛伏期分帶；停藥後發生（dechallenge）再乘衰減
-- **可拖曳時序軸**：甘特式視覺化各藥用藥區間 vs 症狀發生日
-- **個案因果評分**：Naranjo + WHO-UMC（全症狀）＋ **ALDEN**（SJS/TEN 專用、跨藥競爭），以時序資料智慧預填
-- **症狀輸入**：少量範例 PT + **OpenFDA 即時動態建議**（不內嵌完整 MedDRA 清單）
+- **Reverse query**: conditioned on the symptom (MedDRA PT), builds a 2×2 contingency table for each drug
+- **Disproportionality**: ROR (with 95% CI), PRR, Yates χ², Haldane-Anscombe zero-cell correction
+- **Signal criteria**: a≥3 and (ROR lower bound > 1) or (PRR≥2 and χ²≥4)
+- **Temporal weighting**: banded by latency; onset after stopping the drug (dechallenge) gets an additional decay factor
+- **Draggable timeline**: Gantt-style visualization of each drug's exposure period vs symptom onset date
+- **Individual causality scoring**: Naranjo + WHO-UMC (all symptoms) + **ALDEN** (SJS/TEN only, with cross-drug competition), smart-prefilled from the timeline data
+- **Symptom input**: a few example PTs + **live OpenFDA suggestions** (no full MedDRA list embedded)
 
-## 架構
+## Architecture
 
 ```
 ┌─ Index.html ──────────────┐      ┌─ Code.gs (GAS) ───────────────┐
-│ 前端 (vanilla JS + BS5)   │  ←→  │ analyzeADR() 主進入點          │
-│ · PT 搜尋 / 動態建議       │      │ · _stats()  ROR/PRR/χ²         │
-│ · 可拖曳時序軸             │      │ · _temporal() 時序+dechallenge │
-│ · Naranjo/WHO-UMC 面板     │      │ · CacheService 快取 + 節流     │
-└───────────────────────────┘      │ · PropertiesService 存 API key │
+│ Frontend (vanilla JS+BS5) │  ←→  │ analyzeADR() main entry        │
+│ · PT search / suggestions │      │ · _stats()  ROR/PRR/χ²         │
+│ · Draggable timeline      │      │ · _temporal() timing+dechallenge│
+│ · Naranjo/WHO-UMC panel   │      │ · CacheService cache + throttle│
+└───────────────────────────┘      │ · PropertiesService API key    │
                                     └────────────────────────────────┘
-                                                  │ 單一 endpoint
+                                                  │ single endpoint
                                                   ▼
                                     api.fda.gov/drug/event.json
 ```
 
-> 純前端版為等價鏡像：`docs/app.js` 取代 `Code.gs`（以 `fetch` + 記憶體快取 + `localStorage`
-> 取代 `UrlFetchApp` + `CacheService` + `PropertiesService`），`docs/index.html` 為 UI。
+> The pure-frontend version is an equivalent mirror: `docs/app.js` replaces `Code.gs` (using `fetch` + in-memory cache + `localStorage`
+> instead of `UrlFetchApp` + `CacheService` + `PropertiesService`), and `docs/index.html` is the UI.
 
-## 部署方式（二選一）
+## Deployment (choose one)
 
-兩種模式共用同一套統計與時序邏輯，差別只在「查詢由誰送出」與「API Key 存哪」：
+Both modes share the same statistical and temporal logic; they differ only in "who sends the query" and "where the API key lives":
 
-| | GitHub Pages（純前端） | Google Apps Script（GAS） |
+| | GitHub Pages (pure frontend) | Google Apps Script (GAS) |
 |---|---|---|
-| 後端 | 無，瀏覽器直接打 OpenFDA | GAS Web App |
-| 程式 | `docs/index.html` + `docs/app.js` | `Code.gs` + `Index.html` |
-| API Key | 瀏覽器 `localStorage`（本機，使用者自備） | `PropertiesService`（伺服器端） |
-| 適用 | 教學展示、快速試用、零維運 | 機構內部署、集中管理 Key |
+| Backend | None; the browser calls OpenFDA directly | GAS Web App |
+| Code | `docs/index.html` + `docs/app.js` | `Code.gs` + `Index.html` |
+| API key | Browser `localStorage` (local, user-provided) | `PropertiesService` (server side) |
+| Best for | Teaching demos, quick trials, zero maintenance | Institutional deployment, central key management |
 
-> ⚠ 無 bundler，故統計數學在兩端各有一份。**改任一端的公式或閾值，另一端須同步改**
-> （`Code.gs` ↔ `docs/app.js`），並更新 `docs/methodology.md`。
+> ⚠ There is no bundler, so the statistical math exists in both places. **If you change a formula or threshold on one side, change the other too**
+> (`Code.gs` ↔ `docs/app.js`) and update `docs/methodology.md`.
 
-### A. GitHub Pages 靜態部署
+### A. GitHub Pages static deployment
 
-1. Fork / clone 本 repo。
-2. Settings → Pages → Source 選 **Deploy from a branch**，branch = `main`、資料夾 = **`/docs`**，存檔。
-3. 數分鐘後造訪 `https://<你的帳號>.github.io/<repo>/`。
-4. （選用）在介面「API Key 設定」貼上免費 [OpenFDA key](https://open.fda.gov/apis/authentication/)，
-   僅存於你的瀏覽器 localStorage，不上傳任何第三方。
+1. Fork / clone this repo.
+2. Settings → Pages → Source: **Deploy from a branch**, branch = `main`, folder = **`/docs`**, save.
+3. After a few minutes visit `https://<your-account>.github.io/<repo>/`.
+4. (Optional) Paste a free [OpenFDA key](https://open.fda.gov/apis/authentication/) into the "API Key settings" in the UI;
+   it is stored only in your browser's localStorage and never uploaded to any third party.
 
-> 本機預覽：`cd docs && python -m http.server` 後開 `http://localhost:8000`
-> （需透過 HTTP 而非 `file://`，否則 `fetch` 會被 CORS 擋）。
+> Local preview: `cd docs && python -m http.server`, then open `http://localhost:8000`
+> (must be served over HTTP rather than `file://`, or `fetch` is blocked by CORS).
 
-### B. 部署（Google Apps Script）
+### B. Deployment (Google Apps Script)
 
-1. 建立新的 GAS 專案，新增兩個檔：
-   - `Code.gs`（貼上本 repo 的 `Code.gs`）
-   - `Index.html`（檔名須為 **`Index`**，對應 `createTemplateFromFile('Index')`）
-2. （選用但建議）取得免費 [OpenFDA API key](https://open.fda.gov/apis/authentication/)，
-   於工具介面的「API Key 設定」儲存，或在「專案設定 → 指令碼屬性」新增 `OPENFDA_API_KEY`。
-   無 key 限速 40 req/min，有 key 240 req/min。
-3. 「部署 → 新增部署作業 → 網頁應用程式」。
-4. **每次改碼後，需重新部署為「新版本」**（僅存檔不會更新線上版本）。
+1. Create a new GAS project and add two files:
+   - `Code.gs` (paste this repo's `Code.gs`)
+   - `Index.html` (the file name must be **`Index`**, matching `createTemplateFromFile('Index')`)
+2. (Optional but recommended) Get a free [OpenFDA API key](https://open.fda.gov/apis/authentication/)
+   and save it in the tool's "API Key settings", or add `OPENFDA_API_KEY` under "Project Settings → Script Properties".
+   Without a key the rate limit is 40 req/min; with a key, 240 req/min.
+3. "Deploy → New deployment → Web app".
+4. **After every code change, redeploy as a "New version"** (saving alone doesn't update the live version).
 
-## 使用
+## Usage
 
-1. 輸入觀察到的不良反應（英文 MedDRA PT；可用動態建議協助）與發生日期。
-2. 逐筆輸入病人用藥（藥名、起始日、停用日 / 仍在用）。
-3. 執行分析 → 取得嫌疑藥排序。
-4. 點任一藥的「評分」→ 進行 Naranjo / WHO-UMC 因果評估。
-5. 若症狀為 SJS/TEN，結果區會出現「啟動 ALDEN 評估」→ 多藥 ALDEN 計分含跨藥競爭調整。
+1. Enter the observed adverse reaction (English MedDRA PT; live suggestions help) and its onset date.
+2. Enter the patient's drugs one by one (drug name, start date, stop date / still taking).
+3. Run the analysis → get the suspect-drug ranking.
+4. Click "Score" on any drug → perform a Naranjo / WHO-UMC causality assessment.
+5. If the symptom is SJS/TEN, the results area shows "Start ALDEN assessment" → multi-drug ALDEN scoring with cross-drug competition adjustment.
 
-## MedDRA 授權須知
+## MedDRA Licensing Note
 
-本 repo **刻意不內嵌完整 MedDRA PT 清單**（`Index.html` 內 `PT_DB` 僅含範例），
-因 MedDRA 術語受 MSSO 授權。你有兩個選擇：
+This repo **deliberately does not embed the full MedDRA PT list** (`PT_DB` in `Index.html` has examples only),
+because MedDRA terminology is licensed by the MSSO. You have two options:
 
-- **完全依賴 OpenFDA 動態建議**（FAERS reaction 詞彙本身公開），不需本地清單；或
-- 取得 MedDRA 授權後，自行擴充 `PT_DB` 陣列（建議放在不公開的分支或私有部署）。
+- **Rely entirely on live OpenFDA suggestions** (the FAERS reaction vocabulary itself is public), no local list needed; or
+- After obtaining a MedDRA license, extend the `PT_DB` array yourself (preferably on a non-public branch or private deployment).
 
-## 限制與正確判讀
+## Limitations and Correct Interpretation
 
-請見 [DISCLAIMER.md](./DISCLAIMER.md) 與 [docs/methodology.md](./docs/methodology.md)。
-核心原則：**訊號 ≠ 因果、FAERS 無分母、時序加權為啟發式**。
+See [DISCLAIMER.md](./DISCLAIMER.md) and [docs/methodology.md](./docs/methodology.md).
+Core principles: **signal ≠ causality, FAERS has no denominator, temporal weighting is heuristic**.
 
-## 授權
+## License
 
-- 程式碼：**MIT License**（見 [LICENSE](./LICENSE)）。
-  若你偏好含專利條款的授權，可改用 Apache-2.0。
-- 第三方資料（OpenFDA / MedDRA / Naranjo / WHO-UMC）授權見 DISCLAIMER。
+- Code: **MIT License** (see [LICENSE](./LICENSE)).
+  If you prefer a license with a patent clause, Apache-2.0 can be used instead.
+- Licenses for third-party data (OpenFDA / MedDRA / Naranjo / WHO-UMC) are covered in DISCLAIMER.
 
-## 貢獻
+## Contributing
 
-歡迎 issue / PR。提交前請閱讀 [CLAUDE.md](./CLAUDE.md)（專案規則，亦供 AI 協作工具參考），
-並確認**未提交任何 API key、PII 或完整 MedDRA 清單**。
+Issues / PRs welcome. Before submitting, read [CLAUDE.md](./CLAUDE.md) (project rules, also used by AI collaboration tools),
+and make sure **no API keys, PII or full MedDRA lists are committed**.
