@@ -40,6 +40,8 @@ function doGet(e) {
   t.VERSION = CONFIG.VERSION;
   return t.evaluate()
     .setTitle('FAERS 多重用藥 ADR 嫌疑藥排序')
+    // GAS 在 iframe 內渲染，HTML 的 <link rel=icon> 無效；只能用 setFaviconUrl 指向外部 PNG（取自 Pages）
+    .setFaviconUrl('https://liangrxdev.github.io/faers-suspect-ranker/favicon-32.png')
     .setXFrameOptionsMode(HtmlService.XFrameOptionsMode.ALLOWALL)
     .addMetaTag('viewport', 'width=device-width, initial-scale=1');
 }
