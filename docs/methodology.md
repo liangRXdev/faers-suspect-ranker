@@ -137,3 +137,42 @@ ROR/PRR 等群體訊號可直接作為個案因果評估中「藥物 notoriety�
 - 資料季更，約落後 3 個月以上。
 - 群體訊號（ROR/PRR）與個案因果（Naranjo/WHO-UMC）為**互補**，不可互相取代。
 - 本工具時序加權與停藥衰減為**啟發式**，未達 ALDEN 等已驗證演算法的嚴謹度（見 §5.1）。
+
+## 7. 本次分析解讀（規則式，Exploratory Interpretation）
+
+`generateInterpretation(results, meta)` 為純函式（`Code.gs` 與 `docs/app.js` 各一份，測試比對輸出逐字一致），
+只讀既有分析輸出，**不重新查詢 FAERS、不改統計、不呼叫 LLM**。輸出純文字段落，前端以 `textContent` 呈現。
+
+| 段落 | 規則 |
+|---|---|
+| A. 訊號摘要 | 症狀、藥品數、達門檻數；綜合排序第一者之 ROR（95% CI）、PRR、綜合分數。ROR≤1 明示「非正向訊號」；ROR>1 但 CI 下界≤1 標示不確定性；附 ROR 定義（非風險／非因果機率） |
+| B. 時序貢獻 | 權重全同 → 「時序未改變排序，由 ROR 決定」；權重不同 → 列出被調降者；缺日期/格式錯誤 → 「時間關係無法充分評估」；症狀早於用藥 → 「不符初始假設，但不宜宣稱在所有情境下已排除」；停藥後 → 說明衰減；有有效時序時聲明為通用時間窗、非 ADR-specific latency |
+| C. 判讀限制 | 固定文字（不隨資料變動） |
+
+**排名比較**：綜合排序沿用既有 `rank`（同分沿用輸入順序，與表格一致）；ROR-only 對照排序用**同一候選集合**，
+同分依 95% CI 下界、再依綜合排序順位打破平手。兩者不同的藥品逐一列出。
+
+> 措辭禁區：不寫「最可能造成」「風險較高」「致病機率」；排序第一只代表優先檢視順序。
+
+為判斷時序狀態，`_temporal` 回傳新增 `status`（`on` / `post` / `before` / `missing` / `invalid`）；
+權重、天數與 flag 文字**不變**（tests/engine.test.js 以改動前 golden 值驗證）。
+
+## 8. 藥名輸入輔助（Autocomplete）
+
+| 層 | 來源 | 用法 |
+|---|---|---|
+| Primary | openFDA Drug NDC `/drug/ndc.json` | `search=generic_name:<prefix>*` 與 `brand_name:<prefix>*`，以 `count=*.exact` 聚合取不重複名稱；商品名再以 `brand_name.exact` 查其 `generic_name` 標示成分 |
+| Secondary | RxNorm `approximateTerm` + `rxcui/{id}/properties` | NDC 前綴查無結果時提供拼字近似建議；只保留 TTY = IN / PIN / MIN / BN |
+
+- **不自動採用**：Enter 未以方向鍵選中時不選取；RxNorm 近似建議標示「請確認」。只有使用者點選後才記錄為已確認。
+- **不合併**：去重只合併大小寫、空白與 `HCl ≡ hydrochloride`；不同鹽類、複方、商品名各自保留並標示類別。
+- **查詢相容性**：分析仍以輸入框文字（即選定之 `queryName`）原樣套用既有三欄 OR 查詢；**不做同義詞展開**，
+  商品名／複方不自動轉為單一成分。選取紀錄（`displayName / genericName / brandName / source / rxcui / queryName`）
+  以 `nameInfo` 透傳，只用於解讀與複製紀錄，不參與統計。
+- **未驗證藥名**：未從建議選取者執行前顯示 inline 提醒，明確確認後才以原文字查詢，並在結果與解讀中標示。
+- **效能／降級**：≥3 英文字母、debounce 350 ms、AbortController + 序號丟棄晚到回應、6 s timeout、
+  記憶體快取 10 分鐘（上限 100 筆，錯誤不快取）、HTTP 429 後冷卻 60 秒；任何失敗皆保留手動輸入。
+- **部署一致性**：兩 API 皆回 `Access-Control-Allow-Origin: *`，GAS（HtmlService iframe）與 Pages 皆由瀏覽器直接呼叫，
+  共用同一份程式（`<drug-suggest:begin/end>` 區塊，兩版 HTML 逐字相同，測試比對），不經 `google.script.run`、不消耗 UrlFetch 配額。
+- **取捨**：openFDA 無 key 時有每日請求上限，故 typeahead 不帶 key、以快取與冷卻節流；NDC 名稱為 SPL 標示文字，
+  與 FAERS `openfda.*` 欄位同源但不保證涵蓋 `medicinalproduct` 自由文字的所有寫法。
