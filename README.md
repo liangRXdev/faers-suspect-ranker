@@ -46,6 +46,10 @@ This tool operationalizes question 1: using a **symptom → drug** reverse query
 - **Draggable timeline**: Gantt-style visualization of each drug's exposure period vs symptom onset date
 - **Individual causality scoring**: Naranjo + WHO-UMC (all symptoms) + **ALDEN** (SJS/TEN only, with cross-drug competition), smart-prefilled from the timeline data
 - **Symptom input**: a few example PTs + **live OpenFDA suggestions** (no full MedDRA list embedded)
+- **Drug name autocomplete**: prefix suggestions from the openFDA Drug NDC API (generic / brand / salt form / combination labelled separately)
+  plus RxNorm spelling suggestions (e.g. `vancomycn` → Vancomycin). Nothing is auto-accepted; unverified names need an explicit confirmation before running
+- **Analysis interpretation**: a rule-based Traditional Chinese summary under the results table (signal summary, whether temporal weighting changed the ranking,
+  fixed interpretation limits). No LLM call, no extra cost, no causal claims
 
 ## Architecture
 
@@ -108,6 +112,16 @@ Both modes share the same statistical and temporal logic; they differ only in "w
 3. Run the analysis → get the suspect-drug ranking.
 4. Click "Score" on any drug → perform a Naranjo / WHO-UMC causality assessment.
 5. If the symptom is SJS/TEN, the results area shows "Start ALDEN assessment" → multi-drug ALDEN scoring with cross-drug competition adjustment.
+
+> **Drug name suggestions** appear after 3 letters (↑↓ / Enter / Esc). The selected name is sent to FAERS **as-is** across the same three fields as before
+> (`generic_name` / `brand_name` / `medicinalproduct`); no synonym expansion is done, so the ROR/PRR computation is unchanged.
+> Suggestions call `api.fda.gov/drug/ndc.json` and `rxnav.nlm.nih.gov` directly from the browser in both deployments (no API key, no patient data sent).
+
+## Tests
+
+Zero-dependency tests (Node ≥ 18): `node --test tests/*.test.js`
+— interpretation rules, autocomplete (mocked APIs: debounce, race, 429, timeout, combination/salt handling), and a golden regression
+check that ROR/PRR/χ²/temporal weights are unchanged and that `Code.gs` and `docs/app.js` produce identical interpretations.
 
 ## MedDRA Licensing Note
 

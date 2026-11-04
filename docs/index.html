@@ -143,6 +143,21 @@
     /* 靜態版說明條 */
     .static-note{font-size:.74rem;color:var(--text-muted);background:#EFF5F6;border:1px solid var(--border);
       border-radius:var(--radius-input);padding:.45rem .7rem;margin-bottom:.75rem;line-height:1.5;}
+    /* ── 本次分析解讀 ───────────────────────────────────────── */
+    details.interp{margin-top:.75rem;border:1px solid var(--border);border-radius:var(--radius-input);background:#fff;padding:.5rem .75rem;}
+    details.interp summary{cursor:pointer;font-weight:700;color:var(--accent);user-select:none;font-size:.88rem;min-height:32px;}
+    .interp-sec{margin-top:.55rem;font-size:.82rem;line-height:1.65;}
+    .interp-title{font-weight:700;font-size:.8rem;margin-bottom:.2rem;}
+    .interp-sec p{margin:0 0 .35rem;}
+    .interp-sec ul{margin:0 0 .35rem;padding-left:1.1rem;}
+    .interp-sec.limits{border-left:3px solid var(--warning);background:#FDF6EC;padding:.45rem .6rem;border-radius:var(--radius-input);color:#7A4F19;}
+    /* ── 藥名 autocomplete ─────────────────────────────────── */
+    .drug-row .name-wrap{flex:1 1 150px;min-width:120px;}
+    .drug-row .name-wrap .inp-name{width:100%;}
+    .ds-status{font-size:.7rem;color:var(--text-muted);margin-top:.15rem;line-height:1.3;}
+    .ds-status:empty{display:none;}
+    .ds-status.ok{color:#1A7A45;} .ds-status.warn{color:#9A6F00;}
+    .pt-item.ds-manual{color:var(--accent);font-size:.8rem;}
   </style>
 </head>
 <body>
@@ -211,6 +226,12 @@
       <div id="tlAxis" class="tl-axis"></div>
     </div>
 
+    <!-- 未驗證藥名提醒（inline，不用 alert）-->
+    <div class="notice" id="unverifiedWarn" hidden>
+      <span id="unverifiedText"></span>
+      <div class="mt-2"><button class="btn-outline-muted" id="confirmUnverifiedBtn" type="button">確認以原文字執行分析</button></div>
+    </div>
+
     <!-- 執行按鈕 + 進度 -->
     <button class="btn btn-primary w-100 mt-2" id="runBtn" type="button">執行分析</button>
     <div class="progress-wrap" id="progressWrap">
@@ -232,6 +253,12 @@
     <div id="metaLine" class="hint mb-2"></div>
     <div class="table-wrap"><table class="result-table" id="resultTable"></table></div>
     <div id="aldenLaunchWrap" class="mt-2"></div>
+    <!-- 本次分析解讀（規則式；文字由 generateInterpretation 產生）-->
+    <details class="interp" id="interpBlock" open hidden>
+      <summary>本次分析解讀（Exploratory Interpretation）</summary>
+      <div class="hint mt-1">規則式自動產生（不呼叫 AI），僅整理上表既有數據；探索性、非因果判定。</div>
+      <div id="interpBody"></div>
+    </details>
     <div class="notice">
       <strong>判讀限制：</strong>FAERS 為自願通報，無分母、有通報偏差與適應症混淆。
       ROR/PRR 為<strong>訊號偵測</strong>指標，<strong>不等於因果或實際風險高低</strong>；
@@ -244,7 +271,9 @@
         訊號判定：a≥3 且 [ROR 下界&gt;1] 或 [PRR≥2 且 χ²(Yates)≥4]。<br>
         時序：≤90d=1.0、91–180d=0.6、&gt;180d=0.3；症狀早於用藥=0（時序排除）。<br>
         停藥後發生（dechallenge）：再乘衰減 ≤7d×0.7、8–30d×0.4、&gt;30d×0.1。<br>
-        綜合分數 = 時序權重 × ln(ROR)（ROR≤1 計 0）；用於排序，非機率。
+        綜合分數 = 時序權重 × ln(ROR)（ROR≤1 計 0）；用於排序，非機率。<br>
+        本次分析解讀：依上表數據以固定規則產生文字（不呼叫 AI、不重新查詢）；ROR-only 對照排序同分時依 95% CI 下界、再依綜合排序順位。<br>
+        藥名建議：openFDA NDC（前綴）＋ RxNorm（拼字近似），僅為輸入輔助；FAERS 查詢仍以欄位內文字原樣比對三欄，不展開同義詞。
       </div>
     </details>
   </div>
@@ -370,6 +399,372 @@ document.getElementById('clearKeyBtn').addEventListener('click',function(){
 });
 loadKeyStatus();
 
+// <drug-suggest:begin>
+// ══════════════════════════════════════════════════════════
+// 藥名 Autocomplete / Typeahead（輸入輔助；不參與統計、不改 FAERS 查詢邏輯）
+// Primary  ：openFDA Drug NDC — generic_name / brand_name 前綴 wildcard + count 聚合取不重複名稱
+// Secondary：RxNorm approximateTerm — 拼字補正（模糊比對；僅在使用者點選後才採用）
+// 兩 API 均回 Access-Control-Allow-Origin:*，GAS（iframe）與 Pages 皆由瀏覽器直接呼叫，
+// 不經 google.script.run，故共用同一份程式（fetchJson 為唯一 transport，可替換）。
+// ⚠ 本區塊在 Index.html 與 docs/index.html 必須逐字相同（tests/ 會比對）。
+// 隱私：只送出藥名前綴；不帶 API key、不帶任何病人資料；快取僅存於記憶體。
+// ══════════════════════════════════════════════════════════
+var DrugSuggest = (function(){
+  var C = {
+    NDC: 'https://api.fda.gov/drug/ndc.json',
+    RXNAV: 'https://rxnav.nlm.nih.gov/REST',
+    MIN_CHARS: 3, MAX_ITEMS: 8, DEBOUNCE_MS: 350, TIMEOUT_MS: 6000,
+    CACHE_TTL_MS: 600000, CACHE_MAX: 100, COOLDOWN_MS: 60000, BRAND_PAIR_MAX: 3, RX_PROPS_MAX: 4
+  };
+  // 鹽類／水合物字樣：用於標示「Ingredient / Salt form」，不做合併
+  var SALT_RE = /\b(hydrochloride|dihydrochloride|hcl|hydrobromide|sodium|disodium|potassium|calcium|magnesium|sulfate|sulphate|phosphate|acetate|citrate|maleate|mesylate|besylate|tartrate|bitartrate|fumarate|succinate|bromide|chloride|hyclate|monohydrate|dihydrate|trihydrate|lactate|gluconate|nitrate|tromethamine|propionate|dipropionate|valerate|pamoate|decanoate)\b/i;
+  // 逗號後的描述字（非第二成分）
+  var DESCR_RE = /^(lyophilized|usp|nf|crude|micronized|sterile|[a-z ]*grade|for .*)$/i;
+  // 原料藥/製程名稱（非臨床品名）：不列入建議
+  var BULK_RE = /\b(crude|grade|process|bulk)\b/i;
+  var KIND_LABEL = { generic: 'Generic', salt: 'Ingredient / Salt form', combo: 'Combination 複方', brand: 'Brand' };
+  var SOURCE_LABEL = { 'openfda-ndc': 'openFDA NDC', 'rxnorm-approx': 'RxNorm 近似比對', manual: '手動輸入' };
+  var MSG = {
+    loading: '查詢藥名建議中…',
+    empty: '查無符合的藥名建議；可保留手動輸入（執行前需再確認）',
+    error: '藥名建議服務暫時無法使用（網路或逾時）；可手動輸入',
+    rate_limited: 'API 限流中，暫停藥名建議約 1 分鐘；可手動輸入',
+    fuzzy: '前綴查無結果；以下為 RxNorm 拼字近似建議，請確認後點選（不會自動採用）'
+  };
+  var shared = { blockedUntil: 0, cache: new Map() };
+
+  function mkErr(type, msg){ var e = new Error(msg || type); e.type = type; return e; }
+  function normQuery(q){ return String(q || '').replace(/[^A-Za-z0-9\- ]+/g, ' ').replace(/\s+/g, ' ').trim(); }
+  function letterCount(q){ return (String(q).match(/[A-Za-z]/g) || []).length; }
+  // 去重鍵：只合併大小寫/空白，以及 HCl ≡ hydrochloride（同一鹽類的縮寫）；不同鹽類、複方不合併
+  function dedupeKey(s){ return String(s).toLowerCase().replace(/\s+/g, ' ').replace(/\bhcl\b/g, 'hydrochloride').trim(); }
+  function tokensOf(q){ return normQuery(q).toLowerCase().split(/[\s\-]+/).filter(Boolean); }
+  function isMixedCase(s){ var t = String(s).replace(/ (and|with|for|in) /g, ' '); return t !== t.toUpperCase() && t !== t.toLowerCase(); }
+  function titleCase(s){
+    return String(s).toLowerCase()
+      .replace(/(^|[\s\-\/(,])([a-z])/g, function(m, p, c){ return p + c.toUpperCase(); })
+      .replace(/ And /g, ' and ').replace(/ With /g, ' with ').replace(/ For /g, ' for ').replace(/ In /g, ' in ');
+  }
+  function isCombo(t){
+    var s = String(t);
+    if (/\s+and\s+|\/|\s&\s|\+|\s+with\s+/i.test(s)) return true;
+    return s.split(',').map(function(p){ return p.trim(); })
+      .filter(function(p){ return p && !DESCR_RE.test(p); }).length > 1;
+  }
+  function classify(t){ return isCombo(t) ? 'combo' : (SALT_RE.test(t) ? 'salt' : 'generic'); }
+  function matchesTokens(term, tokens){
+    var words = String(term).toLowerCase().split(/[^a-z0-9]+/).filter(Boolean);
+    return tokens.every(function(t){ return words.some(function(w){ return w.indexOf(t) === 0; }); });
+  }
+  // openFDA count 結果 → 依去重鍵合併（保留最常見的混合大小寫寫法）
+  function dedupeTerms(results, tokens){
+    var map = {}, order = [];
+    (results || []).forEach(function(r){
+      if (!r || typeof r.term !== 'string') return;
+      var t = r.term.replace(/\s+/g, ' ').trim();
+      if (!t || t.length > 80 || BULK_RE.test(t) || (tokens && !matchesTokens(t, tokens))) return;   // 濾掉過長的順勢療法混合物等
+      var k = dedupeKey(t);
+      if (!map[k]) { map[k] = { key: k, variants: [], count: 0 }; order.push(k); }
+      map[k].variants.push({ term: t, count: Number(r.count) || 0 });
+      map[k].count += Number(r.count) || 0;
+    });
+    return order.map(function(k){
+      var g = map[k];
+      var mixed = g.variants.filter(function(v){ return isMixedCase(v.term); })
+        .sort(function(a, b){ return b.count - a.count; })[0];
+      return { key: k, term: mixed ? mixed.term : titleCase(g.variants[0].term), count: g.count };
+    });
+  }
+  function luceneFor(field, tokens){
+    return tokens.map(function(t, i){ return field + ':' + t + (i === tokens.length - 1 ? '*' : ''); }).join('+AND+');
+  }
+  function settle(p){
+    return p.then(function(v){ return { ok: true, value: v }; }, function(e){ return { ok: false, error: e }; });
+  }
+  function abortedIn(rs){ return rs.some(function(r){ return !r.ok && r.error && r.error.type === 'abort'; }); }
+  function errTypeOf(rs){
+    var errs = rs.filter(function(r){ return !r.ok; }).map(function(r){ return r.error && r.error.type; });
+    if (!errs.length) return null;
+    return errs.indexOf('rate_limited') > -1 ? 'rate_limited' : 'error';
+  }
+
+  // ── 預設 transport：fetch + timeout + 外部 AbortSignal 串接 ──
+  function fetchJson(url, signal){
+    if (typeof fetch !== 'function') return Promise.reject(mkErr('error', 'fetch 不可用'));
+    var ctrl = typeof AbortController !== 'undefined' ? new AbortController() : null;
+    var timedOut = false;
+    var timer = setTimeout(function(){ timedOut = true; if (ctrl) ctrl.abort(); }, C.TIMEOUT_MS);
+    function onAbort(){ if (ctrl) ctrl.abort(); }
+    if (signal) { if (signal.aborted) onAbort(); else signal.addEventListener('abort', onAbort); }
+    function done(){ clearTimeout(timer); if (signal) signal.removeEventListener('abort', onAbort); }
+    return fetch(url, ctrl ? { signal: ctrl.signal } : {}).then(function(r){
+      if (r.status === 429) throw mkErr('rate_limited', 'HTTP 429');
+      return r.json().catch(function(){ return null; }).then(function(j){
+        if (j && j.error) {
+          if (j.error.code === 'NOT_FOUND') return { results: [] };      // openFDA 查無資料 = 404 + error body
+          throw mkErr('error', j.error.message || ('HTTP ' + r.status));
+        }
+        if (!r.ok) throw mkErr('error', 'HTTP ' + r.status);
+        return j || {};
+      });
+    }, function(e){
+      throw mkErr(timedOut ? 'timeout' : ((signal && signal.aborted) ? 'abort' : 'error'), e && e.message);
+    }).then(function(v){ done(); return v; }, function(e){ done(); throw e; });
+  }
+
+  // ── 單次查詢（不含 debounce/快取）；回傳 { status, query, items, fuzzy } ──
+  function search(q, io){
+    var nq = normQuery(q), tokens = tokensOf(q);
+    var f = (io && io.fetchJson) || fetchJson, sig = io && io.signal;
+    if (letterCount(nq) < C.MIN_CHARS) return Promise.resolve({ status: 'idle', query: nq, items: [] });
+    var gUrl = C.NDC + '?search=' + luceneFor('generic_name', tokens) + '&count=generic_name.exact&limit=30';
+    var bUrl = C.NDC + '?search=' + luceneFor('brand_name', tokens) + '&count=brand_name.exact&limit=30';
+    return Promise.all([settle(f(gUrl, sig)), settle(f(bUrl, sig))]).then(function(rs){
+      if (abortedIn(rs)) throw mkErr('abort');
+      var generics = rs[0].ok ? dedupeTerms(rs[0].value.results, tokens) : [];
+      var brandsRaw = rs[1].ok ? dedupeTerms(rs[1].value.results, tokens) : [];
+      var gKeys = generics.map(function(g){ return g.key; });
+      // 只有「不是學名寫法」的 brand_name 才當商品名（排除 brand_name 欄位填學名或「學名+劑型」者）
+      var brands = brandsRaw.filter(function(b){
+        return !gKeys.some(function(k){ return b.key === k || b.key.indexOf(k + ' ') === 0; });
+      });
+      var items = generics.map(function(g){
+        var kind = classify(g.term);
+        return { name: g.term, kind: kind, label: KIND_LABEL[kind], source: 'openfda-ndc', count: g.count,
+                 genericName: g.term, brandName: null, rxcui: null, fuzzy: false };
+      });
+      var pairs = brands.slice(0, C.BRAND_PAIR_MAX).map(function(b){
+        var url = C.NDC + '?search=brand_name.exact:"' + encodeURIComponent(b.term.replace(/"/g, '')) +
+                  '"&count=generic_name.exact&limit=5';
+        return settle(f(url, sig));
+      });
+      return Promise.all(pairs).then(function(prs){
+        if (abortedIn(prs)) throw mkErr('abort');
+        brands.forEach(function(b, i){
+          var gen = (prs[i] && prs[i].ok) ? dedupeTerms(prs[i].value.results, null) : [];
+          var of = gen.slice(0, 2).map(function(x){ return x.term; }).join(' / ') + (gen.length > 2 ? ' …' : '');
+          var combo = gen.some(function(x){ return isCombo(x.term); }) || gen.length > 1;
+          items.push({ name: b.term, kind: 'brand', source: 'openfda-ndc', count: b.count,
+                       label: 'Brand' + (of ? ' (' + of + ')' : '') + (combo ? ' · 複方/多成分' : ''),
+                       genericName: of || null, brandName: b.term, rxcui: null, fuzzy: false });
+        });
+        var exact = dedupeKey(nq);
+        var rank = { generic: 1, salt: 2, brand: 3, combo: 4 };
+        items.sort(function(a, b){
+          var ea = dedupeKey(a.name) === exact ? 0 : 1, eb = dedupeKey(b.name) === exact ? 0 : 1;
+          if (ea !== eb) return ea - eb;
+          if (rank[a.kind] !== rank[b.kind]) return rank[a.kind] - rank[b.kind];
+          var pa = dedupeKey(a.name).indexOf(exact) === 0 ? 0 : 1, pb = dedupeKey(b.name).indexOf(exact) === 0 ? 0 : 1;
+          if (pa !== pb) return pa - pb;
+          return (b.count - a.count) || (a.name < b.name ? -1 : a.name > b.name ? 1 : 0);
+        });
+        items = items.slice(0, C.MAX_ITEMS);
+        if (items.length) return { status: 'ok', query: nq, items: items, fuzzy: false };
+        var ndcErr = errTypeOf(rs);
+        return fuzzy(nq, f, sig).then(function(fz){
+          if (fz.items.length) return { status: 'ok', query: nq, items: fz.items, fuzzy: true };
+          var t = ndcErr === 'rate_limited' || fz.err === 'rate_limited' ? 'rate_limited'
+                : (ndcErr || fz.err) ? 'error' : 'empty';
+          return { status: t, query: nq, items: [], fuzzy: false };
+        });
+      });
+    });
+  }
+
+  // ── RxNorm approximateTerm：拼字補正候選（只保留成分/商品名層級 TTY）──
+  function fuzzy(nq, f, sig){
+    var url = C.RXNAV + '/approximateTerm.json?term=' + encodeURIComponent(nq) + '&maxEntries=10&option=1';
+    return settle(f(url, sig)).then(function(r){
+      if (!r.ok) { if (r.error && r.error.type === 'abort') throw r.error; return { items: [], err: r.error && r.error.type === 'rate_limited' ? 'rate_limited' : 'error' }; }
+      var cands = (r.value && r.value.approximateGroup && r.value.approximateGroup.candidate) || [];
+      var seen = {}, ids = [];
+      cands.forEach(function(c){ if (c && c.rxcui && !seen[c.rxcui]) { seen[c.rxcui] = 1; ids.push(c.rxcui); } });
+      ids = ids.slice(0, C.RX_PROPS_MAX);
+      return Promise.all(ids.map(function(id){
+        return settle(f(C.RXNAV + '/rxcui/' + encodeURIComponent(id) + '/properties.json', sig));
+      })).then(function(ps){
+        if (abortedIn(ps)) throw mkErr('abort');
+        var items = [], keys = {};
+        ps.forEach(function(p, i){
+          var pr = p.ok && p.value && p.value.properties;
+          if (!pr || !pr.name) return;
+          var tty = pr.tty;
+          if (['IN', 'PIN', 'MIN', 'BN'].indexOf(tty) < 0) return;          // 排除劑型/臨床藥品層級（SCD/SBD…）
+          var name = pr.name === pr.name.toLowerCase() ? titleCase(pr.name) : pr.name;
+          var k = dedupeKey(name); if (keys[k]) return; keys[k] = 1;
+          var kind = tty === 'BN' ? 'brand' : tty === 'MIN' ? 'combo' : classify(name);
+          items.push({ name: name, kind: kind, label: 'RxNorm 近似 · ' + KIND_LABEL[kind] + ' (' + tty + ')',
+                       source: 'rxnorm-approx', count: 0, rxcui: ids[i], fuzzy: true,
+                       genericName: kind === 'brand' ? null : name, brandName: kind === 'brand' ? name : null });
+        });
+        return { items: items.slice(0, C.MAX_ITEMS), err: null };
+      });
+    });
+  }
+
+  // ── 記憶體快取（TTL + 上限；只快取 ok/empty，錯誤不快取）──
+  function cacheGet(cache, k, now){
+    var e = cache.get(k); if (!e) return null;
+    if (now - e.t > C.CACHE_TTL_MS) { cache.delete(k); return null; }
+    return e.v;
+  }
+  function cachePut(cache, k, v, now){
+    cache.set(k, { t: now, v: v });
+    while (cache.size > C.CACHE_MAX) cache.delete(cache.keys().next().value);
+  }
+
+  // ── 查詢控制器：debounce + AbortController + 序號（只採用最新一次）+ 429 冷卻 ──
+  function createSearcher(opts){
+    opts = opts || {};
+    var fj = opts.fetchJson || fetchJson;
+    var onUpdate = opts.onUpdate || function(){};
+    var wait = opts.debounceMs === undefined ? C.DEBOUNCE_MS : opts.debounceMs;
+    var now = opts.now || function(){ return Date.now(); };
+    var st = opts.state || shared;
+    var timer = null, seq = 0, ctrl = null;
+    function cancel(){
+      clearTimeout(timer); timer = null; seq++;
+      if (ctrl) { ctrl.abort(); ctrl = null; }
+    }
+    function input(raw){
+      cancel();
+      var nq = normQuery(raw);
+      if (letterCount(nq) < C.MIN_CHARS) { onUpdate({ status: 'idle', query: nq, items: [] }); return; }
+      var k = dedupeKey(nq), hit = cacheGet(st.cache, k, now());
+      if (hit) { onUpdate(hit); return; }
+      if (now() < st.blockedUntil) { onUpdate({ status: 'rate_limited', query: nq, items: [] }); return; }
+      var my = seq;
+      timer = setTimeout(function(){
+        timer = null;
+        ctrl = typeof AbortController !== 'undefined' ? new AbortController() : null;
+        onUpdate({ status: 'loading', query: nq, items: [] });
+        search(nq, { fetchJson: fj, signal: ctrl ? ctrl.signal : null }).then(function(res){
+          if (my !== seq) return;                       // 舊查詢晚到：丟棄
+          ctrl = null;
+          if (res.status === 'ok' || res.status === 'empty') cachePut(st.cache, k, res, now());
+          if (res.status === 'rate_limited') st.blockedUntil = now() + C.COOLDOWN_MS;
+          onUpdate(res);
+        }, function(e){
+          if (my !== seq || (e && e.type === 'abort')) return;
+          ctrl = null;
+          onUpdate({ status: 'error', query: nq, items: [] });
+        });
+      }, wait);
+    }
+    return { input: input, cancel: cancel };
+  }
+
+  // ── 確認狀態（純函式）──
+  function stillConfirmed(sel, text){ return !!sel && sel.queryName === String(text || '').trim(); }
+  function toNameInfo(it){
+    return { displayName: it.label ? it.name + ' — ' + it.label : it.name, genericName: it.genericName || null,
+             brandName: it.brandName || null, source: it.source, rxcui: it.rxcui || null,
+             queryName: it.name, kind: it.kind, verified: true };
+  }
+  function manualInfo(text, confirmed){
+    var t = String(text || '').trim();
+    return { displayName: t, genericName: null, brandName: null, source: 'manual', rxcui: null,
+             queryName: t, kind: 'manual', verified: false, manualConfirmed: !!confirmed };
+  }
+  // rows: [{ name, sel, manualConfirmed }] → 尚未確認（未選取且未手動確認）的藥名
+  function unconfirmedNames(rows){
+    return (rows || []).filter(function(r){
+      return r.name && !stillConfirmed(r.sel, r.name) && !r.manualConfirmed;
+    }).map(function(r){ return r.name; });
+  }
+
+  // ── DOM 綁定（每列一個）──
+  function attach(inp, ui){
+    var dd = ui.dropdown, stEl = ui.status, onChange = ui.onChange || function(){};
+    var s = { sel: null, manual: false, nodes: [], active: -1 };
+    var searcher = createSearcher({ onUpdate: render });
+    inp.setAttribute('role', 'combobox');
+    inp.setAttribute('aria-autocomplete', 'list');
+    inp.setAttribute('aria-expanded', 'false');
+
+    function setStatus(text, cls){ stEl.textContent = text || ''; stEl.className = 'ds-status' + (cls ? ' ' + cls : ''); }
+    function baseStatus(){
+      var v = inp.value.trim();
+      if (s.sel && stillConfirmed(s.sel, v)) setStatus('✓ 已確認：' + s.sel.displayName + '（' + SOURCE_LABEL[s.sel.source] + '）', 'ok');
+      else if (v && s.manual) setStatus('手動輸入（已確認以原文字查詢 FAERS，未經建議清單驗證）', 'warn');
+      else if (v) setStatus('未驗證藥名（未從建議清單選取）', 'warn');
+      else setStatus('');
+    }
+    function close(){ dd.hidden = true; dd.textContent = ''; s.nodes = []; s.active = -1; inp.setAttribute('aria-expanded', 'false'); }
+    function setActive(i){
+      s.active = i;
+      s.nodes.forEach(function(n, j){ n.el.classList.toggle('active', j === i); if (j === i) n.el.scrollIntoView({ block: 'nearest' }); });
+    }
+    function addOption(el, act){
+      el.setAttribute('role', 'option');
+      el.addEventListener('mousedown', function(e){ e.preventDefault(); act(); });
+      dd.appendChild(el); s.nodes.push({ el: el, act: act });
+    }
+    function note(text){ var d = document.createElement('div'); d.className = 'pt-fdahint'; d.textContent = text; dd.appendChild(d); }
+    function choose(it){
+      inp.value = it.name; s.sel = toNameInfo(it); s.manual = false;
+      close(); baseStatus(); onChange();
+    }
+    function chooseManual(){ s.sel = null; s.manual = true; close(); baseStatus(); onChange(); }
+    function render(res){
+      if (res.status === 'idle') { close(); baseStatus(); return; }
+      if (res.status === 'loading') { setStatus(MSG.loading); return; }
+      if (document.activeElement !== inp) { baseStatus(); return; }   // 已離開欄位：不彈出
+      close();
+      if (res.fuzzy) note(MSG.fuzzy);
+      res.items.forEach(function(it){
+        var div = document.createElement('div'); div.className = 'pt-item';
+        var l = document.createElement('span'); l.textContent = it.name;
+        var r = document.createElement('span'); r.className = 'pt-soc ms-auto'; r.textContent = it.label;
+        div.appendChild(l); div.appendChild(r);
+        addOption(div, function(){ choose(it); });
+      });
+      if (!res.items.length) note(MSG[res.status] || MSG.empty);
+      var m = document.createElement('div'); m.className = 'pt-item ds-manual';
+      m.textContent = '以手動輸入「' + inp.value.trim() + '」繼續（未驗證）';
+      addOption(m, chooseManual);
+      dd.hidden = false; inp.setAttribute('aria-expanded', 'true');
+      if (res.items.length) setStatus(res.items.length + ' 項建議 · ↑↓ 選擇、Enter 確認、Esc 關閉', res.fuzzy ? 'warn' : '');
+      else setStatus(MSG[res.status] || MSG.empty, 'warn');
+    }
+    inp.addEventListener('input', function(){
+      if (s.sel && !stillConfirmed(s.sel, inp.value)) s.sel = null;   // 選取後再修改 → 清除確認
+      s.manual = false;
+      baseStatus();
+      searcher.input(inp.value);
+    });
+    inp.addEventListener('keydown', function(e){
+      if (dd.hidden) { if (e.key === 'Escape') baseStatus(); return; }
+      if (e.key === 'ArrowDown') { e.preventDefault(); setActive(Math.min(s.active + 1, s.nodes.length - 1)); }
+      else if (e.key === 'ArrowUp') { e.preventDefault(); setActive(Math.max(s.active - 1, 0)); }
+      else if (e.key === 'Enter') { if (s.active >= 0) { e.preventDefault(); s.nodes[s.active].act(); } }  // 未選中不自動採用第一筆
+      else if (e.key === 'Escape') { e.preventDefault(); searcher.cancel(); close(); baseStatus(); }
+    });
+    inp.addEventListener('blur', function(){ setTimeout(function(){ searcher.cancel(); close(); baseStatus(); }, 150); });
+    baseStatus();
+
+    return {
+      nameInfo: function(){
+        var v = inp.value.trim();
+        if (s.sel && stillConfirmed(s.sel, v)) return Object.assign({}, s.sel);
+        return manualInfo(v, s.manual);
+      },
+      isConfirmed: function(){ return (!!s.sel && stillConfirmed(s.sel, inp.value)) || s.manual; },
+      confirmManual: function(){ if (!(s.sel && stillConfirmed(s.sel, inp.value))) s.manual = true; baseStatus(); },
+      destroy: function(){ searcher.cancel(); }
+    };
+  }
+
+  return {
+    CONFIG: C, MSG: MSG,
+    search: search, createSearcher: createSearcher, fetchJson: fetchJson, attach: attach,
+    classify: classify, isCombo: isCombo, dedupeTerms: dedupeTerms, dedupeKey: dedupeKey, normQuery: normQuery,
+    stillConfirmed: stillConfirmed, toNameInfo: toNameInfo, manualInfo: manualInfo, unconfirmedNames: unconfirmedNames,
+    _shared: shared
+  };
+})();
+// <drug-suggest:end>
+
 // ── 藥品列（含起始/停用/仍在用 + 時序軸連動）─────────────
 var _uidSeq = 0;
 function addDrugRow(name, start, stop){
@@ -377,7 +772,7 @@ function addDrugRow(name, start, stop){
   var row=document.createElement('div'); row.className='drug-row'; row.dataset.uid=uid;
 
   var n=document.createElement('input');
-  n.type='text'; n.className='form-control inp-name'; n.placeholder='藥名（學名或商品名）';
+  n.type='text'; n.className='form-control inp-name'; n.placeholder='藥名（學名或商品名，≥3 字母出現建議）'; n.autocomplete='off';
   if(name) n.value=name;
 
   var grp=document.createElement('div'); grp.className='date-grp';
@@ -395,7 +790,7 @@ function addDrugRow(name, start, stop){
   var del=document.createElement('button');
   del.type='button'; del.className='btn-del'; del.textContent='✕'; del.title='刪除此藥';
   del.addEventListener('click',function(){
-    if(document.querySelectorAll('.drug-row').length>1){ row.remove(); scheduleTimeline(); }
+    if(document.querySelectorAll('.drug-row').length>1){ if(row._ds) row._ds.destroy(); row.remove(); hideUnverified(); scheduleTimeline(); }
   });
 
   cb.addEventListener('change',function(){
@@ -403,7 +798,16 @@ function addDrugRow(name, start, stop){
   });
   [n,st,sp].forEach(function(el){ el.addEventListener('input', scheduleTimeline); });
 
-  row.appendChild(n); row.appendChild(grp); row.appendChild(del);
+  // 藥名欄 + autocomplete（下拉沿用 PT 搜尋器樣式；選取來源記錄於 row._ds）
+  var nw=document.createElement('div'); nw.className='name-wrap';
+  var nbox=document.createElement('div'); nbox.style.position='relative';
+  var ndd=document.createElement('div'); ndd.className='pt-dropdown'; ndd.setAttribute('role','listbox'); ndd.hidden=true;
+  var nst=document.createElement('div'); nst.className='ds-status'; nst.setAttribute('aria-live','polite');
+  nbox.appendChild(n); nbox.appendChild(ndd); nw.appendChild(nbox); nw.appendChild(nst);
+  row._ds=DrugSuggest.attach(n,{dropdown:ndd,status:nst,onChange:function(){ hideUnverified(); scheduleTimeline(); }});
+  n.addEventListener('input', hideUnverified);
+
+  row.appendChild(nw); row.appendChild(grp); row.appendChild(del);
   document.getElementById('drugRows').appendChild(row);
   scheduleTimeline();
 }
@@ -525,23 +929,42 @@ function _attachDrag(handle,mode,d,pxPerDay){
   });
 }
 
+// ── 未驗證藥名提醒 ────────────────────────────────────────
+function showUnverified(names){
+  document.getElementById('unverifiedText').textContent=
+    '下列藥名未從建議清單確認，將以輸入文字原樣查詢 FAERS（拼寫或命名差異可能使計數偏低或為 0）：'+names.join('、')+'。請核對後再確認執行。';
+  var w=document.getElementById('unverifiedWarn'); w.hidden=false; w.scrollIntoView({behavior:'smooth',block:'center'});
+}
+function hideUnverified(){ document.getElementById('unverifiedWarn').hidden=true; }
+document.getElementById('confirmUnverifiedBtn').addEventListener('click',function(){
+  document.querySelectorAll('.drug-row').forEach(function(r){ if(r._ds) r._ds.confirmManual(); });
+  hideUnverified();
+  document.getElementById('runBtn').click();
+});
+
 // ── 主查詢（純前端 async：呼叫 app.js 的 FAERSApp.analyzeADR）──
 var lastData=null, lastDrugsInput=null;
 document.getElementById('runBtn').addEventListener('click',async function(){
   clearError();
   var reaction=document.getElementById('reaction').value.trim();
   var onsetDate=document.getElementById('onsetDate').value;
-  var drugs=[];
+  var drugs=[], pending=[];
   document.querySelectorAll('.drug-row').forEach(function(r){
     var nm=r.querySelector('.inp-name').value.trim();
-    if(nm) drugs.push({
+    if(!nm) return;
+    // name＝查詢字串（使用者輸入或選定之 queryName，原樣送出）；nameInfo 僅供解讀/紀錄
+    drugs.push({
       name:nm,
       startDate:r.querySelector('.inp-start').value||null,
-      stopDate: r.querySelector('.inp-ongoing').checked ? null : (r.querySelector('.inp-stop').value||null)
+      stopDate: r.querySelector('.inp-ongoing').checked ? null : (r.querySelector('.inp-stop').value||null),
+      nameInfo: r._ds ? r._ds.nameInfo() : null
     });
+    if(r._ds && !r._ds.isConfirmed()) pending.push(nm);
   });
   if(!reaction){showError('請輸入症狀（英文 MedDRA PT）');return;}
   if(!drugs.length){showError('請至少輸入一項藥品');return;}
+  if(pending.length){ showUnverified(pending); return; }   // 未驗證藥名：須明確確認後才執行
+  hideUnverified();
 
   var btn=document.getElementById('runBtn');
   btn.disabled=true;
@@ -597,7 +1020,9 @@ function renderResults(data){
   data.results.forEach(function(r){
     var tr=mk('tr');
     tr.appendChild(cell(r.rank));
-    var td2=cell(r.drug,'td-left'); td2.style.fontWeight='500'; tr.appendChild(td2);
+    var td2=cell(r.drug,'td-left'); td2.style.fontWeight='500';
+    if(r.nameInfo && r.nameInfo.verified===false){ var uv=mk('div'); uv.className='hint'; uv.style.fontWeight='400'; uv.textContent='未驗證藥名'; td2.appendChild(uv); }
+    tr.appendChild(td2);
     tr.appendChild(cell(r.a,'num'));
 
     var rorStr=r.ror+' ('+r.rorLow+'–'+r.rorHigh+')'+(r.haldane?' †':'');
@@ -645,7 +1070,27 @@ function renderResults(data){
     document.getElementById('aldenCard').hidden=true;
   }
 
+  renderInterpretation(data.interpretation);
   document.getElementById('resultCard').scrollIntoView({behavior:'smooth',block:'start'});
+}
+
+// ── 本次分析解讀（文字由後端 generateInterpretation 規則式產生；一律 textContent，不經 innerHTML）──
+function renderInterpretation(it){
+  var blk=document.getElementById('interpBlock'), body=document.getElementById('interpBody');
+  body.textContent='';
+  if(!it || !it.sections || !it.sections.length){ blk.hidden=true; return; }
+  it.sections.forEach(function(s){
+    var sec=mk('div'); sec.className='interp-sec'+(s.key==='limits'?' limits':'');
+    var t=mk('div'); t.className='interp-title'; t.textContent=s.title; sec.appendChild(t);
+    (s.paragraphs||[]).forEach(function(p){ var el=mk('p'); el.textContent=p; sec.appendChild(el); });
+    if(s.items && s.items.length){
+      var ul=mk('ul');
+      s.items.forEach(function(x){ var li=mk('li'); li.textContent=x; ul.appendChild(li); });
+      sec.appendChild(ul);
+    }
+    body.appendChild(sec);
+  });
+  blk.hidden=false; blk.open=true;
 }
 
 // ══════════════════════════════════════════════════════════
@@ -1001,7 +1446,7 @@ document.getElementById('copyBtn').addEventListener('click',function(){
   lines.push('該症狀通報 '+m.nEvent+' 筆 / 全庫 '+m.N+' 筆（'+m.dataLag+'）');
   lines.push('排名\t藥品\ta\tROR(95%CI)\tPRR\tχ²\t訊號\t潛伏(天)\t時序權重\t綜合分數');
   lastData.results.forEach(function(r){
-    lines.push([r.rank,r.drug,r.a,
+    lines.push([r.rank,r.drug+(r.nameInfo&&r.nameInfo.verified===false?'（未驗證藥名）':''),r.a,
       r.ror+'('+r.rorLow+'-'+r.rorHigh+')',r.prr,r.chi2,
       (r.temporalWeight===0?'時序排除':(r.signal?'訊號'+r.signalBasis:r.signalBasis)),
       (r.latencyDays===null?'—':r.latencyDays),r.temporalWeight,r.composite
@@ -1010,6 +1455,9 @@ document.getElementById('copyBtn').addEventListener('click',function(){
   lines.push('');
   lines.push('† Haldane +0.5 校正（任一格為0）');
   lines.push('※ 訊號偵測≠因果；FAERS無分母，需結合臨床綜合判斷。');
+  if(lastData.interpretation && lastData.interpretation.text){
+    lines.push(''); lines.push('【本次分析解讀（規則式・探索性）】'); lines.push(lastData.interpretation.text);
+  }
   var btn=document.getElementById('copyBtn');
   navigator.clipboard.writeText(lines.join('\n')).then(function(){
     btn.textContent='已複製 ✓';

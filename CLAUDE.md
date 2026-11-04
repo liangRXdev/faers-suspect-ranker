@@ -27,10 +27,14 @@
 - 後端 `Code.gs`：所有商業邏輯（查詢、統計、時序）。前端 `Index.html`：UI 與互動。
   **不混置**：HTML 不放統計邏輯，`.gs` 不放 DOM 操作。
 - 前後端介面契約：`analyzeADR(payload)` →
-  `payload = { reaction, onsetDate, drugs:[{name, startDate, stopDate}] }`，
-  回傳 `{ success, data:{ meta, results:[...] } }` 或 `{ success:false, error }`。
+  `payload = { reaction, onsetDate, drugs:[{name, startDate, stopDate, nameInfo?}] }`，
+  回傳 `{ success, data:{ meta, results:[...], interpretation } }` 或 `{ success:false, error }`。
+  `name` 是唯一的查詢字串；`nameInfo`（autocomplete 選取紀錄）僅透傳供解讀，不得用於組查詢或統計。
   **改任一端的欄位名，必須同步改另一端**，並更新 §6 的驗證。
-- 僅依賴單一 endpoint `api.fda.gov/drug/event.json`。新增資料源前先評估是否真的必要。
+- 統計僅依賴單一 endpoint `api.fda.gov/drug/event.json`。新增資料源前先評估是否真的必要。
+  例外（僅輸入輔助、不參與統計）：藥名 autocomplete 使用 `api.fda.gov/drug/ndc.json` 與 `rxnav.nlm.nih.gov`，
+  由瀏覽器直接呼叫；程式在 HTML 的 `<drug-suggest:begin/end>` 區塊，**兩版 HTML 必須逐字相同**。
+- `generateInterpretation`（規則式解讀）在 `Code.gs` 與 `docs/app.js` 各一份，邏輯須同步；不得加入因果語言。
 - 無建置步驟（no bundler）。前端為純 vanilla JS + CDN 載入的 Bootstrap 5，可直接貼進 GAS。
 
 ## 3. GAS 專屬注意事項（踩過的坑）
@@ -89,7 +93,10 @@ grep -n "startDate\|stopDate\|onsetDate\|reaction" Code.gs Index.html
 grep -rni "api_key\s*=\|apikey\s*=\|Bearer " . || echo "no hardcoded keys"
 git log -p | grep -i "api_key" || echo "history clean"
 
-# 4) 紅線檢查：PT_DB 不可過長、機構名不可殘留
+# 4) 單元／回歸測試（零依賴，Node ≥18）
+node --test tests/*.test.js
+
+# 5) 紅線檢查：PT_DB 不可過長、機構名不可殘留
 node -e "const h=require('fs').readFileSync('Index.html','utf8');\
 console.log('PT entries:',(h.match(/{pt:'/g)||[]).length);"  # 應 < 30
 ```

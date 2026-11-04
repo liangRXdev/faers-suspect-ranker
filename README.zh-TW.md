@@ -46,6 +46,10 @@
 - **可拖曳時序軸**：甘特式視覺化各藥用藥區間 vs 症狀發生日
 - **個案因果評分**：Naranjo + WHO-UMC（全症狀）＋ **ALDEN**（SJS/TEN 專用、跨藥競爭），以時序資料智慧預填
 - **症狀輸入**：少量範例 PT + **OpenFDA 即時動態建議**（不內嵌完整 MedDRA 清單）
+- **藥名 Autocomplete**：openFDA Drug NDC 前綴建議（學名／商品名／鹽類／複方分開標示）＋ RxNorm 拼字補正
+  （如 `vancomycn` → Vancomycin）；不自動採用任何建議，未驗證藥名須明確確認才執行
+- **本次分析解讀**：結果表下方以規則式產生繁中解讀（訊號摘要、時序是否改變排序、固定判讀限制）；
+  不呼叫 LLM、無額外費用、不做因果宣稱
 
 ## 架構
 
@@ -108,6 +112,16 @@
 3. 執行分析 → 取得嫌疑藥排序。
 4. 點任一藥的「評分」→ 進行 Naranjo / WHO-UMC 因果評估。
 5. 若症狀為 SJS/TEN，結果區會出現「啟動 ALDEN 評估」→ 多藥 ALDEN 計分含跨藥競爭調整。
+
+> **藥名建議**輸入 3 個英文字母後出現（↑↓ / Enter / Esc）。選定名稱會**原樣**以既有三欄
+> （`generic_name` / `brand_name` / `medicinalproduct`）查詢 FAERS，不展開同義詞，因此 ROR/PRR 計算不變。
+> 兩種部署皆由瀏覽器直接呼叫 `api.fda.gov/drug/ndc.json` 與 `rxnav.nlm.nih.gov`（不帶 API key、不送病人資料）。
+
+## 測試
+
+零依賴測試（Node ≥ 18）：`node --test tests/*.test.js`
+— 涵蓋解讀規則、Autocomplete（mock API：debounce、race、429、timeout、複方/鹽類處理），以及 golden 回歸：
+ROR/PRR/χ²/時序權重不變，且 `Code.gs` 與 `docs/app.js` 的解讀輸出逐字一致。
 
 ## MedDRA 授權須知
 
