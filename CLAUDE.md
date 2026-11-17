@@ -35,6 +35,13 @@
   例外（僅輸入輔助、不參與統計）：藥名 autocomplete 使用 `api.fda.gov/drug/ndc.json` 與 `rxnav.nlm.nih.gov`，
   由瀏覽器直接呼叫；程式在 HTML 的 `<drug-suggest:begin/end>` 區塊，**兩版 HTML 必須逐字相同**。
 - `generateInterpretation`（規則式解讀）在 `Code.gs` 與 `docs/app.js` 各一份，邏輯須同步；不得加入因果語言。
+- 疑似藥比例（v2.4.0，輔助指標）：`suspectProportion(drug, reaction)` → `{ success, data:{ drug, reaction, sampled, valid,
+  suspect, interacting, concomitant, invalidRole, combo, ambiguous, unmatched, pct, lowSample, periodFrom, periodTo,
+  sampleMode, fetchedAt } }` 或 `{ success:false, error, reason }`。比對／計數／回應判定純函式（`_sp*`、
+  `computeSuspectProportion`）在兩端各一份、**邏輯須逐字同步**；前端 controller 在 HTML 的 `<sp-loader:begin/end>` 區塊，
+  **兩版 HTML 必須逐字相同**。**不得**把比例接進 `analyzeADR`、綜合分數、排序或 `generateInterpretation`。
+  規則以 `docs/methodology.md` §9 為準；改規則須同步 `tests/suspect-*.test.js` 的人工裁決案例。
+  `tests/fixtures/analyze-golden.json` 只能用 `tests/tools/gen-analyze-golden.js`（讀 bdf4360 原始碼）重產。
 - 無建置步驟（no bundler）。前端為純 vanilla JS + CDN 載入的 Bootstrap 5，可直接貼進 GAS。
 
 ## 3. GAS 專屬注意事項（踩過的坑）
