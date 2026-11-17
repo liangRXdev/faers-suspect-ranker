@@ -2,7 +2,7 @@
 
 - 分支：feat/suspect-proportion（base bdf4360）
 - 日期：2026-11-17
-- 狀態：自動化 A/B/C/D 與 live E1 完成；**G0（GAS 實機）、D4/D6/D7 手動 GAS 部分待使用者部署**
+- 狀態：自動化 A/B/C/D、live E1、Pages 手動驗收完成；PR #2 已 merge（559ed74），Pages 2.4.0 上線；**G0 功能性通過，精確冷請求耗時未量測**（見文末）
 
 ## 自動化測試
 
@@ -70,9 +70,25 @@
 
 截圖：`C:\Users\liang\AppData\Local\Temp\claude-chrome-screenshots-qAj80z\`（暫存，未入 repo）
 
-### 待使用者部署 GAS 後
+### GAS 版實機（Web App，使用者部署之 v2.4.0，2026-11-17，有 API Key）
 
-| 條件 | 狀態 |
+| 條件 | 結果 |
 |---|---|
-| G0 GAS 實機冷請求：CARBAMAZEPINE×SJS（15.3 MB）、**VANCOMYCIN×TEN（31.4 MB，最大）** | 待部署 |
-| D4/D6/D7 GAS 版實機（sidebar 420px／Web App；點擊載入、錯誤、重試、細項） | 待 G0 通過 |
+| G0 最大回應 VANCOMYCIN×TEN（Pages 實測 31.4 MB） | **通過（功能性）**：經 google.script.run 完成並回 66% (n=99)，未觸發 150s watchdog、無配額錯誤 |
+| G0 CARBAMAZEPINE×TEN | 90% (n=100) |
+| 與 Pages live 一致性 | VANCOMYCIN×TEN 細項逐欄相同：sampled 100、valid 99、S60／I5／C34、成分無法確認 1、期間 2024-04-26～2026-09-30 |
+| D6/D7 GAS 版（Web App 桌機） | 表格最後一欄「疑似藥比例」；排隊→載入→完成；細項展開正常；頁尾 v2.4.0 |
+
+**未完成／限制（明列）**：
+- **精確冷請求耗時未量測**：未確認該次是否為冷快取（CacheService 1h），只能確定在 150s 內完成。若需數字，於 GAS 編輯器執行暫時性 `g0Feasibility()`（先 `cache.remove` 再計時）。
+- 載入期間 Chrome 擴充功能截圖連續 3 次逾時（renderer 無回應約 1.5 分鐘），使用者確認頁面本身正常可操作；推測為分頁在背景時截圖受阻，未重現、未歸因於程式。
+- GAS 版錯誤／重試路徑與 sidebar（420px）寬度未實機測試（錯誤路徑由 B7、D6 自動化測試覆蓋）。
+
+## 後續：結果表免橫向捲動（2026-11-17，使用者要求）
+
+- 方案（使用者選定）：桌機版面上限 780→1000px；視窗 <1000px 時每顆藥改直式卡片（欄名取自 `data-label`，「#」顯示為「排名」）。欄位、數值與順序不變，未動任何計算。
+- 實測（Pages，本機 Chrome，同源 iframe 固定寬度）：
+  - 1040px：表格 936px＝可用寬度 936px，無橫捲；細項正常
+  - 375px：卡片 296px＝可用寬度，無橫捲、整頁無溢出；時序標籤與說明同列靠右；細項接在卡片下方、可讀
+  - 首次將切換點設 720px 時，934px 視窗下表格 897 > 855 仍需橫捲 → 改 1000px
+- GAS sidebar（420px）會套用卡片版面（同一 CSS），未實機截圖。

@@ -67,6 +67,24 @@
     .sp-grid dt{font-weight:400;}
     .sp-grid dd{margin:0;font-family:'JetBrains Mono',monospace;white-space:nowrap;}
     .sp-note{font-size:.82rem;margin:.4rem 0 .25rem;max-width:40em;}
+    /* 結果表：視窗 <1000px（表格放不下）改每顆藥一張直式卡片（欄名取自 data-label），不需左右滑動 */
+    @media (max-width:999.98px){
+      #resultTable,#resultTable tbody,#resultTable tr,#resultTable td{display:block;width:100%;}
+      #resultTable tr.hdr{display:none;}
+      #resultTable tr:not(.sp-detail):not(.hdr){border:1px solid var(--border);border-radius:var(--radius-card);margin-bottom:.6rem;padding:.2rem .7rem;background:var(--bg-card);}
+      #resultTable tr.alt td{background:transparent;}
+      #resultTable td{display:flex;justify-content:flex-end;align-items:center;gap:.5rem;text-align:right;padding:.4rem 0;border-bottom:1px dotted var(--border);}
+      #resultTable tr:not(.sp-detail) td:last-child{border-bottom:0;}
+      #resultTable td::before{content:attr(data-label);color:var(--text-muted);font-size:.78rem;text-align:left;flex:0 0 auto;white-space:nowrap;margin-right:auto;}
+      #resultTable td.td-left{font-size:.95rem;}
+      #resultTable td .hint{text-align:right;}
+      #resultTable tr.sp-detail .hint{text-align:left;}
+      #resultTable tr.sp-detail{margin:-.7rem 0 .6rem;border:1px solid var(--border);border-top:0;border-radius:0 0 var(--radius-card) var(--radius-card);background:var(--bg-card);}
+      #resultTable tr.sp-detail td{display:block;text-align:left;border-bottom:0;padding:.25rem .7rem .75rem;}
+      #resultTable tr.sp-detail td::before{content:none;}
+      .sp-detail-body{position:static;max-width:none;}
+      .sp-err{width:auto;max-width:11rem;margin:0;}
+    }
     .sp-limits{font-size:.72rem;color:var(--text-muted);padding-left:1.1rem;margin:0;max-width:40em;}
     .td-left{text-align:left!important;}
     .bsig{background:var(--danger);} .bweak{background:var(--warning);} .bnone{background:var(--text-muted);} .bexcl{background:#9AA0A6;}
@@ -182,7 +200,7 @@
   </style>
 </head>
 <body>
-<div class="container py-3" style="max-width:780px;">
+<div class="container py-3" style="max-width:1000px;">
   <h1 class="mb-1">FAERS 多重用藥 ADR 嫌疑藥排序</h1>
   <p class="hint mb-2">輸入不良反應與各藥起始日 → 反向查詢 FAERS + ROR/PRR 不相稱性 + 時序加權 → 嫌疑藥排名</p>
   <div class="static-note">
@@ -1225,9 +1243,10 @@ function renderResults(data){
     cap.style.padding='.4rem 0';cap.textContent=data.note; tbl.appendChild(cap);
   }
 
-  var hdr=mk('tr');
-  ['#','藥品','a','ROR (95% CI)','PRR','χ²(Yates)','訊號','潛伏 (天)','時序','綜合分數','因果評估','疑似藥比例']
-  .forEach(function(h){var th=mk('th');th.textContent=h;hdr.appendChild(th);});
+  var hdr=mk('tr'); hdr.className='hdr';
+  var heads=['#','藥品','a','ROR (95% CI)','PRR','χ²(Yates)','訊號','潛伏 (天)','時序','綜合分數','因果評估','疑似藥比例'];
+  heads.forEach(function(h){var th=mk('th');th.textContent=h;hdr.appendChild(th);});
+  var cardLabels=heads.map(function(h){ return h==='#'?'排名':h; });   // 窄螢幕卡片的欄名
   tbl.appendChild(hdr);
   spInit(); spCells={};
 
@@ -1279,6 +1298,7 @@ function renderResults(data){
     });
     asTd.appendChild(asBtn); tr.appendChild(asTd);
     tr.appendChild(spTd);                       // 疑似藥比例置於最後一欄：不移動既有欄位
+    for(var ci=0;ci<tr.children.length;ci++) tr.children[ci].setAttribute('data-label',cardLabels[ci]||'');
     tbl.appendChild(tr);
     tbl.appendChild(det);
   });
