@@ -1,0 +1,2139 @@
+{
+ "app": [
+  {
+   "name": "一般 2 藥",
+   "cold": {
+    "success": true,
+    "data": {
+     "meta": {
+      "reaction": "Thrombocytopenia",
+      "N": 20000000,
+      "nEvent": 80000,
+      "dataLag": "FAERS 資料約落後 3 個月以上（季更）"
+     },
+     "results": [
+      {
+       "drug": "Cefepime",
+       "nDrug": 90000,
+       "a": 1500,
+       "ror": 4.28,
+       "rorLow": 4.07,
+       "rorHigh": 4.51,
+       "prr": 4.23,
+       "chi2": 3637.7,
+       "signal": true,
+       "signalBasis": "ROR+PRR",
+       "haldane": false,
+       "latencyDays": 7,
+       "temporalWeight": 1,
+       "temporalFlag": "急性窗 (≤90d)·用藥中",
+       "temporalStatus": "on",
+       "composite": 1.454,
+       "nameInfo": null,
+       "rank": 1
+      },
+      {
+       "drug": "Vancomycin",
+       "nDrug": 120000,
+       "a": 900,
+       "ror": 1.89,
+       "rorLow": 1.77,
+       "rorHigh": 2.02,
+       "prr": 1.88,
+       "chi2": 370.3,
+       "signal": true,
+       "signalBasis": "ROR",
+       "haldane": false,
+       "latencyDays": 4,
+       "temporalWeight": 1,
+       "temporalFlag": "急性窗 (≤90d)·用藥中",
+       "temporalStatus": "on",
+       "composite": 0.637,
+       "nameInfo": null,
+       "rank": 2
+      }
+     ],
+     "interpretation": {
+      "method": "rule-based",
+      "sections": [
+       {
+        "key": "signal",
+        "title": "A. FAERS 訊號摘要",
+        "paragraphs": [
+         "症狀「Thrombocytopenia」：本次分析共納入 2 項藥品，均達到目前設定的 FAERS 不相稱性訊號門檻（a≥3，且 ROR 95% CI 下界>1，或 PRR≥2 且 χ²≥4）。",
+         "Cefepime 的探索性排序分數（綜合分數）最高（1.454），主要來自 ROR 4.28（95% CI 4.07–4.51），PRR 4.23，達訊號門檻（ROR+PRR）。排序第一僅代表優先檢視順序，不代表此藥為本次 ADR 的成因。",
+         "註：ROR（Reporting Odds Ratio，報告勝算比）反映自願通報資料中的通報比例不相稱程度，不是發生風險、相對風險，也不是個案因果機率。"
+        ],
+        "items": []
+       },
+       {
+        "key": "temporal",
+        "title": "B. 時序資訊與排序貢獻",
+        "paragraphs": [
+         "2 項藥品均於症狀出現前（或當日）開始使用（潛伏期 4–7 天），且時間權重均為 1.0，因此時序權重並未改變本次排序；此排名實際上由 ROR 大小決定。",
+         "時序分帶採本工具通用時間窗（急性窗 (≤90d)=1.0、亞急性 (91–180d)=0.6、慢性 (>180d)=0.3；停藥後另乘衰減），並非針對「Thrombocytopenia」的 ADR-specific latency，尚未依不同致病機轉評估特定潛伏期。"
+        ],
+        "items": []
+       },
+       {
+        "key": "limits",
+        "title": "C. 臨床判讀限制",
+        "paragraphs": [
+         "本結果僅用於 ADR 候選藥品優先檢視。FAERS 不相稱性訊號不等於個案因果關係；排序分數不是致病機率。仍須結合疾病、檢驗趨勢、既往用藥史、共同用藥、停藥反應與適當的因果評估工具進行獨立判讀。"
+        ],
+        "items": []
+       }
+      ],
+      "text": "A. FAERS 訊號摘要\n症狀「Thrombocytopenia」：本次分析共納入 2 項藥品，均達到目前設定的 FAERS 不相稱性訊號門檻（a≥3，且 ROR 95% CI 下界>1，或 PRR≥2 且 χ²≥4）。\nCefepime 的探索性排序分數（綜合分數）最高（1.454），主要來自 ROR 4.28（95% CI 4.07–4.51），PRR 4.23，達訊號門檻（ROR+PRR）。排序第一僅代表優先檢視順序，不代表此藥為本次 ADR 的成因。\n註：ROR（Reporting Odds Ratio，報告勝算比）反映自願通報資料中的通報比例不相稱程度，不是發生風險、相對風險，也不是個案因果機率。\n\nB. 時序資訊與排序貢獻\n2 項藥品均於症狀出現前（或當日）開始使用（潛伏期 4–7 天），且時間權重均為 1.0，因此時序權重並未改變本次排序；此排名實際上由 ROR 大小決定。\n時序分帶採本工具通用時間窗（急性窗 (≤90d)=1.0、亞急性 (91–180d)=0.6、慢性 (>180d)=0.3；停藥後另乘衰減），並非針對「Thrombocytopenia」的 ADR-specific latency，尚未依不同致病機轉評估特定潛伏期。\n\nC. 臨床判讀限制\n本結果僅用於 ADR 候選藥品優先檢視。FAERS 不相稱性訊號不等於個案因果關係；排序分數不是致病機率。仍須結合疾病、檢驗趨勢、既往用藥史、共同用藥、停藥反應與適當的因果評估工具進行獨立判讀。"
+     }
+    }
+   },
+   "hot": {
+    "success": true,
+    "data": {
+     "meta": {
+      "reaction": "Thrombocytopenia",
+      "N": 20000000,
+      "nEvent": 80000,
+      "dataLag": "FAERS 資料約落後 3 個月以上（季更）"
+     },
+     "results": [
+      {
+       "drug": "Cefepime",
+       "nDrug": 90000,
+       "a": 1500,
+       "ror": 4.28,
+       "rorLow": 4.07,
+       "rorHigh": 4.51,
+       "prr": 4.23,
+       "chi2": 3637.7,
+       "signal": true,
+       "signalBasis": "ROR+PRR",
+       "haldane": false,
+       "latencyDays": 7,
+       "temporalWeight": 1,
+       "temporalFlag": "急性窗 (≤90d)·用藥中",
+       "temporalStatus": "on",
+       "composite": 1.454,
+       "nameInfo": null,
+       "rank": 1
+      },
+      {
+       "drug": "Vancomycin",
+       "nDrug": 120000,
+       "a": 900,
+       "ror": 1.89,
+       "rorLow": 1.77,
+       "rorHigh": 2.02,
+       "prr": 1.88,
+       "chi2": 370.3,
+       "signal": true,
+       "signalBasis": "ROR",
+       "haldane": false,
+       "latencyDays": 4,
+       "temporalWeight": 1,
+       "temporalFlag": "急性窗 (≤90d)·用藥中",
+       "temporalStatus": "on",
+       "composite": 0.637,
+       "nameInfo": null,
+       "rank": 2
+      }
+     ],
+     "interpretation": {
+      "method": "rule-based",
+      "sections": [
+       {
+        "key": "signal",
+        "title": "A. FAERS 訊號摘要",
+        "paragraphs": [
+         "症狀「Thrombocytopenia」：本次分析共納入 2 項藥品，均達到目前設定的 FAERS 不相稱性訊號門檻（a≥3，且 ROR 95% CI 下界>1，或 PRR≥2 且 χ²≥4）。",
+         "Cefepime 的探索性排序分數（綜合分數）最高（1.454），主要來自 ROR 4.28（95% CI 4.07–4.51），PRR 4.23，達訊號門檻（ROR+PRR）。排序第一僅代表優先檢視順序，不代表此藥為本次 ADR 的成因。",
+         "註：ROR（Reporting Odds Ratio，報告勝算比）反映自願通報資料中的通報比例不相稱程度，不是發生風險、相對風險，也不是個案因果機率。"
+        ],
+        "items": []
+       },
+       {
+        "key": "temporal",
+        "title": "B. 時序資訊與排序貢獻",
+        "paragraphs": [
+         "2 項藥品均於症狀出現前（或當日）開始使用（潛伏期 4–7 天），且時間權重均為 1.0，因此時序權重並未改變本次排序；此排名實際上由 ROR 大小決定。",
+         "時序分帶採本工具通用時間窗（急性窗 (≤90d)=1.0、亞急性 (91–180d)=0.6、慢性 (>180d)=0.3；停藥後另乘衰減），並非針對「Thrombocytopenia」的 ADR-specific latency，尚未依不同致病機轉評估特定潛伏期。"
+        ],
+        "items": []
+       },
+       {
+        "key": "limits",
+        "title": "C. 臨床判讀限制",
+        "paragraphs": [
+         "本結果僅用於 ADR 候選藥品優先檢視。FAERS 不相稱性訊號不等於個案因果關係；排序分數不是致病機率。仍須結合疾病、檢驗趨勢、既往用藥史、共同用藥、停藥反應與適當的因果評估工具進行獨立判讀。"
+        ],
+        "items": []
+       }
+      ],
+      "text": "A. FAERS 訊號摘要\n症狀「Thrombocytopenia」：本次分析共納入 2 項藥品，均達到目前設定的 FAERS 不相稱性訊號門檻（a≥3，且 ROR 95% CI 下界>1，或 PRR≥2 且 χ²≥4）。\nCefepime 的探索性排序分數（綜合分數）最高（1.454），主要來自 ROR 4.28（95% CI 4.07–4.51），PRR 4.23，達訊號門檻（ROR+PRR）。排序第一僅代表優先檢視順序，不代表此藥為本次 ADR 的成因。\n註：ROR（Reporting Odds Ratio，報告勝算比）反映自願通報資料中的通報比例不相稱程度，不是發生風險、相對風險，也不是個案因果機率。\n\nB. 時序資訊與排序貢獻\n2 項藥品均於症狀出現前（或當日）開始使用（潛伏期 4–7 天），且時間權重均為 1.0，因此時序權重並未改變本次排序；此排名實際上由 ROR 大小決定。\n時序分帶採本工具通用時間窗（急性窗 (≤90d)=1.0、亞急性 (91–180d)=0.6、慢性 (>180d)=0.3；停藥後另乘衰減），並非針對「Thrombocytopenia」的 ADR-specific latency，尚未依不同致病機轉評估特定潛伏期。\n\nC. 臨床判讀限制\n本結果僅用於 ADR 候選藥品優先檢視。FAERS 不相稱性訊號不等於個案因果關係；排序分數不是致病機率。仍須結合疾病、檢驗趨勢、既往用藥史、共同用藥、停藥反應與適當的因果評估工具進行獨立判讀。"
+     }
+    }
+   },
+   "httpCold": 6,
+   "httpHot": 0
+  },
+  {
+   "name": "多藥含 a=0 與 ROR<1",
+   "cold": {
+    "success": true,
+    "data": {
+     "meta": {
+      "reaction": "Thrombocytopenia",
+      "N": 20000000,
+      "nEvent": 80000,
+      "dataLag": "FAERS 資料約落後 3 個月以上（季更）"
+     },
+     "results": [
+      {
+       "drug": "Cefepime",
+       "nDrug": 90000,
+       "a": 1500,
+       "ror": 4.28,
+       "rorLow": 4.07,
+       "rorHigh": 4.51,
+       "prr": 4.23,
+       "chi2": 3637.7,
+       "signal": true,
+       "signalBasis": "ROR+PRR",
+       "haldane": false,
+       "latencyDays": null,
+       "temporalWeight": 1,
+       "temporalFlag": "缺日期·未加權",
+       "temporalStatus": "missing",
+       "composite": 1.454,
+       "nameInfo": null,
+       "rank": 1
+      },
+      {
+       "drug": "Vancomycin",
+       "nDrug": 120000,
+       "a": 900,
+       "ror": 1.89,
+       "rorLow": 1.77,
+       "rorHigh": 2.02,
+       "prr": 1.88,
+       "chi2": 370.3,
+       "signal": true,
+       "signalBasis": "ROR",
+       "haldane": false,
+       "latencyDays": 221,
+       "temporalWeight": 0.03,
+       "temporalFlag": "停藥後 38d (停藥>30d)",
+       "temporalStatus": "post",
+       "composite": 0.019,
+       "nameInfo": null,
+       "rank": 2
+      },
+      {
+       "drug": "LowROR",
+       "nDrug": 400000,
+       "a": 200,
+       "ror": 0.12,
+       "rorLow": 0.11,
+       "rorHigh": 0.14,
+       "prr": 0.12,
+       "chi2": 1254.1,
+       "signal": false,
+       "signalBasis": "未達閾值",
+       "haldane": false,
+       "latencyDays": 38,
+       "temporalWeight": 1,
+       "temporalFlag": "急性窗 (≤90d)·用藥中",
+       "temporalStatus": "on",
+       "composite": 0,
+       "nameInfo": null,
+       "rank": 3
+      },
+      {
+       "drug": "Absent",
+       "nDrug": 30000,
+       "a": 0,
+       "ror": 0,
+       "rorLow": 0,
+       "rorHigh": 0.07,
+       "prr": 0,
+       "chi2": 118.7,
+       "signal": false,
+       "signalBasis": "a<3",
+       "haldane": true,
+       "latencyDays": 7,
+       "temporalWeight": 1,
+       "temporalFlag": "急性窗 (≤90d)·用藥中",
+       "temporalStatus": "on",
+       "composite": 0,
+       "nameInfo": null,
+       "rank": 4
+      }
+     ],
+     "interpretation": {
+      "method": "rule-based",
+      "sections": [
+       {
+        "key": "signal",
+        "title": "A. FAERS 訊號摘要",
+        "paragraphs": [
+         "症狀「Thrombocytopenia」：本次分析共納入 4 項藥品，其中 2 項達到目前設定的 FAERS 不相稱性訊號門檻（a≥3，且 ROR 95% CI 下界>1，或 PRR≥2 且 χ²≥4）。",
+         "Cefepime 的探索性排序分數（綜合分數）最高（1.454），主要來自 ROR 4.28（95% CI 4.07–4.51），PRR 4.23，達訊號門檻（ROR+PRR）。排序第一僅代表優先檢視順序，不代表此藥為本次 ADR 的成因。",
+         "LowROR、Absent 的 ROR ≤1（0.12、0）：FAERS 中與此症狀的通報未呈現不相稱偏高，不應視為正向訊號（亦不代表該藥與此症狀無關）。",
+         "† 表示 2×2 表含零格，已採 Haldane-Anscombe +0.5 校正，數值穩定性較低。",
+         "註：ROR（Reporting Odds Ratio，報告勝算比）反映自願通報資料中的通報比例不相稱程度，不是發生風險、相對風險，也不是個案因果機率。"
+        ],
+        "items": []
+       },
+       {
+        "key": "temporal",
+        "title": "B. 時序資訊與排序貢獻",
+        "paragraphs": [
+         "Cefepime 缺少有效日期（缺日期·未加權），時序權重以 1.0 暫計（未加權），時間關係無法充分評估，不應解讀為時間關係合理。",
+         "Vancomycin（停藥後 38d (停藥>30d)，權重 0.03） 於停藥後才出現症狀，已套用停藥後衰減係數（啟發式，未納入個別藥物半衰期）。",
+         "各藥時間權重不一致，下列藥品的綜合分數受時序權重調降：Vancomycin（權重 0.03，停藥後 38d (停藥>30d)）。",
+         "雖時間權重不同，但與僅依 ROR 排序相比，各藥順位未改變。",
+         "時序分帶採本工具通用時間窗（急性窗 (≤90d)=1.0、亞急性 (91–180d)=0.6、慢性 (>180d)=0.3；停藥後另乘衰減），並非針對「Thrombocytopenia」的 ADR-specific latency，尚未依不同致病機轉評估特定潛伏期。"
+        ],
+        "items": []
+       },
+       {
+        "key": "limits",
+        "title": "C. 臨床判讀限制",
+        "paragraphs": [
+         "本結果僅用於 ADR 候選藥品優先檢視。FAERS 不相稱性訊號不等於個案因果關係；排序分數不是致病機率。仍須結合疾病、檢驗趨勢、既往用藥史、共同用藥、停藥反應與適當的因果評估工具進行獨立判讀。"
+        ],
+        "items": []
+       }
+      ],
+      "text": "A. FAERS 訊號摘要\n症狀「Thrombocytopenia」：本次分析共納入 4 項藥品，其中 2 項達到目前設定的 FAERS 不相稱性訊號門檻（a≥3，且 ROR 95% CI 下界>1，或 PRR≥2 且 χ²≥4）。\nCefepime 的探索性排序分數（綜合分數）最高（1.454），主要來自 ROR 4.28（95% CI 4.07–4.51），PRR 4.23，達訊號門檻（ROR+PRR）。排序第一僅代表優先檢視順序，不代表此藥為本次 ADR 的成因。\nLowROR、Absent 的 ROR ≤1（0.12、0）：FAERS 中與此症狀的通報未呈現不相稱偏高，不應視為正向訊號（亦不代表該藥與此症狀無關）。\n† 表示 2×2 表含零格，已採 Haldane-Anscombe +0.5 校正，數值穩定性較低。\n註：ROR（Reporting Odds Ratio，報告勝算比）反映自願通報資料中的通報比例不相稱程度，不是發生風險、相對風險，也不是個案因果機率。\n\nB. 時序資訊與排序貢獻\nCefepime 缺少有效日期（缺日期·未加權），時序權重以 1.0 暫計（未加權），時間關係無法充分評估，不應解讀為時間關係合理。\nVancomycin（停藥後 38d (停藥>30d)，權重 0.03） 於停藥後才出現症狀，已套用停藥後衰減係數（啟發式，未納入個別藥物半衰期）。\n各藥時間權重不一致，下列藥品的綜合分數受時序權重調降：Vancomycin（權重 0.03，停藥後 38d (停藥>30d)）。\n雖時間權重不同，但與僅依 ROR 排序相比，各藥順位未改變。\n時序分帶採本工具通用時間窗（急性窗 (≤90d)=1.0、亞急性 (91–180d)=0.6、慢性 (>180d)=0.3；停藥後另乘衰減），並非針對「Thrombocytopenia」的 ADR-specific latency，尚未依不同致病機轉評估特定潛伏期。\n\nC. 臨床判讀限制\n本結果僅用於 ADR 候選藥品優先檢視。FAERS 不相稱性訊號不等於個案因果關係；排序分數不是致病機率。仍須結合疾病、檢驗趨勢、既往用藥史、共同用藥、停藥反應與適當的因果評估工具進行獨立判讀。"
+     }
+    }
+   },
+   "hot": {
+    "success": true,
+    "data": {
+     "meta": {
+      "reaction": "Thrombocytopenia",
+      "N": 20000000,
+      "nEvent": 80000,
+      "dataLag": "FAERS 資料約落後 3 個月以上（季更）"
+     },
+     "results": [
+      {
+       "drug": "Cefepime",
+       "nDrug": 90000,
+       "a": 1500,
+       "ror": 4.28,
+       "rorLow": 4.07,
+       "rorHigh": 4.51,
+       "prr": 4.23,
+       "chi2": 3637.7,
+       "signal": true,
+       "signalBasis": "ROR+PRR",
+       "haldane": false,
+       "latencyDays": null,
+       "temporalWeight": 1,
+       "temporalFlag": "缺日期·未加權",
+       "temporalStatus": "missing",
+       "composite": 1.454,
+       "nameInfo": null,
+       "rank": 1
+      },
+      {
+       "drug": "Vancomycin",
+       "nDrug": 120000,
+       "a": 900,
+       "ror": 1.89,
+       "rorLow": 1.77,
+       "rorHigh": 2.02,
+       "prr": 1.88,
+       "chi2": 370.3,
+       "signal": true,
+       "signalBasis": "ROR",
+       "haldane": false,
+       "latencyDays": 221,
+       "temporalWeight": 0.03,
+       "temporalFlag": "停藥後 38d (停藥>30d)",
+       "temporalStatus": "post",
+       "composite": 0.019,
+       "nameInfo": null,
+       "rank": 2
+      },
+      {
+       "drug": "LowROR",
+       "nDrug": 400000,
+       "a": 200,
+       "ror": 0.12,
+       "rorLow": 0.11,
+       "rorHigh": 0.14,
+       "prr": 0.12,
+       "chi2": 1254.1,
+       "signal": false,
+       "signalBasis": "未達閾值",
+       "haldane": false,
+       "latencyDays": 38,
+       "temporalWeight": 1,
+       "temporalFlag": "急性窗 (≤90d)·用藥中",
+       "temporalStatus": "on",
+       "composite": 0,
+       "nameInfo": null,
+       "rank": 3
+      },
+      {
+       "drug": "Absent",
+       "nDrug": 30000,
+       "a": 0,
+       "ror": 0,
+       "rorLow": 0,
+       "rorHigh": 0.07,
+       "prr": 0,
+       "chi2": 118.7,
+       "signal": false,
+       "signalBasis": "a<3",
+       "haldane": true,
+       "latencyDays": 7,
+       "temporalWeight": 1,
+       "temporalFlag": "急性窗 (≤90d)·用藥中",
+       "temporalStatus": "on",
+       "composite": 0,
+       "nameInfo": null,
+       "rank": 4
+      }
+     ],
+     "interpretation": {
+      "method": "rule-based",
+      "sections": [
+       {
+        "key": "signal",
+        "title": "A. FAERS 訊號摘要",
+        "paragraphs": [
+         "症狀「Thrombocytopenia」：本次分析共納入 4 項藥品，其中 2 項達到目前設定的 FAERS 不相稱性訊號門檻（a≥3，且 ROR 95% CI 下界>1，或 PRR≥2 且 χ²≥4）。",
+         "Cefepime 的探索性排序分數（綜合分數）最高（1.454），主要來自 ROR 4.28（95% CI 4.07–4.51），PRR 4.23，達訊號門檻（ROR+PRR）。排序第一僅代表優先檢視順序，不代表此藥為本次 ADR 的成因。",
+         "LowROR、Absent 的 ROR ≤1（0.12、0）：FAERS 中與此症狀的通報未呈現不相稱偏高，不應視為正向訊號（亦不代表該藥與此症狀無關）。",
+         "† 表示 2×2 表含零格，已採 Haldane-Anscombe +0.5 校正，數值穩定性較低。",
+         "註：ROR（Reporting Odds Ratio，報告勝算比）反映自願通報資料中的通報比例不相稱程度，不是發生風險、相對風險，也不是個案因果機率。"
+        ],
+        "items": []
+       },
+       {
+        "key": "temporal",
+        "title": "B. 時序資訊與排序貢獻",
+        "paragraphs": [
+         "Cefepime 缺少有效日期（缺日期·未加權），時序權重以 1.0 暫計（未加權），時間關係無法充分評估，不應解讀為時間關係合理。",
+         "Vancomycin（停藥後 38d (停藥>30d)，權重 0.03） 於停藥後才出現症狀，已套用停藥後衰減係數（啟發式，未納入個別藥物半衰期）。",
+         "各藥時間權重不一致，下列藥品的綜合分數受時序權重調降：Vancomycin（權重 0.03，停藥後 38d (停藥>30d)）。",
+         "雖時間權重不同，但與僅依 ROR 排序相比，各藥順位未改變。",
+         "時序分帶採本工具通用時間窗（急性窗 (≤90d)=1.0、亞急性 (91–180d)=0.6、慢性 (>180d)=0.3；停藥後另乘衰減），並非針對「Thrombocytopenia」的 ADR-specific latency，尚未依不同致病機轉評估特定潛伏期。"
+        ],
+        "items": []
+       },
+       {
+        "key": "limits",
+        "title": "C. 臨床判讀限制",
+        "paragraphs": [
+         "本結果僅用於 ADR 候選藥品優先檢視。FAERS 不相稱性訊號不等於個案因果關係；排序分數不是致病機率。仍須結合疾病、檢驗趨勢、既往用藥史、共同用藥、停藥反應與適當的因果評估工具進行獨立判讀。"
+        ],
+        "items": []
+       }
+      ],
+      "text": "A. FAERS 訊號摘要\n症狀「Thrombocytopenia」：本次分析共納入 4 項藥品，其中 2 項達到目前設定的 FAERS 不相稱性訊號門檻（a≥3，且 ROR 95% CI 下界>1，或 PRR≥2 且 χ²≥4）。\nCefepime 的探索性排序分數（綜合分數）最高（1.454），主要來自 ROR 4.28（95% CI 4.07–4.51），PRR 4.23，達訊號門檻（ROR+PRR）。排序第一僅代表優先檢視順序，不代表此藥為本次 ADR 的成因。\nLowROR、Absent 的 ROR ≤1（0.12、0）：FAERS 中與此症狀的通報未呈現不相稱偏高，不應視為正向訊號（亦不代表該藥與此症狀無關）。\n† 表示 2×2 表含零格，已採 Haldane-Anscombe +0.5 校正，數值穩定性較低。\n註：ROR（Reporting Odds Ratio，報告勝算比）反映自願通報資料中的通報比例不相稱程度，不是發生風險、相對風險，也不是個案因果機率。\n\nB. 時序資訊與排序貢獻\nCefepime 缺少有效日期（缺日期·未加權），時序權重以 1.0 暫計（未加權），時間關係無法充分評估，不應解讀為時間關係合理。\nVancomycin（停藥後 38d (停藥>30d)，權重 0.03） 於停藥後才出現症狀，已套用停藥後衰減係數（啟發式，未納入個別藥物半衰期）。\n各藥時間權重不一致，下列藥品的綜合分數受時序權重調降：Vancomycin（權重 0.03，停藥後 38d (停藥>30d)）。\n雖時間權重不同，但與僅依 ROR 排序相比，各藥順位未改變。\n時序分帶採本工具通用時間窗（急性窗 (≤90d)=1.0、亞急性 (91–180d)=0.6、慢性 (>180d)=0.3；停藥後另乘衰減），並非針對「Thrombocytopenia」的 ADR-specific latency，尚未依不同致病機轉評估特定潛伏期。\n\nC. 臨床判讀限制\n本結果僅用於 ADR 候選藥品優先檢視。FAERS 不相稱性訊號不等於個案因果關係；排序分數不是致病機率。仍須結合疾病、檢驗趨勢、既往用藥史、共同用藥、停藥反應與適當的因果評估工具進行獨立判讀。"
+     }
+    }
+   },
+   "httpCold": 10,
+   "httpHot": 0
+  },
+  {
+   "name": "症狀零通報",
+   "cold": {
+    "success": true,
+    "data": {
+     "meta": {
+      "reaction": "Zzz nonexistent",
+      "N": 20000000,
+      "nEvent": 0,
+      "dataLag": "FAERS 資料約落後 3 個月以上（季更）"
+     },
+     "results": [],
+     "interpretation": {
+      "method": "rule-based",
+      "sections": [
+       {
+        "key": "signal",
+        "title": "A. FAERS 訊號摘要",
+        "paragraphs": [
+         "本次分析未產生藥品結果（例如 FAERS 查無症狀「Zzz nonexistent」之通報，或未輸入藥品），因此不提供訊號摘要與排序解讀。"
+        ],
+        "items": []
+       },
+       {
+        "key": "limits",
+        "title": "C. 臨床判讀限制",
+        "paragraphs": [
+         "本結果僅用於 ADR 候選藥品優先檢視。FAERS 不相稱性訊號不等於個案因果關係；排序分數不是致病機率。仍須結合疾病、檢驗趨勢、既往用藥史、共同用藥、停藥反應與適當的因果評估工具進行獨立判讀。"
+        ],
+        "items": []
+       }
+      ],
+      "text": "A. FAERS 訊號摘要\n本次分析未產生藥品結果（例如 FAERS 查無症狀「Zzz nonexistent」之通報，或未輸入藥品），因此不提供訊號摘要與排序解讀。\n\nC. 臨床判讀限制\n本結果僅用於 ADR 候選藥品優先檢視。FAERS 不相稱性訊號不等於個案因果關係；排序分數不是致病機率。仍須結合疾病、檢驗趨勢、既往用藥史、共同用藥、停藥反應與適當的因果評估工具進行獨立判讀。"
+     },
+     "note": "FAERS 查無症狀「Zzz nonexistent」之通報（請確認為英文 MedDRA PT）"
+    }
+   },
+   "hot": {
+    "success": true,
+    "data": {
+     "meta": {
+      "reaction": "Zzz nonexistent",
+      "N": 20000000,
+      "nEvent": 0,
+      "dataLag": "FAERS 資料約落後 3 個月以上（季更）"
+     },
+     "results": [],
+     "interpretation": {
+      "method": "rule-based",
+      "sections": [
+       {
+        "key": "signal",
+        "title": "A. FAERS 訊號摘要",
+        "paragraphs": [
+         "本次分析未產生藥品結果（例如 FAERS 查無症狀「Zzz nonexistent」之通報，或未輸入藥品），因此不提供訊號摘要與排序解讀。"
+        ],
+        "items": []
+       },
+       {
+        "key": "limits",
+        "title": "C. 臨床判讀限制",
+        "paragraphs": [
+         "本結果僅用於 ADR 候選藥品優先檢視。FAERS 不相稱性訊號不等於個案因果關係；排序分數不是致病機率。仍須結合疾病、檢驗趨勢、既往用藥史、共同用藥、停藥反應與適當的因果評估工具進行獨立判讀。"
+        ],
+        "items": []
+       }
+      ],
+      "text": "A. FAERS 訊號摘要\n本次分析未產生藥品結果（例如 FAERS 查無症狀「Zzz nonexistent」之通報，或未輸入藥品），因此不提供訊號摘要與排序解讀。\n\nC. 臨床判讀限制\n本結果僅用於 ADR 候選藥品優先檢視。FAERS 不相稱性訊號不等於個案因果關係；排序分數不是致病機率。仍須結合疾病、檢驗趨勢、既往用藥史、共同用藥、停藥反應與適當的因果評估工具進行獨立判讀。"
+     },
+     "note": "FAERS 查無症狀「Zzz nonexistent」之通報（請確認為英文 MedDRA PT）"
+    }
+   },
+   "httpCold": 2,
+   "httpHot": 0
+  },
+  {
+   "name": "時序排除",
+   "cold": {
+    "success": true,
+    "data": {
+     "meta": {
+      "reaction": "Thrombocytopenia",
+      "N": 20000000,
+      "nEvent": 80000,
+      "dataLag": "FAERS 資料約落後 3 個月以上（季更）"
+     },
+     "results": [
+      {
+       "drug": "Cefepime",
+       "nDrug": 90000,
+       "a": 1500,
+       "ror": 4.28,
+       "rorLow": 4.07,
+       "rorHigh": 4.51,
+       "prr": 4.23,
+       "chi2": 3637.7,
+       "signal": true,
+       "signalBasis": "ROR+PRR",
+       "haldane": false,
+       "latencyDays": 7,
+       "temporalWeight": 1,
+       "temporalFlag": "急性窗 (≤90d)·用藥中",
+       "temporalStatus": "on",
+       "composite": 1.454,
+       "nameInfo": null,
+       "rank": 1
+      },
+      {
+       "drug": "Vancomycin",
+       "nDrug": 120000,
+       "a": 900,
+       "ror": 1.89,
+       "rorLow": 1.77,
+       "rorHigh": 2.02,
+       "prr": 1.88,
+       "chi2": 370.3,
+       "signal": true,
+       "signalBasis": "ROR",
+       "haldane": false,
+       "latencyDays": -2,
+       "temporalWeight": 0,
+       "temporalFlag": "症狀早於用藥·排除",
+       "temporalStatus": "before",
+       "composite": 0,
+       "nameInfo": null,
+       "rank": 2
+      }
+     ],
+     "interpretation": {
+      "method": "rule-based",
+      "sections": [
+       {
+        "key": "signal",
+        "title": "A. FAERS 訊號摘要",
+        "paragraphs": [
+         "症狀「Thrombocytopenia」：本次分析共納入 2 項藥品，均達到目前設定的 FAERS 不相稱性訊號門檻（a≥3，且 ROR 95% CI 下界>1，或 PRR≥2 且 χ²≥4）。",
+         "Cefepime 的探索性排序分數（綜合分數）最高（1.454），主要來自 ROR 4.28（95% CI 4.07–4.51），PRR 4.23，達訊號門檻（ROR+PRR）。排序第一僅代表優先檢視順序，不代表此藥為本次 ADR 的成因。",
+         "註：ROR（Reporting Odds Ratio，報告勝算比）反映自願通報資料中的通報比例不相稱程度，不是發生風險、相對風險，也不是個案因果機率。"
+        ],
+        "items": []
+       },
+       {
+        "key": "temporal",
+        "title": "B. 時序資訊與排序貢獻",
+        "paragraphs": [
+         "Vancomycin 的症狀日期早於開始用藥：時間順序不符合「該藥引發本次事件」的初始假設，綜合分數以權重 0 計並沉底；但不宜據此在所有臨床情境下排除該藥（例如日期記錄誤差、先前曾使用同藥或同類藥）。",
+         "各藥時間權重不一致，下列藥品的綜合分數受時序權重調降：Vancomycin（權重 0.0，症狀早於用藥·排除）。",
+         "雖時間權重不同，但與僅依 ROR 排序相比，各藥順位未改變。",
+         "時序分帶採本工具通用時間窗（急性窗 (≤90d)=1.0、亞急性 (91–180d)=0.6、慢性 (>180d)=0.3；停藥後另乘衰減），並非針對「Thrombocytopenia」的 ADR-specific latency，尚未依不同致病機轉評估特定潛伏期。"
+        ],
+        "items": []
+       },
+       {
+        "key": "limits",
+        "title": "C. 臨床判讀限制",
+        "paragraphs": [
+         "本結果僅用於 ADR 候選藥品優先檢視。FAERS 不相稱性訊號不等於個案因果關係；排序分數不是致病機率。仍須結合疾病、檢驗趨勢、既往用藥史、共同用藥、停藥反應與適當的因果評估工具進行獨立判讀。"
+        ],
+        "items": []
+       }
+      ],
+      "text": "A. FAERS 訊號摘要\n症狀「Thrombocytopenia」：本次分析共納入 2 項藥品，均達到目前設定的 FAERS 不相稱性訊號門檻（a≥3，且 ROR 95% CI 下界>1，或 PRR≥2 且 χ²≥4）。\nCefepime 的探索性排序分數（綜合分數）最高（1.454），主要來自 ROR 4.28（95% CI 4.07–4.51），PRR 4.23，達訊號門檻（ROR+PRR）。排序第一僅代表優先檢視順序，不代表此藥為本次 ADR 的成因。\n註：ROR（Reporting Odds Ratio，報告勝算比）反映自願通報資料中的通報比例不相稱程度，不是發生風險、相對風險，也不是個案因果機率。\n\nB. 時序資訊與排序貢獻\nVancomycin 的症狀日期早於開始用藥：時間順序不符合「該藥引發本次事件」的初始假設，綜合分數以權重 0 計並沉底；但不宜據此在所有臨床情境下排除該藥（例如日期記錄誤差、先前曾使用同藥或同類藥）。\n各藥時間權重不一致，下列藥品的綜合分數受時序權重調降：Vancomycin（權重 0.0，症狀早於用藥·排除）。\n雖時間權重不同，但與僅依 ROR 排序相比，各藥順位未改變。\n時序分帶採本工具通用時間窗（急性窗 (≤90d)=1.0、亞急性 (91–180d)=0.6、慢性 (>180d)=0.3；停藥後另乘衰減），並非針對「Thrombocytopenia」的 ADR-specific latency，尚未依不同致病機轉評估特定潛伏期。\n\nC. 臨床判讀限制\n本結果僅用於 ADR 候選藥品優先檢視。FAERS 不相稱性訊號不等於個案因果關係；排序分數不是致病機率。仍須結合疾病、檢驗趨勢、既往用藥史、共同用藥、停藥反應與適當的因果評估工具進行獨立判讀。"
+     }
+    }
+   },
+   "hot": {
+    "success": true,
+    "data": {
+     "meta": {
+      "reaction": "Thrombocytopenia",
+      "N": 20000000,
+      "nEvent": 80000,
+      "dataLag": "FAERS 資料約落後 3 個月以上（季更）"
+     },
+     "results": [
+      {
+       "drug": "Cefepime",
+       "nDrug": 90000,
+       "a": 1500,
+       "ror": 4.28,
+       "rorLow": 4.07,
+       "rorHigh": 4.51,
+       "prr": 4.23,
+       "chi2": 3637.7,
+       "signal": true,
+       "signalBasis": "ROR+PRR",
+       "haldane": false,
+       "latencyDays": 7,
+       "temporalWeight": 1,
+       "temporalFlag": "急性窗 (≤90d)·用藥中",
+       "temporalStatus": "on",
+       "composite": 1.454,
+       "nameInfo": null,
+       "rank": 1
+      },
+      {
+       "drug": "Vancomycin",
+       "nDrug": 120000,
+       "a": 900,
+       "ror": 1.89,
+       "rorLow": 1.77,
+       "rorHigh": 2.02,
+       "prr": 1.88,
+       "chi2": 370.3,
+       "signal": true,
+       "signalBasis": "ROR",
+       "haldane": false,
+       "latencyDays": -2,
+       "temporalWeight": 0,
+       "temporalFlag": "症狀早於用藥·排除",
+       "temporalStatus": "before",
+       "composite": 0,
+       "nameInfo": null,
+       "rank": 2
+      }
+     ],
+     "interpretation": {
+      "method": "rule-based",
+      "sections": [
+       {
+        "key": "signal",
+        "title": "A. FAERS 訊號摘要",
+        "paragraphs": [
+         "症狀「Thrombocytopenia」：本次分析共納入 2 項藥品，均達到目前設定的 FAERS 不相稱性訊號門檻（a≥3，且 ROR 95% CI 下界>1，或 PRR≥2 且 χ²≥4）。",
+         "Cefepime 的探索性排序分數（綜合分數）最高（1.454），主要來自 ROR 4.28（95% CI 4.07–4.51），PRR 4.23，達訊號門檻（ROR+PRR）。排序第一僅代表優先檢視順序，不代表此藥為本次 ADR 的成因。",
+         "註：ROR（Reporting Odds Ratio，報告勝算比）反映自願通報資料中的通報比例不相稱程度，不是發生風險、相對風險，也不是個案因果機率。"
+        ],
+        "items": []
+       },
+       {
+        "key": "temporal",
+        "title": "B. 時序資訊與排序貢獻",
+        "paragraphs": [
+         "Vancomycin 的症狀日期早於開始用藥：時間順序不符合「該藥引發本次事件」的初始假設，綜合分數以權重 0 計並沉底；但不宜據此在所有臨床情境下排除該藥（例如日期記錄誤差、先前曾使用同藥或同類藥）。",
+         "各藥時間權重不一致，下列藥品的綜合分數受時序權重調降：Vancomycin（權重 0.0，症狀早於用藥·排除）。",
+         "雖時間權重不同，但與僅依 ROR 排序相比，各藥順位未改變。",
+         "時序分帶採本工具通用時間窗（急性窗 (≤90d)=1.0、亞急性 (91–180d)=0.6、慢性 (>180d)=0.3；停藥後另乘衰減），並非針對「Thrombocytopenia」的 ADR-specific latency，尚未依不同致病機轉評估特定潛伏期。"
+        ],
+        "items": []
+       },
+       {
+        "key": "limits",
+        "title": "C. 臨床判讀限制",
+        "paragraphs": [
+         "本結果僅用於 ADR 候選藥品優先檢視。FAERS 不相稱性訊號不等於個案因果關係；排序分數不是致病機率。仍須結合疾病、檢驗趨勢、既往用藥史、共同用藥、停藥反應與適當的因果評估工具進行獨立判讀。"
+        ],
+        "items": []
+       }
+      ],
+      "text": "A. FAERS 訊號摘要\n症狀「Thrombocytopenia」：本次分析共納入 2 項藥品，均達到目前設定的 FAERS 不相稱性訊號門檻（a≥3，且 ROR 95% CI 下界>1，或 PRR≥2 且 χ²≥4）。\nCefepime 的探索性排序分數（綜合分數）最高（1.454），主要來自 ROR 4.28（95% CI 4.07–4.51），PRR 4.23，達訊號門檻（ROR+PRR）。排序第一僅代表優先檢視順序，不代表此藥為本次 ADR 的成因。\n註：ROR（Reporting Odds Ratio，報告勝算比）反映自願通報資料中的通報比例不相稱程度，不是發生風險、相對風險，也不是個案因果機率。\n\nB. 時序資訊與排序貢獻\nVancomycin 的症狀日期早於開始用藥：時間順序不符合「該藥引發本次事件」的初始假設，綜合分數以權重 0 計並沉底；但不宜據此在所有臨床情境下排除該藥（例如日期記錄誤差、先前曾使用同藥或同類藥）。\n各藥時間權重不一致，下列藥品的綜合分數受時序權重調降：Vancomycin（權重 0.0，症狀早於用藥·排除）。\n雖時間權重不同，但與僅依 ROR 排序相比，各藥順位未改變。\n時序分帶採本工具通用時間窗（急性窗 (≤90d)=1.0、亞急性 (91–180d)=0.6、慢性 (>180d)=0.3；停藥後另乘衰減），並非針對「Thrombocytopenia」的 ADR-specific latency，尚未依不同致病機轉評估特定潛伏期。\n\nC. 臨床判讀限制\n本結果僅用於 ADR 候選藥品優先檢視。FAERS 不相稱性訊號不等於個案因果關係；排序分數不是致病機率。仍須結合疾病、檢驗趨勢、既往用藥史、共同用藥、停藥反應與適當的因果評估工具進行獨立判讀。"
+     }
+    }
+   },
+   "httpCold": 6,
+   "httpHot": 0
+  },
+  {
+   "name": "時序排除者與零分藥同分（須沉底）",
+   "cold": {
+    "success": true,
+    "data": {
+     "meta": {
+      "reaction": "Thrombocytopenia",
+      "N": 20000000,
+      "nEvent": 80000,
+      "dataLag": "FAERS 資料約落後 3 個月以上（季更）"
+     },
+     "results": [
+      {
+       "drug": "LowROR",
+       "nDrug": 400000,
+       "a": 200,
+       "ror": 0.12,
+       "rorLow": 0.11,
+       "rorHigh": 0.14,
+       "prr": 0.12,
+       "chi2": 1254.1,
+       "signal": false,
+       "signalBasis": "未達閾值",
+       "haldane": false,
+       "latencyDays": 7,
+       "temporalWeight": 1,
+       "temporalFlag": "急性窗 (≤90d)·用藥中",
+       "temporalStatus": "on",
+       "composite": 0,
+       "nameInfo": null,
+       "rank": 1
+      },
+      {
+       "drug": "Vancomycin",
+       "nDrug": 120000,
+       "a": 900,
+       "ror": 1.89,
+       "rorLow": 1.77,
+       "rorHigh": 2.02,
+       "prr": 1.88,
+       "chi2": 370.3,
+       "signal": true,
+       "signalBasis": "ROR",
+       "haldane": false,
+       "latencyDays": -2,
+       "temporalWeight": 0,
+       "temporalFlag": "症狀早於用藥·排除",
+       "temporalStatus": "before",
+       "composite": 0,
+       "nameInfo": null,
+       "rank": 2
+      }
+     ],
+     "interpretation": {
+      "method": "rule-based",
+      "sections": [
+       {
+        "key": "signal",
+        "title": "A. FAERS 訊號摘要",
+        "paragraphs": [
+         "症狀「Thrombocytopenia」：本次分析共納入 2 項藥品，其中 1 項達到目前設定的 FAERS 不相稱性訊號門檻（a≥3，且 ROR 95% CI 下界>1，或 PRR≥2 且 χ²≥4）。",
+         "所有藥品的綜合分數皆為 0（ROR≤1 或時序權重為 0），本次排序不具鑑別資訊；表格順位僅反映同分時的輸入順序。",
+         "LowROR 的 ROR ≤1（0.12）：FAERS 中與此症狀的通報未呈現不相稱偏高，不應視為正向訊號（亦不代表該藥與此症狀無關）。",
+         "註：ROR（Reporting Odds Ratio，報告勝算比）反映自願通報資料中的通報比例不相稱程度，不是發生風險、相對風險，也不是個案因果機率。"
+        ],
+        "items": []
+       },
+       {
+        "key": "temporal",
+        "title": "B. 時序資訊與排序貢獻",
+        "paragraphs": [
+         "Vancomycin 的症狀日期早於開始用藥：時間順序不符合「該藥引發本次事件」的初始假設，綜合分數以權重 0 計並沉底；但不宜據此在所有臨床情境下排除該藥（例如日期記錄誤差、先前曾使用同藥或同類藥）。",
+         "各藥時間權重不一致，下列藥品的綜合分數受時序權重調降：Vancomycin（權重 0.0，症狀早於用藥·排除）。",
+         "與僅依 ROR 排序（同一候選集合；ROR 同分依 95% CI 下界、再依綜合排序順位）相比，下列藥品順位不同（綜合分數同分者沿用輸入順序）：",
+         "時序分帶採本工具通用時間窗（急性窗 (≤90d)=1.0、亞急性 (91–180d)=0.6、慢性 (>180d)=0.3；停藥後另乘衰減），並非針對「Thrombocytopenia」的 ADR-specific latency，尚未依不同致病機轉評估特定潛伏期。"
+        ],
+        "items": [
+         "LowROR：ROR 排序第 2 → 綜合排序第 1",
+         "Vancomycin：ROR 排序第 1 → 綜合排序第 2"
+        ]
+       },
+       {
+        "key": "limits",
+        "title": "C. 臨床判讀限制",
+        "paragraphs": [
+         "本結果僅用於 ADR 候選藥品優先檢視。FAERS 不相稱性訊號不等於個案因果關係；排序分數不是致病機率。仍須結合疾病、檢驗趨勢、既往用藥史、共同用藥、停藥反應與適當的因果評估工具進行獨立判讀。"
+        ],
+        "items": []
+       }
+      ],
+      "text": "A. FAERS 訊號摘要\n症狀「Thrombocytopenia」：本次分析共納入 2 項藥品，其中 1 項達到目前設定的 FAERS 不相稱性訊號門檻（a≥3，且 ROR 95% CI 下界>1，或 PRR≥2 且 χ²≥4）。\n所有藥品的綜合分數皆為 0（ROR≤1 或時序權重為 0），本次排序不具鑑別資訊；表格順位僅反映同分時的輸入順序。\nLowROR 的 ROR ≤1（0.12）：FAERS 中與此症狀的通報未呈現不相稱偏高，不應視為正向訊號（亦不代表該藥與此症狀無關）。\n註：ROR（Reporting Odds Ratio，報告勝算比）反映自願通報資料中的通報比例不相稱程度，不是發生風險、相對風險，也不是個案因果機率。\n\nB. 時序資訊與排序貢獻\nVancomycin 的症狀日期早於開始用藥：時間順序不符合「該藥引發本次事件」的初始假設，綜合分數以權重 0 計並沉底；但不宜據此在所有臨床情境下排除該藥（例如日期記錄誤差、先前曾使用同藥或同類藥）。\n各藥時間權重不一致，下列藥品的綜合分數受時序權重調降：Vancomycin（權重 0.0，症狀早於用藥·排除）。\n與僅依 ROR 排序（同一候選集合；ROR 同分依 95% CI 下界、再依綜合排序順位）相比，下列藥品順位不同（綜合分數同分者沿用輸入順序）：\n時序分帶採本工具通用時間窗（急性窗 (≤90d)=1.0、亞急性 (91–180d)=0.6、慢性 (>180d)=0.3；停藥後另乘衰減），並非針對「Thrombocytopenia」的 ADR-specific latency，尚未依不同致病機轉評估特定潛伏期。\n・LowROR：ROR 排序第 2 → 綜合排序第 1\n・Vancomycin：ROR 排序第 1 → 綜合排序第 2\n\nC. 臨床判讀限制\n本結果僅用於 ADR 候選藥品優先檢視。FAERS 不相稱性訊號不等於個案因果關係；排序分數不是致病機率。仍須結合疾病、檢驗趨勢、既往用藥史、共同用藥、停藥反應與適當的因果評估工具進行獨立判讀。"
+     }
+    }
+   },
+   "hot": {
+    "success": true,
+    "data": {
+     "meta": {
+      "reaction": "Thrombocytopenia",
+      "N": 20000000,
+      "nEvent": 80000,
+      "dataLag": "FAERS 資料約落後 3 個月以上（季更）"
+     },
+     "results": [
+      {
+       "drug": "LowROR",
+       "nDrug": 400000,
+       "a": 200,
+       "ror": 0.12,
+       "rorLow": 0.11,
+       "rorHigh": 0.14,
+       "prr": 0.12,
+       "chi2": 1254.1,
+       "signal": false,
+       "signalBasis": "未達閾值",
+       "haldane": false,
+       "latencyDays": 7,
+       "temporalWeight": 1,
+       "temporalFlag": "急性窗 (≤90d)·用藥中",
+       "temporalStatus": "on",
+       "composite": 0,
+       "nameInfo": null,
+       "rank": 1
+      },
+      {
+       "drug": "Vancomycin",
+       "nDrug": 120000,
+       "a": 900,
+       "ror": 1.89,
+       "rorLow": 1.77,
+       "rorHigh": 2.02,
+       "prr": 1.88,
+       "chi2": 370.3,
+       "signal": true,
+       "signalBasis": "ROR",
+       "haldane": false,
+       "latencyDays": -2,
+       "temporalWeight": 0,
+       "temporalFlag": "症狀早於用藥·排除",
+       "temporalStatus": "before",
+       "composite": 0,
+       "nameInfo": null,
+       "rank": 2
+      }
+     ],
+     "interpretation": {
+      "method": "rule-based",
+      "sections": [
+       {
+        "key": "signal",
+        "title": "A. FAERS 訊號摘要",
+        "paragraphs": [
+         "症狀「Thrombocytopenia」：本次分析共納入 2 項藥品，其中 1 項達到目前設定的 FAERS 不相稱性訊號門檻（a≥3，且 ROR 95% CI 下界>1，或 PRR≥2 且 χ²≥4）。",
+         "所有藥品的綜合分數皆為 0（ROR≤1 或時序權重為 0），本次排序不具鑑別資訊；表格順位僅反映同分時的輸入順序。",
+         "LowROR 的 ROR ≤1（0.12）：FAERS 中與此症狀的通報未呈現不相稱偏高，不應視為正向訊號（亦不代表該藥與此症狀無關）。",
+         "註：ROR（Reporting Odds Ratio，報告勝算比）反映自願通報資料中的通報比例不相稱程度，不是發生風險、相對風險，也不是個案因果機率。"
+        ],
+        "items": []
+       },
+       {
+        "key": "temporal",
+        "title": "B. 時序資訊與排序貢獻",
+        "paragraphs": [
+         "Vancomycin 的症狀日期早於開始用藥：時間順序不符合「該藥引發本次事件」的初始假設，綜合分數以權重 0 計並沉底；但不宜據此在所有臨床情境下排除該藥（例如日期記錄誤差、先前曾使用同藥或同類藥）。",
+         "各藥時間權重不一致，下列藥品的綜合分數受時序權重調降：Vancomycin（權重 0.0，症狀早於用藥·排除）。",
+         "與僅依 ROR 排序（同一候選集合；ROR 同分依 95% CI 下界、再依綜合排序順位）相比，下列藥品順位不同（綜合分數同分者沿用輸入順序）：",
+         "時序分帶採本工具通用時間窗（急性窗 (≤90d)=1.0、亞急性 (91–180d)=0.6、慢性 (>180d)=0.3；停藥後另乘衰減），並非針對「Thrombocytopenia」的 ADR-specific latency，尚未依不同致病機轉評估特定潛伏期。"
+        ],
+        "items": [
+         "LowROR：ROR 排序第 2 → 綜合排序第 1",
+         "Vancomycin：ROR 排序第 1 → 綜合排序第 2"
+        ]
+       },
+       {
+        "key": "limits",
+        "title": "C. 臨床判讀限制",
+        "paragraphs": [
+         "本結果僅用於 ADR 候選藥品優先檢視。FAERS 不相稱性訊號不等於個案因果關係；排序分數不是致病機率。仍須結合疾病、檢驗趨勢、既往用藥史、共同用藥、停藥反應與適當的因果評估工具進行獨立判讀。"
+        ],
+        "items": []
+       }
+      ],
+      "text": "A. FAERS 訊號摘要\n症狀「Thrombocytopenia」：本次分析共納入 2 項藥品，其中 1 項達到目前設定的 FAERS 不相稱性訊號門檻（a≥3，且 ROR 95% CI 下界>1，或 PRR≥2 且 χ²≥4）。\n所有藥品的綜合分數皆為 0（ROR≤1 或時序權重為 0），本次排序不具鑑別資訊；表格順位僅反映同分時的輸入順序。\nLowROR 的 ROR ≤1（0.12）：FAERS 中與此症狀的通報未呈現不相稱偏高，不應視為正向訊號（亦不代表該藥與此症狀無關）。\n註：ROR（Reporting Odds Ratio，報告勝算比）反映自願通報資料中的通報比例不相稱程度，不是發生風險、相對風險，也不是個案因果機率。\n\nB. 時序資訊與排序貢獻\nVancomycin 的症狀日期早於開始用藥：時間順序不符合「該藥引發本次事件」的初始假設，綜合分數以權重 0 計並沉底；但不宜據此在所有臨床情境下排除該藥（例如日期記錄誤差、先前曾使用同藥或同類藥）。\n各藥時間權重不一致，下列藥品的綜合分數受時序權重調降：Vancomycin（權重 0.0，症狀早於用藥·排除）。\n與僅依 ROR 排序（同一候選集合；ROR 同分依 95% CI 下界、再依綜合排序順位）相比，下列藥品順位不同（綜合分數同分者沿用輸入順序）：\n時序分帶採本工具通用時間窗（急性窗 (≤90d)=1.0、亞急性 (91–180d)=0.6、慢性 (>180d)=0.3；停藥後另乘衰減），並非針對「Thrombocytopenia」的 ADR-specific latency，尚未依不同致病機轉評估特定潛伏期。\n・LowROR：ROR 排序第 2 → 綜合排序第 1\n・Vancomycin：ROR 排序第 1 → 綜合排序第 2\n\nC. 臨床判讀限制\n本結果僅用於 ADR 候選藥品優先檢視。FAERS 不相稱性訊號不等於個案因果關係；排序分數不是致病機率。仍須結合疾病、檢驗趨勢、既往用藥史、共同用藥、停藥反應與適當的因果評估工具進行獨立判讀。"
+     }
+    }
+   },
+   "httpCold": 6,
+   "httpHot": 0
+  },
+  {
+   "name": "同分",
+   "cold": {
+    "success": true,
+    "data": {
+     "meta": {
+      "reaction": "Thrombocytopenia",
+      "N": 20000000,
+      "nEvent": 80000,
+      "dataLag": "FAERS 資料約落後 3 個月以上（季更）"
+     },
+     "results": [
+      {
+       "drug": "TieZero",
+       "nDrug": 50000,
+       "a": 600,
+       "ror": 3.04,
+       "rorLow": 2.8,
+       "rorHigh": 3.3,
+       "prr": 3.02,
+       "chi2": 803.2,
+       "signal": true,
+       "signalBasis": "ROR+PRR",
+       "haldane": false,
+       "latencyDays": 7,
+       "temporalWeight": 1,
+       "temporalFlag": "急性窗 (≤90d)·用藥中",
+       "temporalStatus": "on",
+       "composite": 1.112,
+       "nameInfo": null,
+       "rank": 1
+      },
+      {
+       "drug": "TieOne",
+       "nDrug": 50000,
+       "a": 600,
+       "ror": 3.04,
+       "rorLow": 2.8,
+       "rorHigh": 3.3,
+       "prr": 3.02,
+       "chi2": 803.2,
+       "signal": true,
+       "signalBasis": "ROR+PRR",
+       "haldane": false,
+       "latencyDays": 7,
+       "temporalWeight": 1,
+       "temporalFlag": "急性窗 (≤90d)·用藥中",
+       "temporalStatus": "on",
+       "composite": 1.112,
+       "nameInfo": null,
+       "rank": 2
+      }
+     ],
+     "interpretation": {
+      "method": "rule-based",
+      "sections": [
+       {
+        "key": "signal",
+        "title": "A. FAERS 訊號摘要",
+        "paragraphs": [
+         "症狀「Thrombocytopenia」：本次分析共納入 2 項藥品，均達到目前設定的 FAERS 不相稱性訊號門檻（a≥3，且 ROR 95% CI 下界>1，或 PRR≥2 且 χ²≥4）。",
+         "TieZero 的探索性排序分數（綜合分數）最高（1.112），主要來自 ROR 3.04（95% CI 2.8–3.3），PRR 3.02，達訊號門檻（ROR+PRR）。排序第一僅代表優先檢視順序，不代表此藥為本次 ADR 的成因。",
+         "註：ROR（Reporting Odds Ratio，報告勝算比）反映自願通報資料中的通報比例不相稱程度，不是發生風險、相對風險，也不是個案因果機率。"
+        ],
+        "items": []
+       },
+       {
+        "key": "temporal",
+        "title": "B. 時序資訊與排序貢獻",
+        "paragraphs": [
+         "2 項藥品均於症狀出現前（或當日）開始使用（潛伏期 7–7 天），且時間權重均為 1.0，因此時序權重並未改變本次排序；此排名實際上由 ROR 大小決定。",
+         "時序分帶採本工具通用時間窗（急性窗 (≤90d)=1.0、亞急性 (91–180d)=0.6、慢性 (>180d)=0.3；停藥後另乘衰減），並非針對「Thrombocytopenia」的 ADR-specific latency，尚未依不同致病機轉評估特定潛伏期。"
+        ],
+        "items": []
+       },
+       {
+        "key": "limits",
+        "title": "C. 臨床判讀限制",
+        "paragraphs": [
+         "本結果僅用於 ADR 候選藥品優先檢視。FAERS 不相稱性訊號不等於個案因果關係；排序分數不是致病機率。仍須結合疾病、檢驗趨勢、既往用藥史、共同用藥、停藥反應與適當的因果評估工具進行獨立判讀。"
+        ],
+        "items": []
+       }
+      ],
+      "text": "A. FAERS 訊號摘要\n症狀「Thrombocytopenia」：本次分析共納入 2 項藥品，均達到目前設定的 FAERS 不相稱性訊號門檻（a≥3，且 ROR 95% CI 下界>1，或 PRR≥2 且 χ²≥4）。\nTieZero 的探索性排序分數（綜合分數）最高（1.112），主要來自 ROR 3.04（95% CI 2.8–3.3），PRR 3.02，達訊號門檻（ROR+PRR）。排序第一僅代表優先檢視順序，不代表此藥為本次 ADR 的成因。\n註：ROR（Reporting Odds Ratio，報告勝算比）反映自願通報資料中的通報比例不相稱程度，不是發生風險、相對風險，也不是個案因果機率。\n\nB. 時序資訊與排序貢獻\n2 項藥品均於症狀出現前（或當日）開始使用（潛伏期 7–7 天），且時間權重均為 1.0，因此時序權重並未改變本次排序；此排名實際上由 ROR 大小決定。\n時序分帶採本工具通用時間窗（急性窗 (≤90d)=1.0、亞急性 (91–180d)=0.6、慢性 (>180d)=0.3；停藥後另乘衰減），並非針對「Thrombocytopenia」的 ADR-specific latency，尚未依不同致病機轉評估特定潛伏期。\n\nC. 臨床判讀限制\n本結果僅用於 ADR 候選藥品優先檢視。FAERS 不相稱性訊號不等於個案因果關係；排序分數不是致病機率。仍須結合疾病、檢驗趨勢、既往用藥史、共同用藥、停藥反應與適當的因果評估工具進行獨立判讀。"
+     }
+    }
+   },
+   "hot": {
+    "success": true,
+    "data": {
+     "meta": {
+      "reaction": "Thrombocytopenia",
+      "N": 20000000,
+      "nEvent": 80000,
+      "dataLag": "FAERS 資料約落後 3 個月以上（季更）"
+     },
+     "results": [
+      {
+       "drug": "TieZero",
+       "nDrug": 50000,
+       "a": 600,
+       "ror": 3.04,
+       "rorLow": 2.8,
+       "rorHigh": 3.3,
+       "prr": 3.02,
+       "chi2": 803.2,
+       "signal": true,
+       "signalBasis": "ROR+PRR",
+       "haldane": false,
+       "latencyDays": 7,
+       "temporalWeight": 1,
+       "temporalFlag": "急性窗 (≤90d)·用藥中",
+       "temporalStatus": "on",
+       "composite": 1.112,
+       "nameInfo": null,
+       "rank": 1
+      },
+      {
+       "drug": "TieOne",
+       "nDrug": 50000,
+       "a": 600,
+       "ror": 3.04,
+       "rorLow": 2.8,
+       "rorHigh": 3.3,
+       "prr": 3.02,
+       "chi2": 803.2,
+       "signal": true,
+       "signalBasis": "ROR+PRR",
+       "haldane": false,
+       "latencyDays": 7,
+       "temporalWeight": 1,
+       "temporalFlag": "急性窗 (≤90d)·用藥中",
+       "temporalStatus": "on",
+       "composite": 1.112,
+       "nameInfo": null,
+       "rank": 2
+      }
+     ],
+     "interpretation": {
+      "method": "rule-based",
+      "sections": [
+       {
+        "key": "signal",
+        "title": "A. FAERS 訊號摘要",
+        "paragraphs": [
+         "症狀「Thrombocytopenia」：本次分析共納入 2 項藥品，均達到目前設定的 FAERS 不相稱性訊號門檻（a≥3，且 ROR 95% CI 下界>1，或 PRR≥2 且 χ²≥4）。",
+         "TieZero 的探索性排序分數（綜合分數）最高（1.112），主要來自 ROR 3.04（95% CI 2.8–3.3），PRR 3.02，達訊號門檻（ROR+PRR）。排序第一僅代表優先檢視順序，不代表此藥為本次 ADR 的成因。",
+         "註：ROR（Reporting Odds Ratio，報告勝算比）反映自願通報資料中的通報比例不相稱程度，不是發生風險、相對風險，也不是個案因果機率。"
+        ],
+        "items": []
+       },
+       {
+        "key": "temporal",
+        "title": "B. 時序資訊與排序貢獻",
+        "paragraphs": [
+         "2 項藥品均於症狀出現前（或當日）開始使用（潛伏期 7–7 天），且時間權重均為 1.0，因此時序權重並未改變本次排序；此排名實際上由 ROR 大小決定。",
+         "時序分帶採本工具通用時間窗（急性窗 (≤90d)=1.0、亞急性 (91–180d)=0.6、慢性 (>180d)=0.3；停藥後另乘衰減），並非針對「Thrombocytopenia」的 ADR-specific latency，尚未依不同致病機轉評估特定潛伏期。"
+        ],
+        "items": []
+       },
+       {
+        "key": "limits",
+        "title": "C. 臨床判讀限制",
+        "paragraphs": [
+         "本結果僅用於 ADR 候選藥品優先檢視。FAERS 不相稱性訊號不等於個案因果關係；排序分數不是致病機率。仍須結合疾病、檢驗趨勢、既往用藥史、共同用藥、停藥反應與適當的因果評估工具進行獨立判讀。"
+        ],
+        "items": []
+       }
+      ],
+      "text": "A. FAERS 訊號摘要\n症狀「Thrombocytopenia」：本次分析共納入 2 項藥品，均達到目前設定的 FAERS 不相稱性訊號門檻（a≥3，且 ROR 95% CI 下界>1，或 PRR≥2 且 χ²≥4）。\nTieZero 的探索性排序分數（綜合分數）最高（1.112），主要來自 ROR 3.04（95% CI 2.8–3.3），PRR 3.02，達訊號門檻（ROR+PRR）。排序第一僅代表優先檢視順序，不代表此藥為本次 ADR 的成因。\n註：ROR（Reporting Odds Ratio，報告勝算比）反映自願通報資料中的通報比例不相稱程度，不是發生風險、相對風險，也不是個案因果機率。\n\nB. 時序資訊與排序貢獻\n2 項藥品均於症狀出現前（或當日）開始使用（潛伏期 7–7 天），且時間權重均為 1.0，因此時序權重並未改變本次排序；此排名實際上由 ROR 大小決定。\n時序分帶採本工具通用時間窗（急性窗 (≤90d)=1.0、亞急性 (91–180d)=0.6、慢性 (>180d)=0.3；停藥後另乘衰減），並非針對「Thrombocytopenia」的 ADR-specific latency，尚未依不同致病機轉評估特定潛伏期。\n\nC. 臨床判讀限制\n本結果僅用於 ADR 候選藥品優先檢視。FAERS 不相稱性訊號不等於個案因果關係；排序分數不是致病機率。仍須結合疾病、檢驗趨勢、既往用藥史、共同用藥、停藥反應與適當的因果評估工具進行獨立判讀。"
+     }
+    }
+   },
+   "httpCold": 6,
+   "httpHot": 0
+  }
+ ],
+ "gas": [
+  {
+   "name": "一般 2 藥",
+   "cold": {
+    "success": true,
+    "data": {
+     "meta": {
+      "reaction": "Thrombocytopenia",
+      "N": 20000000,
+      "nEvent": 80000,
+      "dataLag": "FAERS 資料約落後 3 個月以上（季更）"
+     },
+     "results": [
+      {
+       "drug": "Cefepime",
+       "nDrug": 90000,
+       "a": 1500,
+       "ror": 4.28,
+       "rorLow": 4.07,
+       "rorHigh": 4.51,
+       "prr": 4.23,
+       "chi2": 3637.7,
+       "signal": true,
+       "signalBasis": "ROR+PRR",
+       "haldane": false,
+       "latencyDays": 7,
+       "temporalWeight": 1,
+       "temporalFlag": "急性窗 (≤90d)·用藥中",
+       "temporalStatus": "on",
+       "composite": 1.454,
+       "nameInfo": null,
+       "rank": 1
+      },
+      {
+       "drug": "Vancomycin",
+       "nDrug": 120000,
+       "a": 900,
+       "ror": 1.89,
+       "rorLow": 1.77,
+       "rorHigh": 2.02,
+       "prr": 1.88,
+       "chi2": 370.3,
+       "signal": true,
+       "signalBasis": "ROR",
+       "haldane": false,
+       "latencyDays": 4,
+       "temporalWeight": 1,
+       "temporalFlag": "急性窗 (≤90d)·用藥中",
+       "temporalStatus": "on",
+       "composite": 0.637,
+       "nameInfo": null,
+       "rank": 2
+      }
+     ],
+     "interpretation": {
+      "method": "rule-based",
+      "sections": [
+       {
+        "key": "signal",
+        "title": "A. FAERS 訊號摘要",
+        "paragraphs": [
+         "症狀「Thrombocytopenia」：本次分析共納入 2 項藥品，均達到目前設定的 FAERS 不相稱性訊號門檻（a≥3，且 ROR 95% CI 下界>1，或 PRR≥2 且 χ²≥4）。",
+         "Cefepime 的探索性排序分數（綜合分數）最高（1.454），主要來自 ROR 4.28（95% CI 4.07–4.51），PRR 4.23，達訊號門檻（ROR+PRR）。排序第一僅代表優先檢視順序，不代表此藥為本次 ADR 的成因。",
+         "註：ROR（Reporting Odds Ratio，報告勝算比）反映自願通報資料中的通報比例不相稱程度，不是發生風險、相對風險，也不是個案因果機率。"
+        ],
+        "items": []
+       },
+       {
+        "key": "temporal",
+        "title": "B. 時序資訊與排序貢獻",
+        "paragraphs": [
+         "2 項藥品均於症狀出現前（或當日）開始使用（潛伏期 4–7 天），且時間權重均為 1.0，因此時序權重並未改變本次排序；此排名實際上由 ROR 大小決定。",
+         "時序分帶採本工具通用時間窗（急性窗 (≤90d)=1.0、亞急性 (91–180d)=0.6、慢性 (>180d)=0.3；停藥後另乘衰減），並非針對「Thrombocytopenia」的 ADR-specific latency，尚未依不同致病機轉評估特定潛伏期。"
+        ],
+        "items": []
+       },
+       {
+        "key": "limits",
+        "title": "C. 臨床判讀限制",
+        "paragraphs": [
+         "本結果僅用於 ADR 候選藥品優先檢視。FAERS 不相稱性訊號不等於個案因果關係；排序分數不是致病機率。仍須結合疾病、檢驗趨勢、既往用藥史、共同用藥、停藥反應與適當的因果評估工具進行獨立判讀。"
+        ],
+        "items": []
+       }
+      ],
+      "text": "A. FAERS 訊號摘要\n症狀「Thrombocytopenia」：本次分析共納入 2 項藥品，均達到目前設定的 FAERS 不相稱性訊號門檻（a≥3，且 ROR 95% CI 下界>1，或 PRR≥2 且 χ²≥4）。\nCefepime 的探索性排序分數（綜合分數）最高（1.454），主要來自 ROR 4.28（95% CI 4.07–4.51），PRR 4.23，達訊號門檻（ROR+PRR）。排序第一僅代表優先檢視順序，不代表此藥為本次 ADR 的成因。\n註：ROR（Reporting Odds Ratio，報告勝算比）反映自願通報資料中的通報比例不相稱程度，不是發生風險、相對風險，也不是個案因果機率。\n\nB. 時序資訊與排序貢獻\n2 項藥品均於症狀出現前（或當日）開始使用（潛伏期 4–7 天），且時間權重均為 1.0，因此時序權重並未改變本次排序；此排名實際上由 ROR 大小決定。\n時序分帶採本工具通用時間窗（急性窗 (≤90d)=1.0、亞急性 (91–180d)=0.6、慢性 (>180d)=0.3；停藥後另乘衰減），並非針對「Thrombocytopenia」的 ADR-specific latency，尚未依不同致病機轉評估特定潛伏期。\n\nC. 臨床判讀限制\n本結果僅用於 ADR 候選藥品優先檢視。FAERS 不相稱性訊號不等於個案因果關係；排序分數不是致病機率。仍須結合疾病、檢驗趨勢、既往用藥史、共同用藥、停藥反應與適當的因果評估工具進行獨立判讀。"
+     }
+    }
+   },
+   "hot": {
+    "success": true,
+    "data": {
+     "meta": {
+      "reaction": "Thrombocytopenia",
+      "N": 20000000,
+      "nEvent": 80000,
+      "dataLag": "FAERS 資料約落後 3 個月以上（季更）"
+     },
+     "results": [
+      {
+       "drug": "Cefepime",
+       "nDrug": 90000,
+       "a": 1500,
+       "ror": 4.28,
+       "rorLow": 4.07,
+       "rorHigh": 4.51,
+       "prr": 4.23,
+       "chi2": 3637.7,
+       "signal": true,
+       "signalBasis": "ROR+PRR",
+       "haldane": false,
+       "latencyDays": 7,
+       "temporalWeight": 1,
+       "temporalFlag": "急性窗 (≤90d)·用藥中",
+       "temporalStatus": "on",
+       "composite": 1.454,
+       "nameInfo": null,
+       "rank": 1
+      },
+      {
+       "drug": "Vancomycin",
+       "nDrug": 120000,
+       "a": 900,
+       "ror": 1.89,
+       "rorLow": 1.77,
+       "rorHigh": 2.02,
+       "prr": 1.88,
+       "chi2": 370.3,
+       "signal": true,
+       "signalBasis": "ROR",
+       "haldane": false,
+       "latencyDays": 4,
+       "temporalWeight": 1,
+       "temporalFlag": "急性窗 (≤90d)·用藥中",
+       "temporalStatus": "on",
+       "composite": 0.637,
+       "nameInfo": null,
+       "rank": 2
+      }
+     ],
+     "interpretation": {
+      "method": "rule-based",
+      "sections": [
+       {
+        "key": "signal",
+        "title": "A. FAERS 訊號摘要",
+        "paragraphs": [
+         "症狀「Thrombocytopenia」：本次分析共納入 2 項藥品，均達到目前設定的 FAERS 不相稱性訊號門檻（a≥3，且 ROR 95% CI 下界>1，或 PRR≥2 且 χ²≥4）。",
+         "Cefepime 的探索性排序分數（綜合分數）最高（1.454），主要來自 ROR 4.28（95% CI 4.07–4.51），PRR 4.23，達訊號門檻（ROR+PRR）。排序第一僅代表優先檢視順序，不代表此藥為本次 ADR 的成因。",
+         "註：ROR（Reporting Odds Ratio，報告勝算比）反映自願通報資料中的通報比例不相稱程度，不是發生風險、相對風險，也不是個案因果機率。"
+        ],
+        "items": []
+       },
+       {
+        "key": "temporal",
+        "title": "B. 時序資訊與排序貢獻",
+        "paragraphs": [
+         "2 項藥品均於症狀出現前（或當日）開始使用（潛伏期 4–7 天），且時間權重均為 1.0，因此時序權重並未改變本次排序；此排名實際上由 ROR 大小決定。",
+         "時序分帶採本工具通用時間窗（急性窗 (≤90d)=1.0、亞急性 (91–180d)=0.6、慢性 (>180d)=0.3；停藥後另乘衰減），並非針對「Thrombocytopenia」的 ADR-specific latency，尚未依不同致病機轉評估特定潛伏期。"
+        ],
+        "items": []
+       },
+       {
+        "key": "limits",
+        "title": "C. 臨床判讀限制",
+        "paragraphs": [
+         "本結果僅用於 ADR 候選藥品優先檢視。FAERS 不相稱性訊號不等於個案因果關係；排序分數不是致病機率。仍須結合疾病、檢驗趨勢、既往用藥史、共同用藥、停藥反應與適當的因果評估工具進行獨立判讀。"
+        ],
+        "items": []
+       }
+      ],
+      "text": "A. FAERS 訊號摘要\n症狀「Thrombocytopenia」：本次分析共納入 2 項藥品，均達到目前設定的 FAERS 不相稱性訊號門檻（a≥3，且 ROR 95% CI 下界>1，或 PRR≥2 且 χ²≥4）。\nCefepime 的探索性排序分數（綜合分數）最高（1.454），主要來自 ROR 4.28（95% CI 4.07–4.51），PRR 4.23，達訊號門檻（ROR+PRR）。排序第一僅代表優先檢視順序，不代表此藥為本次 ADR 的成因。\n註：ROR（Reporting Odds Ratio，報告勝算比）反映自願通報資料中的通報比例不相稱程度，不是發生風險、相對風險，也不是個案因果機率。\n\nB. 時序資訊與排序貢獻\n2 項藥品均於症狀出現前（或當日）開始使用（潛伏期 4–7 天），且時間權重均為 1.0，因此時序權重並未改變本次排序；此排名實際上由 ROR 大小決定。\n時序分帶採本工具通用時間窗（急性窗 (≤90d)=1.0、亞急性 (91–180d)=0.6、慢性 (>180d)=0.3；停藥後另乘衰減），並非針對「Thrombocytopenia」的 ADR-specific latency，尚未依不同致病機轉評估特定潛伏期。\n\nC. 臨床判讀限制\n本結果僅用於 ADR 候選藥品優先檢視。FAERS 不相稱性訊號不等於個案因果關係；排序分數不是致病機率。仍須結合疾病、檢驗趨勢、既往用藥史、共同用藥、停藥反應與適當的因果評估工具進行獨立判讀。"
+     }
+    }
+   },
+   "httpCold": 6,
+   "httpHot": 0
+  },
+  {
+   "name": "多藥含 a=0 與 ROR<1",
+   "cold": {
+    "success": true,
+    "data": {
+     "meta": {
+      "reaction": "Thrombocytopenia",
+      "N": 20000000,
+      "nEvent": 80000,
+      "dataLag": "FAERS 資料約落後 3 個月以上（季更）"
+     },
+     "results": [
+      {
+       "drug": "Cefepime",
+       "nDrug": 90000,
+       "a": 1500,
+       "ror": 4.28,
+       "rorLow": 4.07,
+       "rorHigh": 4.51,
+       "prr": 4.23,
+       "chi2": 3637.7,
+       "signal": true,
+       "signalBasis": "ROR+PRR",
+       "haldane": false,
+       "latencyDays": null,
+       "temporalWeight": 1,
+       "temporalFlag": "缺日期·未加權",
+       "temporalStatus": "missing",
+       "composite": 1.454,
+       "nameInfo": null,
+       "rank": 1
+      },
+      {
+       "drug": "Vancomycin",
+       "nDrug": 120000,
+       "a": 900,
+       "ror": 1.89,
+       "rorLow": 1.77,
+       "rorHigh": 2.02,
+       "prr": 1.88,
+       "chi2": 370.3,
+       "signal": true,
+       "signalBasis": "ROR",
+       "haldane": false,
+       "latencyDays": 221,
+       "temporalWeight": 0.03,
+       "temporalFlag": "停藥後 38d (停藥>30d)",
+       "temporalStatus": "post",
+       "composite": 0.019,
+       "nameInfo": null,
+       "rank": 2
+      },
+      {
+       "drug": "LowROR",
+       "nDrug": 400000,
+       "a": 200,
+       "ror": 0.12,
+       "rorLow": 0.11,
+       "rorHigh": 0.14,
+       "prr": 0.12,
+       "chi2": 1254.1,
+       "signal": false,
+       "signalBasis": "未達閾值",
+       "haldane": false,
+       "latencyDays": 38,
+       "temporalWeight": 1,
+       "temporalFlag": "急性窗 (≤90d)·用藥中",
+       "temporalStatus": "on",
+       "composite": 0,
+       "nameInfo": null,
+       "rank": 3
+      },
+      {
+       "drug": "Absent",
+       "nDrug": 30000,
+       "a": 0,
+       "ror": 0,
+       "rorLow": 0,
+       "rorHigh": 0.07,
+       "prr": 0,
+       "chi2": 118.7,
+       "signal": false,
+       "signalBasis": "a<3",
+       "haldane": true,
+       "latencyDays": 7,
+       "temporalWeight": 1,
+       "temporalFlag": "急性窗 (≤90d)·用藥中",
+       "temporalStatus": "on",
+       "composite": 0,
+       "nameInfo": null,
+       "rank": 4
+      }
+     ],
+     "interpretation": {
+      "method": "rule-based",
+      "sections": [
+       {
+        "key": "signal",
+        "title": "A. FAERS 訊號摘要",
+        "paragraphs": [
+         "症狀「Thrombocytopenia」：本次分析共納入 4 項藥品，其中 2 項達到目前設定的 FAERS 不相稱性訊號門檻（a≥3，且 ROR 95% CI 下界>1，或 PRR≥2 且 χ²≥4）。",
+         "Cefepime 的探索性排序分數（綜合分數）最高（1.454），主要來自 ROR 4.28（95% CI 4.07–4.51），PRR 4.23，達訊號門檻（ROR+PRR）。排序第一僅代表優先檢視順序，不代表此藥為本次 ADR 的成因。",
+         "LowROR、Absent 的 ROR ≤1（0.12、0）：FAERS 中與此症狀的通報未呈現不相稱偏高，不應視為正向訊號（亦不代表該藥與此症狀無關）。",
+         "† 表示 2×2 表含零格，已採 Haldane-Anscombe +0.5 校正，數值穩定性較低。",
+         "註：ROR（Reporting Odds Ratio，報告勝算比）反映自願通報資料中的通報比例不相稱程度，不是發生風險、相對風險，也不是個案因果機率。"
+        ],
+        "items": []
+       },
+       {
+        "key": "temporal",
+        "title": "B. 時序資訊與排序貢獻",
+        "paragraphs": [
+         "Cefepime 缺少有效日期（缺日期·未加權），時序權重以 1.0 暫計（未加權），時間關係無法充分評估，不應解讀為時間關係合理。",
+         "Vancomycin（停藥後 38d (停藥>30d)，權重 0.03） 於停藥後才出現症狀，已套用停藥後衰減係數（啟發式，未納入個別藥物半衰期）。",
+         "各藥時間權重不一致，下列藥品的綜合分數受時序權重調降：Vancomycin（權重 0.03，停藥後 38d (停藥>30d)）。",
+         "雖時間權重不同，但與僅依 ROR 排序相比，各藥順位未改變。",
+         "時序分帶採本工具通用時間窗（急性窗 (≤90d)=1.0、亞急性 (91–180d)=0.6、慢性 (>180d)=0.3；停藥後另乘衰減），並非針對「Thrombocytopenia」的 ADR-specific latency，尚未依不同致病機轉評估特定潛伏期。"
+        ],
+        "items": []
+       },
+       {
+        "key": "limits",
+        "title": "C. 臨床判讀限制",
+        "paragraphs": [
+         "本結果僅用於 ADR 候選藥品優先檢視。FAERS 不相稱性訊號不等於個案因果關係；排序分數不是致病機率。仍須結合疾病、檢驗趨勢、既往用藥史、共同用藥、停藥反應與適當的因果評估工具進行獨立判讀。"
+        ],
+        "items": []
+       }
+      ],
+      "text": "A. FAERS 訊號摘要\n症狀「Thrombocytopenia」：本次分析共納入 4 項藥品，其中 2 項達到目前設定的 FAERS 不相稱性訊號門檻（a≥3，且 ROR 95% CI 下界>1，或 PRR≥2 且 χ²≥4）。\nCefepime 的探索性排序分數（綜合分數）最高（1.454），主要來自 ROR 4.28（95% CI 4.07–4.51），PRR 4.23，達訊號門檻（ROR+PRR）。排序第一僅代表優先檢視順序，不代表此藥為本次 ADR 的成因。\nLowROR、Absent 的 ROR ≤1（0.12、0）：FAERS 中與此症狀的通報未呈現不相稱偏高，不應視為正向訊號（亦不代表該藥與此症狀無關）。\n† 表示 2×2 表含零格，已採 Haldane-Anscombe +0.5 校正，數值穩定性較低。\n註：ROR（Reporting Odds Ratio，報告勝算比）反映自願通報資料中的通報比例不相稱程度，不是發生風險、相對風險，也不是個案因果機率。\n\nB. 時序資訊與排序貢獻\nCefepime 缺少有效日期（缺日期·未加權），時序權重以 1.0 暫計（未加權），時間關係無法充分評估，不應解讀為時間關係合理。\nVancomycin（停藥後 38d (停藥>30d)，權重 0.03） 於停藥後才出現症狀，已套用停藥後衰減係數（啟發式，未納入個別藥物半衰期）。\n各藥時間權重不一致，下列藥品的綜合分數受時序權重調降：Vancomycin（權重 0.03，停藥後 38d (停藥>30d)）。\n雖時間權重不同，但與僅依 ROR 排序相比，各藥順位未改變。\n時序分帶採本工具通用時間窗（急性窗 (≤90d)=1.0、亞急性 (91–180d)=0.6、慢性 (>180d)=0.3；停藥後另乘衰減），並非針對「Thrombocytopenia」的 ADR-specific latency，尚未依不同致病機轉評估特定潛伏期。\n\nC. 臨床判讀限制\n本結果僅用於 ADR 候選藥品優先檢視。FAERS 不相稱性訊號不等於個案因果關係；排序分數不是致病機率。仍須結合疾病、檢驗趨勢、既往用藥史、共同用藥、停藥反應與適當的因果評估工具進行獨立判讀。"
+     }
+    }
+   },
+   "hot": {
+    "success": true,
+    "data": {
+     "meta": {
+      "reaction": "Thrombocytopenia",
+      "N": 20000000,
+      "nEvent": 80000,
+      "dataLag": "FAERS 資料約落後 3 個月以上（季更）"
+     },
+     "results": [
+      {
+       "drug": "Cefepime",
+       "nDrug": 90000,
+       "a": 1500,
+       "ror": 4.28,
+       "rorLow": 4.07,
+       "rorHigh": 4.51,
+       "prr": 4.23,
+       "chi2": 3637.7,
+       "signal": true,
+       "signalBasis": "ROR+PRR",
+       "haldane": false,
+       "latencyDays": null,
+       "temporalWeight": 1,
+       "temporalFlag": "缺日期·未加權",
+       "temporalStatus": "missing",
+       "composite": 1.454,
+       "nameInfo": null,
+       "rank": 1
+      },
+      {
+       "drug": "Vancomycin",
+       "nDrug": 120000,
+       "a": 900,
+       "ror": 1.89,
+       "rorLow": 1.77,
+       "rorHigh": 2.02,
+       "prr": 1.88,
+       "chi2": 370.3,
+       "signal": true,
+       "signalBasis": "ROR",
+       "haldane": false,
+       "latencyDays": 221,
+       "temporalWeight": 0.03,
+       "temporalFlag": "停藥後 38d (停藥>30d)",
+       "temporalStatus": "post",
+       "composite": 0.019,
+       "nameInfo": null,
+       "rank": 2
+      },
+      {
+       "drug": "LowROR",
+       "nDrug": 400000,
+       "a": 200,
+       "ror": 0.12,
+       "rorLow": 0.11,
+       "rorHigh": 0.14,
+       "prr": 0.12,
+       "chi2": 1254.1,
+       "signal": false,
+       "signalBasis": "未達閾值",
+       "haldane": false,
+       "latencyDays": 38,
+       "temporalWeight": 1,
+       "temporalFlag": "急性窗 (≤90d)·用藥中",
+       "temporalStatus": "on",
+       "composite": 0,
+       "nameInfo": null,
+       "rank": 3
+      },
+      {
+       "drug": "Absent",
+       "nDrug": 30000,
+       "a": 0,
+       "ror": 0,
+       "rorLow": 0,
+       "rorHigh": 0.07,
+       "prr": 0,
+       "chi2": 118.7,
+       "signal": false,
+       "signalBasis": "a<3",
+       "haldane": true,
+       "latencyDays": 7,
+       "temporalWeight": 1,
+       "temporalFlag": "急性窗 (≤90d)·用藥中",
+       "temporalStatus": "on",
+       "composite": 0,
+       "nameInfo": null,
+       "rank": 4
+      }
+     ],
+     "interpretation": {
+      "method": "rule-based",
+      "sections": [
+       {
+        "key": "signal",
+        "title": "A. FAERS 訊號摘要",
+        "paragraphs": [
+         "症狀「Thrombocytopenia」：本次分析共納入 4 項藥品，其中 2 項達到目前設定的 FAERS 不相稱性訊號門檻（a≥3，且 ROR 95% CI 下界>1，或 PRR≥2 且 χ²≥4）。",
+         "Cefepime 的探索性排序分數（綜合分數）最高（1.454），主要來自 ROR 4.28（95% CI 4.07–4.51），PRR 4.23，達訊號門檻（ROR+PRR）。排序第一僅代表優先檢視順序，不代表此藥為本次 ADR 的成因。",
+         "LowROR、Absent 的 ROR ≤1（0.12、0）：FAERS 中與此症狀的通報未呈現不相稱偏高，不應視為正向訊號（亦不代表該藥與此症狀無關）。",
+         "† 表示 2×2 表含零格，已採 Haldane-Anscombe +0.5 校正，數值穩定性較低。",
+         "註：ROR（Reporting Odds Ratio，報告勝算比）反映自願通報資料中的通報比例不相稱程度，不是發生風險、相對風險，也不是個案因果機率。"
+        ],
+        "items": []
+       },
+       {
+        "key": "temporal",
+        "title": "B. 時序資訊與排序貢獻",
+        "paragraphs": [
+         "Cefepime 缺少有效日期（缺日期·未加權），時序權重以 1.0 暫計（未加權），時間關係無法充分評估，不應解讀為時間關係合理。",
+         "Vancomycin（停藥後 38d (停藥>30d)，權重 0.03） 於停藥後才出現症狀，已套用停藥後衰減係數（啟發式，未納入個別藥物半衰期）。",
+         "各藥時間權重不一致，下列藥品的綜合分數受時序權重調降：Vancomycin（權重 0.03，停藥後 38d (停藥>30d)）。",
+         "雖時間權重不同，但與僅依 ROR 排序相比，各藥順位未改變。",
+         "時序分帶採本工具通用時間窗（急性窗 (≤90d)=1.0、亞急性 (91–180d)=0.6、慢性 (>180d)=0.3；停藥後另乘衰減），並非針對「Thrombocytopenia」的 ADR-specific latency，尚未依不同致病機轉評估特定潛伏期。"
+        ],
+        "items": []
+       },
+       {
+        "key": "limits",
+        "title": "C. 臨床判讀限制",
+        "paragraphs": [
+         "本結果僅用於 ADR 候選藥品優先檢視。FAERS 不相稱性訊號不等於個案因果關係；排序分數不是致病機率。仍須結合疾病、檢驗趨勢、既往用藥史、共同用藥、停藥反應與適當的因果評估工具進行獨立判讀。"
+        ],
+        "items": []
+       }
+      ],
+      "text": "A. FAERS 訊號摘要\n症狀「Thrombocytopenia」：本次分析共納入 4 項藥品，其中 2 項達到目前設定的 FAERS 不相稱性訊號門檻（a≥3，且 ROR 95% CI 下界>1，或 PRR≥2 且 χ²≥4）。\nCefepime 的探索性排序分數（綜合分數）最高（1.454），主要來自 ROR 4.28（95% CI 4.07–4.51），PRR 4.23，達訊號門檻（ROR+PRR）。排序第一僅代表優先檢視順序，不代表此藥為本次 ADR 的成因。\nLowROR、Absent 的 ROR ≤1（0.12、0）：FAERS 中與此症狀的通報未呈現不相稱偏高，不應視為正向訊號（亦不代表該藥與此症狀無關）。\n† 表示 2×2 表含零格，已採 Haldane-Anscombe +0.5 校正，數值穩定性較低。\n註：ROR（Reporting Odds Ratio，報告勝算比）反映自願通報資料中的通報比例不相稱程度，不是發生風險、相對風險，也不是個案因果機率。\n\nB. 時序資訊與排序貢獻\nCefepime 缺少有效日期（缺日期·未加權），時序權重以 1.0 暫計（未加權），時間關係無法充分評估，不應解讀為時間關係合理。\nVancomycin（停藥後 38d (停藥>30d)，權重 0.03） 於停藥後才出現症狀，已套用停藥後衰減係數（啟發式，未納入個別藥物半衰期）。\n各藥時間權重不一致，下列藥品的綜合分數受時序權重調降：Vancomycin（權重 0.03，停藥後 38d (停藥>30d)）。\n雖時間權重不同，但與僅依 ROR 排序相比，各藥順位未改變。\n時序分帶採本工具通用時間窗（急性窗 (≤90d)=1.0、亞急性 (91–180d)=0.6、慢性 (>180d)=0.3；停藥後另乘衰減），並非針對「Thrombocytopenia」的 ADR-specific latency，尚未依不同致病機轉評估特定潛伏期。\n\nC. 臨床判讀限制\n本結果僅用於 ADR 候選藥品優先檢視。FAERS 不相稱性訊號不等於個案因果關係；排序分數不是致病機率。仍須結合疾病、檢驗趨勢、既往用藥史、共同用藥、停藥反應與適當的因果評估工具進行獨立判讀。"
+     }
+    }
+   },
+   "httpCold": 10,
+   "httpHot": 0
+  },
+  {
+   "name": "症狀零通報",
+   "cold": {
+    "success": true,
+    "data": {
+     "meta": {
+      "reaction": "Zzz nonexistent",
+      "N": 20000000,
+      "nEvent": 0,
+      "dataLag": "FAERS 資料約落後 3 個月以上（季更）"
+     },
+     "results": [],
+     "interpretation": {
+      "method": "rule-based",
+      "sections": [
+       {
+        "key": "signal",
+        "title": "A. FAERS 訊號摘要",
+        "paragraphs": [
+         "本次分析未產生藥品結果（例如 FAERS 查無症狀「Zzz nonexistent」之通報，或未輸入藥品），因此不提供訊號摘要與排序解讀。"
+        ],
+        "items": []
+       },
+       {
+        "key": "limits",
+        "title": "C. 臨床判讀限制",
+        "paragraphs": [
+         "本結果僅用於 ADR 候選藥品優先檢視。FAERS 不相稱性訊號不等於個案因果關係；排序分數不是致病機率。仍須結合疾病、檢驗趨勢、既往用藥史、共同用藥、停藥反應與適當的因果評估工具進行獨立判讀。"
+        ],
+        "items": []
+       }
+      ],
+      "text": "A. FAERS 訊號摘要\n本次分析未產生藥品結果（例如 FAERS 查無症狀「Zzz nonexistent」之通報，或未輸入藥品），因此不提供訊號摘要與排序解讀。\n\nC. 臨床判讀限制\n本結果僅用於 ADR 候選藥品優先檢視。FAERS 不相稱性訊號不等於個案因果關係；排序分數不是致病機率。仍須結合疾病、檢驗趨勢、既往用藥史、共同用藥、停藥反應與適當的因果評估工具進行獨立判讀。"
+     },
+     "note": "FAERS 查無症狀「Zzz nonexistent」之通報（請確認為英文 MedDRA PT）"
+    }
+   },
+   "hot": {
+    "success": true,
+    "data": {
+     "meta": {
+      "reaction": "Zzz nonexistent",
+      "N": 20000000,
+      "nEvent": 0,
+      "dataLag": "FAERS 資料約落後 3 個月以上（季更）"
+     },
+     "results": [],
+     "interpretation": {
+      "method": "rule-based",
+      "sections": [
+       {
+        "key": "signal",
+        "title": "A. FAERS 訊號摘要",
+        "paragraphs": [
+         "本次分析未產生藥品結果（例如 FAERS 查無症狀「Zzz nonexistent」之通報，或未輸入藥品），因此不提供訊號摘要與排序解讀。"
+        ],
+        "items": []
+       },
+       {
+        "key": "limits",
+        "title": "C. 臨床判讀限制",
+        "paragraphs": [
+         "本結果僅用於 ADR 候選藥品優先檢視。FAERS 不相稱性訊號不等於個案因果關係；排序分數不是致病機率。仍須結合疾病、檢驗趨勢、既往用藥史、共同用藥、停藥反應與適當的因果評估工具進行獨立判讀。"
+        ],
+        "items": []
+       }
+      ],
+      "text": "A. FAERS 訊號摘要\n本次分析未產生藥品結果（例如 FAERS 查無症狀「Zzz nonexistent」之通報，或未輸入藥品），因此不提供訊號摘要與排序解讀。\n\nC. 臨床判讀限制\n本結果僅用於 ADR 候選藥品優先檢視。FAERS 不相稱性訊號不等於個案因果關係；排序分數不是致病機率。仍須結合疾病、檢驗趨勢、既往用藥史、共同用藥、停藥反應與適當的因果評估工具進行獨立判讀。"
+     },
+     "note": "FAERS 查無症狀「Zzz nonexistent」之通報（請確認為英文 MedDRA PT）"
+    }
+   },
+   "httpCold": 2,
+   "httpHot": 0
+  },
+  {
+   "name": "時序排除",
+   "cold": {
+    "success": true,
+    "data": {
+     "meta": {
+      "reaction": "Thrombocytopenia",
+      "N": 20000000,
+      "nEvent": 80000,
+      "dataLag": "FAERS 資料約落後 3 個月以上（季更）"
+     },
+     "results": [
+      {
+       "drug": "Cefepime",
+       "nDrug": 90000,
+       "a": 1500,
+       "ror": 4.28,
+       "rorLow": 4.07,
+       "rorHigh": 4.51,
+       "prr": 4.23,
+       "chi2": 3637.7,
+       "signal": true,
+       "signalBasis": "ROR+PRR",
+       "haldane": false,
+       "latencyDays": 7,
+       "temporalWeight": 1,
+       "temporalFlag": "急性窗 (≤90d)·用藥中",
+       "temporalStatus": "on",
+       "composite": 1.454,
+       "nameInfo": null,
+       "rank": 1
+      },
+      {
+       "drug": "Vancomycin",
+       "nDrug": 120000,
+       "a": 900,
+       "ror": 1.89,
+       "rorLow": 1.77,
+       "rorHigh": 2.02,
+       "prr": 1.88,
+       "chi2": 370.3,
+       "signal": true,
+       "signalBasis": "ROR",
+       "haldane": false,
+       "latencyDays": -2,
+       "temporalWeight": 0,
+       "temporalFlag": "症狀早於用藥·排除",
+       "temporalStatus": "before",
+       "composite": 0,
+       "nameInfo": null,
+       "rank": 2
+      }
+     ],
+     "interpretation": {
+      "method": "rule-based",
+      "sections": [
+       {
+        "key": "signal",
+        "title": "A. FAERS 訊號摘要",
+        "paragraphs": [
+         "症狀「Thrombocytopenia」：本次分析共納入 2 項藥品，均達到目前設定的 FAERS 不相稱性訊號門檻（a≥3，且 ROR 95% CI 下界>1，或 PRR≥2 且 χ²≥4）。",
+         "Cefepime 的探索性排序分數（綜合分數）最高（1.454），主要來自 ROR 4.28（95% CI 4.07–4.51），PRR 4.23，達訊號門檻（ROR+PRR）。排序第一僅代表優先檢視順序，不代表此藥為本次 ADR 的成因。",
+         "註：ROR（Reporting Odds Ratio，報告勝算比）反映自願通報資料中的通報比例不相稱程度，不是發生風險、相對風險，也不是個案因果機率。"
+        ],
+        "items": []
+       },
+       {
+        "key": "temporal",
+        "title": "B. 時序資訊與排序貢獻",
+        "paragraphs": [
+         "Vancomycin 的症狀日期早於開始用藥：時間順序不符合「該藥引發本次事件」的初始假設，綜合分數以權重 0 計並沉底；但不宜據此在所有臨床情境下排除該藥（例如日期記錄誤差、先前曾使用同藥或同類藥）。",
+         "各藥時間權重不一致，下列藥品的綜合分數受時序權重調降：Vancomycin（權重 0.0，症狀早於用藥·排除）。",
+         "雖時間權重不同，但與僅依 ROR 排序相比，各藥順位未改變。",
+         "時序分帶採本工具通用時間窗（急性窗 (≤90d)=1.0、亞急性 (91–180d)=0.6、慢性 (>180d)=0.3；停藥後另乘衰減），並非針對「Thrombocytopenia」的 ADR-specific latency，尚未依不同致病機轉評估特定潛伏期。"
+        ],
+        "items": []
+       },
+       {
+        "key": "limits",
+        "title": "C. 臨床判讀限制",
+        "paragraphs": [
+         "本結果僅用於 ADR 候選藥品優先檢視。FAERS 不相稱性訊號不等於個案因果關係；排序分數不是致病機率。仍須結合疾病、檢驗趨勢、既往用藥史、共同用藥、停藥反應與適當的因果評估工具進行獨立判讀。"
+        ],
+        "items": []
+       }
+      ],
+      "text": "A. FAERS 訊號摘要\n症狀「Thrombocytopenia」：本次分析共納入 2 項藥品，均達到目前設定的 FAERS 不相稱性訊號門檻（a≥3，且 ROR 95% CI 下界>1，或 PRR≥2 且 χ²≥4）。\nCefepime 的探索性排序分數（綜合分數）最高（1.454），主要來自 ROR 4.28（95% CI 4.07–4.51），PRR 4.23，達訊號門檻（ROR+PRR）。排序第一僅代表優先檢視順序，不代表此藥為本次 ADR 的成因。\n註：ROR（Reporting Odds Ratio，報告勝算比）反映自願通報資料中的通報比例不相稱程度，不是發生風險、相對風險，也不是個案因果機率。\n\nB. 時序資訊與排序貢獻\nVancomycin 的症狀日期早於開始用藥：時間順序不符合「該藥引發本次事件」的初始假設，綜合分數以權重 0 計並沉底；但不宜據此在所有臨床情境下排除該藥（例如日期記錄誤差、先前曾使用同藥或同類藥）。\n各藥時間權重不一致，下列藥品的綜合分數受時序權重調降：Vancomycin（權重 0.0，症狀早於用藥·排除）。\n雖時間權重不同，但與僅依 ROR 排序相比，各藥順位未改變。\n時序分帶採本工具通用時間窗（急性窗 (≤90d)=1.0、亞急性 (91–180d)=0.6、慢性 (>180d)=0.3；停藥後另乘衰減），並非針對「Thrombocytopenia」的 ADR-specific latency，尚未依不同致病機轉評估特定潛伏期。\n\nC. 臨床判讀限制\n本結果僅用於 ADR 候選藥品優先檢視。FAERS 不相稱性訊號不等於個案因果關係；排序分數不是致病機率。仍須結合疾病、檢驗趨勢、既往用藥史、共同用藥、停藥反應與適當的因果評估工具進行獨立判讀。"
+     }
+    }
+   },
+   "hot": {
+    "success": true,
+    "data": {
+     "meta": {
+      "reaction": "Thrombocytopenia",
+      "N": 20000000,
+      "nEvent": 80000,
+      "dataLag": "FAERS 資料約落後 3 個月以上（季更）"
+     },
+     "results": [
+      {
+       "drug": "Cefepime",
+       "nDrug": 90000,
+       "a": 1500,
+       "ror": 4.28,
+       "rorLow": 4.07,
+       "rorHigh": 4.51,
+       "prr": 4.23,
+       "chi2": 3637.7,
+       "signal": true,
+       "signalBasis": "ROR+PRR",
+       "haldane": false,
+       "latencyDays": 7,
+       "temporalWeight": 1,
+       "temporalFlag": "急性窗 (≤90d)·用藥中",
+       "temporalStatus": "on",
+       "composite": 1.454,
+       "nameInfo": null,
+       "rank": 1
+      },
+      {
+       "drug": "Vancomycin",
+       "nDrug": 120000,
+       "a": 900,
+       "ror": 1.89,
+       "rorLow": 1.77,
+       "rorHigh": 2.02,
+       "prr": 1.88,
+       "chi2": 370.3,
+       "signal": true,
+       "signalBasis": "ROR",
+       "haldane": false,
+       "latencyDays": -2,
+       "temporalWeight": 0,
+       "temporalFlag": "症狀早於用藥·排除",
+       "temporalStatus": "before",
+       "composite": 0,
+       "nameInfo": null,
+       "rank": 2
+      }
+     ],
+     "interpretation": {
+      "method": "rule-based",
+      "sections": [
+       {
+        "key": "signal",
+        "title": "A. FAERS 訊號摘要",
+        "paragraphs": [
+         "症狀「Thrombocytopenia」：本次分析共納入 2 項藥品，均達到目前設定的 FAERS 不相稱性訊號門檻（a≥3，且 ROR 95% CI 下界>1，或 PRR≥2 且 χ²≥4）。",
+         "Cefepime 的探索性排序分數（綜合分數）最高（1.454），主要來自 ROR 4.28（95% CI 4.07–4.51），PRR 4.23，達訊號門檻（ROR+PRR）。排序第一僅代表優先檢視順序，不代表此藥為本次 ADR 的成因。",
+         "註：ROR（Reporting Odds Ratio，報告勝算比）反映自願通報資料中的通報比例不相稱程度，不是發生風險、相對風險，也不是個案因果機率。"
+        ],
+        "items": []
+       },
+       {
+        "key": "temporal",
+        "title": "B. 時序資訊與排序貢獻",
+        "paragraphs": [
+         "Vancomycin 的症狀日期早於開始用藥：時間順序不符合「該藥引發本次事件」的初始假設，綜合分數以權重 0 計並沉底；但不宜據此在所有臨床情境下排除該藥（例如日期記錄誤差、先前曾使用同藥或同類藥）。",
+         "各藥時間權重不一致，下列藥品的綜合分數受時序權重調降：Vancomycin（權重 0.0，症狀早於用藥·排除）。",
+         "雖時間權重不同，但與僅依 ROR 排序相比，各藥順位未改變。",
+         "時序分帶採本工具通用時間窗（急性窗 (≤90d)=1.0、亞急性 (91–180d)=0.6、慢性 (>180d)=0.3；停藥後另乘衰減），並非針對「Thrombocytopenia」的 ADR-specific latency，尚未依不同致病機轉評估特定潛伏期。"
+        ],
+        "items": []
+       },
+       {
+        "key": "limits",
+        "title": "C. 臨床判讀限制",
+        "paragraphs": [
+         "本結果僅用於 ADR 候選藥品優先檢視。FAERS 不相稱性訊號不等於個案因果關係；排序分數不是致病機率。仍須結合疾病、檢驗趨勢、既往用藥史、共同用藥、停藥反應與適當的因果評估工具進行獨立判讀。"
+        ],
+        "items": []
+       }
+      ],
+      "text": "A. FAERS 訊號摘要\n症狀「Thrombocytopenia」：本次分析共納入 2 項藥品，均達到目前設定的 FAERS 不相稱性訊號門檻（a≥3，且 ROR 95% CI 下界>1，或 PRR≥2 且 χ²≥4）。\nCefepime 的探索性排序分數（綜合分數）最高（1.454），主要來自 ROR 4.28（95% CI 4.07–4.51），PRR 4.23，達訊號門檻（ROR+PRR）。排序第一僅代表優先檢視順序，不代表此藥為本次 ADR 的成因。\n註：ROR（Reporting Odds Ratio，報告勝算比）反映自願通報資料中的通報比例不相稱程度，不是發生風險、相對風險，也不是個案因果機率。\n\nB. 時序資訊與排序貢獻\nVancomycin 的症狀日期早於開始用藥：時間順序不符合「該藥引發本次事件」的初始假設，綜合分數以權重 0 計並沉底；但不宜據此在所有臨床情境下排除該藥（例如日期記錄誤差、先前曾使用同藥或同類藥）。\n各藥時間權重不一致，下列藥品的綜合分數受時序權重調降：Vancomycin（權重 0.0，症狀早於用藥·排除）。\n雖時間權重不同，但與僅依 ROR 排序相比，各藥順位未改變。\n時序分帶採本工具通用時間窗（急性窗 (≤90d)=1.0、亞急性 (91–180d)=0.6、慢性 (>180d)=0.3；停藥後另乘衰減），並非針對「Thrombocytopenia」的 ADR-specific latency，尚未依不同致病機轉評估特定潛伏期。\n\nC. 臨床判讀限制\n本結果僅用於 ADR 候選藥品優先檢視。FAERS 不相稱性訊號不等於個案因果關係；排序分數不是致病機率。仍須結合疾病、檢驗趨勢、既往用藥史、共同用藥、停藥反應與適當的因果評估工具進行獨立判讀。"
+     }
+    }
+   },
+   "httpCold": 6,
+   "httpHot": 0
+  },
+  {
+   "name": "時序排除者與零分藥同分（須沉底）",
+   "cold": {
+    "success": true,
+    "data": {
+     "meta": {
+      "reaction": "Thrombocytopenia",
+      "N": 20000000,
+      "nEvent": 80000,
+      "dataLag": "FAERS 資料約落後 3 個月以上（季更）"
+     },
+     "results": [
+      {
+       "drug": "LowROR",
+       "nDrug": 400000,
+       "a": 200,
+       "ror": 0.12,
+       "rorLow": 0.11,
+       "rorHigh": 0.14,
+       "prr": 0.12,
+       "chi2": 1254.1,
+       "signal": false,
+       "signalBasis": "未達閾值",
+       "haldane": false,
+       "latencyDays": 7,
+       "temporalWeight": 1,
+       "temporalFlag": "急性窗 (≤90d)·用藥中",
+       "temporalStatus": "on",
+       "composite": 0,
+       "nameInfo": null,
+       "rank": 1
+      },
+      {
+       "drug": "Vancomycin",
+       "nDrug": 120000,
+       "a": 900,
+       "ror": 1.89,
+       "rorLow": 1.77,
+       "rorHigh": 2.02,
+       "prr": 1.88,
+       "chi2": 370.3,
+       "signal": true,
+       "signalBasis": "ROR",
+       "haldane": false,
+       "latencyDays": -2,
+       "temporalWeight": 0,
+       "temporalFlag": "症狀早於用藥·排除",
+       "temporalStatus": "before",
+       "composite": 0,
+       "nameInfo": null,
+       "rank": 2
+      }
+     ],
+     "interpretation": {
+      "method": "rule-based",
+      "sections": [
+       {
+        "key": "signal",
+        "title": "A. FAERS 訊號摘要",
+        "paragraphs": [
+         "症狀「Thrombocytopenia」：本次分析共納入 2 項藥品，其中 1 項達到目前設定的 FAERS 不相稱性訊號門檻（a≥3，且 ROR 95% CI 下界>1，或 PRR≥2 且 χ²≥4）。",
+         "所有藥品的綜合分數皆為 0（ROR≤1 或時序權重為 0），本次排序不具鑑別資訊；表格順位僅反映同分時的輸入順序。",
+         "LowROR 的 ROR ≤1（0.12）：FAERS 中與此症狀的通報未呈現不相稱偏高，不應視為正向訊號（亦不代表該藥與此症狀無關）。",
+         "註：ROR（Reporting Odds Ratio，報告勝算比）反映自願通報資料中的通報比例不相稱程度，不是發生風險、相對風險，也不是個案因果機率。"
+        ],
+        "items": []
+       },
+       {
+        "key": "temporal",
+        "title": "B. 時序資訊與排序貢獻",
+        "paragraphs": [
+         "Vancomycin 的症狀日期早於開始用藥：時間順序不符合「該藥引發本次事件」的初始假設，綜合分數以權重 0 計並沉底；但不宜據此在所有臨床情境下排除該藥（例如日期記錄誤差、先前曾使用同藥或同類藥）。",
+         "各藥時間權重不一致，下列藥品的綜合分數受時序權重調降：Vancomycin（權重 0.0，症狀早於用藥·排除）。",
+         "與僅依 ROR 排序（同一候選集合；ROR 同分依 95% CI 下界、再依綜合排序順位）相比，下列藥品順位不同（綜合分數同分者沿用輸入順序）：",
+         "時序分帶採本工具通用時間窗（急性窗 (≤90d)=1.0、亞急性 (91–180d)=0.6、慢性 (>180d)=0.3；停藥後另乘衰減），並非針對「Thrombocytopenia」的 ADR-specific latency，尚未依不同致病機轉評估特定潛伏期。"
+        ],
+        "items": [
+         "LowROR：ROR 排序第 2 → 綜合排序第 1",
+         "Vancomycin：ROR 排序第 1 → 綜合排序第 2"
+        ]
+       },
+       {
+        "key": "limits",
+        "title": "C. 臨床判讀限制",
+        "paragraphs": [
+         "本結果僅用於 ADR 候選藥品優先檢視。FAERS 不相稱性訊號不等於個案因果關係；排序分數不是致病機率。仍須結合疾病、檢驗趨勢、既往用藥史、共同用藥、停藥反應與適當的因果評估工具進行獨立判讀。"
+        ],
+        "items": []
+       }
+      ],
+      "text": "A. FAERS 訊號摘要\n症狀「Thrombocytopenia」：本次分析共納入 2 項藥品，其中 1 項達到目前設定的 FAERS 不相稱性訊號門檻（a≥3，且 ROR 95% CI 下界>1，或 PRR≥2 且 χ²≥4）。\n所有藥品的綜合分數皆為 0（ROR≤1 或時序權重為 0），本次排序不具鑑別資訊；表格順位僅反映同分時的輸入順序。\nLowROR 的 ROR ≤1（0.12）：FAERS 中與此症狀的通報未呈現不相稱偏高，不應視為正向訊號（亦不代表該藥與此症狀無關）。\n註：ROR（Reporting Odds Ratio，報告勝算比）反映自願通報資料中的通報比例不相稱程度，不是發生風險、相對風險，也不是個案因果機率。\n\nB. 時序資訊與排序貢獻\nVancomycin 的症狀日期早於開始用藥：時間順序不符合「該藥引發本次事件」的初始假設，綜合分數以權重 0 計並沉底；但不宜據此在所有臨床情境下排除該藥（例如日期記錄誤差、先前曾使用同藥或同類藥）。\n各藥時間權重不一致，下列藥品的綜合分數受時序權重調降：Vancomycin（權重 0.0，症狀早於用藥·排除）。\n與僅依 ROR 排序（同一候選集合；ROR 同分依 95% CI 下界、再依綜合排序順位）相比，下列藥品順位不同（綜合分數同分者沿用輸入順序）：\n時序分帶採本工具通用時間窗（急性窗 (≤90d)=1.0、亞急性 (91–180d)=0.6、慢性 (>180d)=0.3；停藥後另乘衰減），並非針對「Thrombocytopenia」的 ADR-specific latency，尚未依不同致病機轉評估特定潛伏期。\n・LowROR：ROR 排序第 2 → 綜合排序第 1\n・Vancomycin：ROR 排序第 1 → 綜合排序第 2\n\nC. 臨床判讀限制\n本結果僅用於 ADR 候選藥品優先檢視。FAERS 不相稱性訊號不等於個案因果關係；排序分數不是致病機率。仍須結合疾病、檢驗趨勢、既往用藥史、共同用藥、停藥反應與適當的因果評估工具進行獨立判讀。"
+     }
+    }
+   },
+   "hot": {
+    "success": true,
+    "data": {
+     "meta": {
+      "reaction": "Thrombocytopenia",
+      "N": 20000000,
+      "nEvent": 80000,
+      "dataLag": "FAERS 資料約落後 3 個月以上（季更）"
+     },
+     "results": [
+      {
+       "drug": "LowROR",
+       "nDrug": 400000,
+       "a": 200,
+       "ror": 0.12,
+       "rorLow": 0.11,
+       "rorHigh": 0.14,
+       "prr": 0.12,
+       "chi2": 1254.1,
+       "signal": false,
+       "signalBasis": "未達閾值",
+       "haldane": false,
+       "latencyDays": 7,
+       "temporalWeight": 1,
+       "temporalFlag": "急性窗 (≤90d)·用藥中",
+       "temporalStatus": "on",
+       "composite": 0,
+       "nameInfo": null,
+       "rank": 1
+      },
+      {
+       "drug": "Vancomycin",
+       "nDrug": 120000,
+       "a": 900,
+       "ror": 1.89,
+       "rorLow": 1.77,
+       "rorHigh": 2.02,
+       "prr": 1.88,
+       "chi2": 370.3,
+       "signal": true,
+       "signalBasis": "ROR",
+       "haldane": false,
+       "latencyDays": -2,
+       "temporalWeight": 0,
+       "temporalFlag": "症狀早於用藥·排除",
+       "temporalStatus": "before",
+       "composite": 0,
+       "nameInfo": null,
+       "rank": 2
+      }
+     ],
+     "interpretation": {
+      "method": "rule-based",
+      "sections": [
+       {
+        "key": "signal",
+        "title": "A. FAERS 訊號摘要",
+        "paragraphs": [
+         "症狀「Thrombocytopenia」：本次分析共納入 2 項藥品，其中 1 項達到目前設定的 FAERS 不相稱性訊號門檻（a≥3，且 ROR 95% CI 下界>1，或 PRR≥2 且 χ²≥4）。",
+         "所有藥品的綜合分數皆為 0（ROR≤1 或時序權重為 0），本次排序不具鑑別資訊；表格順位僅反映同分時的輸入順序。",
+         "LowROR 的 ROR ≤1（0.12）：FAERS 中與此症狀的通報未呈現不相稱偏高，不應視為正向訊號（亦不代表該藥與此症狀無關）。",
+         "註：ROR（Reporting Odds Ratio，報告勝算比）反映自願通報資料中的通報比例不相稱程度，不是發生風險、相對風險，也不是個案因果機率。"
+        ],
+        "items": []
+       },
+       {
+        "key": "temporal",
+        "title": "B. 時序資訊與排序貢獻",
+        "paragraphs": [
+         "Vancomycin 的症狀日期早於開始用藥：時間順序不符合「該藥引發本次事件」的初始假設，綜合分數以權重 0 計並沉底；但不宜據此在所有臨床情境下排除該藥（例如日期記錄誤差、先前曾使用同藥或同類藥）。",
+         "各藥時間權重不一致，下列藥品的綜合分數受時序權重調降：Vancomycin（權重 0.0，症狀早於用藥·排除）。",
+         "與僅依 ROR 排序（同一候選集合；ROR 同分依 95% CI 下界、再依綜合排序順位）相比，下列藥品順位不同（綜合分數同分者沿用輸入順序）：",
+         "時序分帶採本工具通用時間窗（急性窗 (≤90d)=1.0、亞急性 (91–180d)=0.6、慢性 (>180d)=0.3；停藥後另乘衰減），並非針對「Thrombocytopenia」的 ADR-specific latency，尚未依不同致病機轉評估特定潛伏期。"
+        ],
+        "items": [
+         "LowROR：ROR 排序第 2 → 綜合排序第 1",
+         "Vancomycin：ROR 排序第 1 → 綜合排序第 2"
+        ]
+       },
+       {
+        "key": "limits",
+        "title": "C. 臨床判讀限制",
+        "paragraphs": [
+         "本結果僅用於 ADR 候選藥品優先檢視。FAERS 不相稱性訊號不等於個案因果關係；排序分數不是致病機率。仍須結合疾病、檢驗趨勢、既往用藥史、共同用藥、停藥反應與適當的因果評估工具進行獨立判讀。"
+        ],
+        "items": []
+       }
+      ],
+      "text": "A. FAERS 訊號摘要\n症狀「Thrombocytopenia」：本次分析共納入 2 項藥品，其中 1 項達到目前設定的 FAERS 不相稱性訊號門檻（a≥3，且 ROR 95% CI 下界>1，或 PRR≥2 且 χ²≥4）。\n所有藥品的綜合分數皆為 0（ROR≤1 或時序權重為 0），本次排序不具鑑別資訊；表格順位僅反映同分時的輸入順序。\nLowROR 的 ROR ≤1（0.12）：FAERS 中與此症狀的通報未呈現不相稱偏高，不應視為正向訊號（亦不代表該藥與此症狀無關）。\n註：ROR（Reporting Odds Ratio，報告勝算比）反映自願通報資料中的通報比例不相稱程度，不是發生風險、相對風險，也不是個案因果機率。\n\nB. 時序資訊與排序貢獻\nVancomycin 的症狀日期早於開始用藥：時間順序不符合「該藥引發本次事件」的初始假設，綜合分數以權重 0 計並沉底；但不宜據此在所有臨床情境下排除該藥（例如日期記錄誤差、先前曾使用同藥或同類藥）。\n各藥時間權重不一致，下列藥品的綜合分數受時序權重調降：Vancomycin（權重 0.0，症狀早於用藥·排除）。\n與僅依 ROR 排序（同一候選集合；ROR 同分依 95% CI 下界、再依綜合排序順位）相比，下列藥品順位不同（綜合分數同分者沿用輸入順序）：\n時序分帶採本工具通用時間窗（急性窗 (≤90d)=1.0、亞急性 (91–180d)=0.6、慢性 (>180d)=0.3；停藥後另乘衰減），並非針對「Thrombocytopenia」的 ADR-specific latency，尚未依不同致病機轉評估特定潛伏期。\n・LowROR：ROR 排序第 2 → 綜合排序第 1\n・Vancomycin：ROR 排序第 1 → 綜合排序第 2\n\nC. 臨床判讀限制\n本結果僅用於 ADR 候選藥品優先檢視。FAERS 不相稱性訊號不等於個案因果關係；排序分數不是致病機率。仍須結合疾病、檢驗趨勢、既往用藥史、共同用藥、停藥反應與適當的因果評估工具進行獨立判讀。"
+     }
+    }
+   },
+   "httpCold": 6,
+   "httpHot": 0
+  },
+  {
+   "name": "同分",
+   "cold": {
+    "success": true,
+    "data": {
+     "meta": {
+      "reaction": "Thrombocytopenia",
+      "N": 20000000,
+      "nEvent": 80000,
+      "dataLag": "FAERS 資料約落後 3 個月以上（季更）"
+     },
+     "results": [
+      {
+       "drug": "TieZero",
+       "nDrug": 50000,
+       "a": 600,
+       "ror": 3.04,
+       "rorLow": 2.8,
+       "rorHigh": 3.3,
+       "prr": 3.02,
+       "chi2": 803.2,
+       "signal": true,
+       "signalBasis": "ROR+PRR",
+       "haldane": false,
+       "latencyDays": 7,
+       "temporalWeight": 1,
+       "temporalFlag": "急性窗 (≤90d)·用藥中",
+       "temporalStatus": "on",
+       "composite": 1.112,
+       "nameInfo": null,
+       "rank": 1
+      },
+      {
+       "drug": "TieOne",
+       "nDrug": 50000,
+       "a": 600,
+       "ror": 3.04,
+       "rorLow": 2.8,
+       "rorHigh": 3.3,
+       "prr": 3.02,
+       "chi2": 803.2,
+       "signal": true,
+       "signalBasis": "ROR+PRR",
+       "haldane": false,
+       "latencyDays": 7,
+       "temporalWeight": 1,
+       "temporalFlag": "急性窗 (≤90d)·用藥中",
+       "temporalStatus": "on",
+       "composite": 1.112,
+       "nameInfo": null,
+       "rank": 2
+      }
+     ],
+     "interpretation": {
+      "method": "rule-based",
+      "sections": [
+       {
+        "key": "signal",
+        "title": "A. FAERS 訊號摘要",
+        "paragraphs": [
+         "症狀「Thrombocytopenia」：本次分析共納入 2 項藥品，均達到目前設定的 FAERS 不相稱性訊號門檻（a≥3，且 ROR 95% CI 下界>1，或 PRR≥2 且 χ²≥4）。",
+         "TieZero 的探索性排序分數（綜合分數）最高（1.112），主要來自 ROR 3.04（95% CI 2.8–3.3），PRR 3.02，達訊號門檻（ROR+PRR）。排序第一僅代表優先檢視順序，不代表此藥為本次 ADR 的成因。",
+         "註：ROR（Reporting Odds Ratio，報告勝算比）反映自願通報資料中的通報比例不相稱程度，不是發生風險、相對風險，也不是個案因果機率。"
+        ],
+        "items": []
+       },
+       {
+        "key": "temporal",
+        "title": "B. 時序資訊與排序貢獻",
+        "paragraphs": [
+         "2 項藥品均於症狀出現前（或當日）開始使用（潛伏期 7–7 天），且時間權重均為 1.0，因此時序權重並未改變本次排序；此排名實際上由 ROR 大小決定。",
+         "時序分帶採本工具通用時間窗（急性窗 (≤90d)=1.0、亞急性 (91–180d)=0.6、慢性 (>180d)=0.3；停藥後另乘衰減），並非針對「Thrombocytopenia」的 ADR-specific latency，尚未依不同致病機轉評估特定潛伏期。"
+        ],
+        "items": []
+       },
+       {
+        "key": "limits",
+        "title": "C. 臨床判讀限制",
+        "paragraphs": [
+         "本結果僅用於 ADR 候選藥品優先檢視。FAERS 不相稱性訊號不等於個案因果關係；排序分數不是致病機率。仍須結合疾病、檢驗趨勢、既往用藥史、共同用藥、停藥反應與適當的因果評估工具進行獨立判讀。"
+        ],
+        "items": []
+       }
+      ],
+      "text": "A. FAERS 訊號摘要\n症狀「Thrombocytopenia」：本次分析共納入 2 項藥品，均達到目前設定的 FAERS 不相稱性訊號門檻（a≥3，且 ROR 95% CI 下界>1，或 PRR≥2 且 χ²≥4）。\nTieZero 的探索性排序分數（綜合分數）最高（1.112），主要來自 ROR 3.04（95% CI 2.8–3.3），PRR 3.02，達訊號門檻（ROR+PRR）。排序第一僅代表優先檢視順序，不代表此藥為本次 ADR 的成因。\n註：ROR（Reporting Odds Ratio，報告勝算比）反映自願通報資料中的通報比例不相稱程度，不是發生風險、相對風險，也不是個案因果機率。\n\nB. 時序資訊與排序貢獻\n2 項藥品均於症狀出現前（或當日）開始使用（潛伏期 7–7 天），且時間權重均為 1.0，因此時序權重並未改變本次排序；此排名實際上由 ROR 大小決定。\n時序分帶採本工具通用時間窗（急性窗 (≤90d)=1.0、亞急性 (91–180d)=0.6、慢性 (>180d)=0.3；停藥後另乘衰減），並非針對「Thrombocytopenia」的 ADR-specific latency，尚未依不同致病機轉評估特定潛伏期。\n\nC. 臨床判讀限制\n本結果僅用於 ADR 候選藥品優先檢視。FAERS 不相稱性訊號不等於個案因果關係；排序分數不是致病機率。仍須結合疾病、檢驗趨勢、既往用藥史、共同用藥、停藥反應與適當的因果評估工具進行獨立判讀。"
+     }
+    }
+   },
+   "hot": {
+    "success": true,
+    "data": {
+     "meta": {
+      "reaction": "Thrombocytopenia",
+      "N": 20000000,
+      "nEvent": 80000,
+      "dataLag": "FAERS 資料約落後 3 個月以上（季更）"
+     },
+     "results": [
+      {
+       "drug": "TieZero",
+       "nDrug": 50000,
+       "a": 600,
+       "ror": 3.04,
+       "rorLow": 2.8,
+       "rorHigh": 3.3,
+       "prr": 3.02,
+       "chi2": 803.2,
+       "signal": true,
+       "signalBasis": "ROR+PRR",
+       "haldane": false,
+       "latencyDays": 7,
+       "temporalWeight": 1,
+       "temporalFlag": "急性窗 (≤90d)·用藥中",
+       "temporalStatus": "on",
+       "composite": 1.112,
+       "nameInfo": null,
+       "rank": 1
+      },
+      {
+       "drug": "TieOne",
+       "nDrug": 50000,
+       "a": 600,
+       "ror": 3.04,
+       "rorLow": 2.8,
+       "rorHigh": 3.3,
+       "prr": 3.02,
+       "chi2": 803.2,
+       "signal": true,
+       "signalBasis": "ROR+PRR",
+       "haldane": false,
+       "latencyDays": 7,
+       "temporalWeight": 1,
+       "temporalFlag": "急性窗 (≤90d)·用藥中",
+       "temporalStatus": "on",
+       "composite": 1.112,
+       "nameInfo": null,
+       "rank": 2
+      }
+     ],
+     "interpretation": {
+      "method": "rule-based",
+      "sections": [
+       {
+        "key": "signal",
+        "title": "A. FAERS 訊號摘要",
+        "paragraphs": [
+         "症狀「Thrombocytopenia」：本次分析共納入 2 項藥品，均達到目前設定的 FAERS 不相稱性訊號門檻（a≥3，且 ROR 95% CI 下界>1，或 PRR≥2 且 χ²≥4）。",
+         "TieZero 的探索性排序分數（綜合分數）最高（1.112），主要來自 ROR 3.04（95% CI 2.8–3.3），PRR 3.02，達訊號門檻（ROR+PRR）。排序第一僅代表優先檢視順序，不代表此藥為本次 ADR 的成因。",
+         "註：ROR（Reporting Odds Ratio，報告勝算比）反映自願通報資料中的通報比例不相稱程度，不是發生風險、相對風險，也不是個案因果機率。"
+        ],
+        "items": []
+       },
+       {
+        "key": "temporal",
+        "title": "B. 時序資訊與排序貢獻",
+        "paragraphs": [
+         "2 項藥品均於症狀出現前（或當日）開始使用（潛伏期 7–7 天），且時間權重均為 1.0，因此時序權重並未改變本次排序；此排名實際上由 ROR 大小決定。",
+         "時序分帶採本工具通用時間窗（急性窗 (≤90d)=1.0、亞急性 (91–180d)=0.6、慢性 (>180d)=0.3；停藥後另乘衰減），並非針對「Thrombocytopenia」的 ADR-specific latency，尚未依不同致病機轉評估特定潛伏期。"
+        ],
+        "items": []
+       },
+       {
+        "key": "limits",
+        "title": "C. 臨床判讀限制",
+        "paragraphs": [
+         "本結果僅用於 ADR 候選藥品優先檢視。FAERS 不相稱性訊號不等於個案因果關係；排序分數不是致病機率。仍須結合疾病、檢驗趨勢、既往用藥史、共同用藥、停藥反應與適當的因果評估工具進行獨立判讀。"
+        ],
+        "items": []
+       }
+      ],
+      "text": "A. FAERS 訊號摘要\n症狀「Thrombocytopenia」：本次分析共納入 2 項藥品，均達到目前設定的 FAERS 不相稱性訊號門檻（a≥3，且 ROR 95% CI 下界>1，或 PRR≥2 且 χ²≥4）。\nTieZero 的探索性排序分數（綜合分數）最高（1.112），主要來自 ROR 3.04（95% CI 2.8–3.3），PRR 3.02，達訊號門檻（ROR+PRR）。排序第一僅代表優先檢視順序，不代表此藥為本次 ADR 的成因。\n註：ROR（Reporting Odds Ratio，報告勝算比）反映自願通報資料中的通報比例不相稱程度，不是發生風險、相對風險，也不是個案因果機率。\n\nB. 時序資訊與排序貢獻\n2 項藥品均於症狀出現前（或當日）開始使用（潛伏期 7–7 天），且時間權重均為 1.0，因此時序權重並未改變本次排序；此排名實際上由 ROR 大小決定。\n時序分帶採本工具通用時間窗（急性窗 (≤90d)=1.0、亞急性 (91–180d)=0.6、慢性 (>180d)=0.3；停藥後另乘衰減），並非針對「Thrombocytopenia」的 ADR-specific latency，尚未依不同致病機轉評估特定潛伏期。\n\nC. 臨床判讀限制\n本結果僅用於 ADR 候選藥品優先檢視。FAERS 不相稱性訊號不等於個案因果關係；排序分數不是致病機率。仍須結合疾病、檢驗趨勢、既往用藥史、共同用藥、停藥反應與適當的因果評估工具進行獨立判讀。"
+     }
+    }
+   },
+   "httpCold": 6,
+   "httpHot": 0
+  }
+ ],
+ "base": "bdf4360"
+}
