@@ -17,17 +17,19 @@ function loadApp(opts) {
     setTimeout: opts.instantTimers ? (fn) => { fn(); return 0; } : setTimeout,
     clearTimeout,
     localStorage: { getItem: () => '', setItem() {}, removeItem() {} },
-    fetch: opts.fetch
+    fetch: opts.fetch,
+    AbortController, TextDecoder
   };
+  Object.assign(ctx, opts.extra || {});   // 測試可覆寫（如 localStorage、Date、console）
   ctx.window = ctx;
   vm.createContext(ctx);
   vm.runInContext(read('docs/app.js'), ctx, { filename: 'docs/app.js' });
   return ctx.FAERSApp;
 }
 
-// Code.gs → 全域函式（GAS 服務以空殼替代；純函式不會呼叫到）
-function loadGas() {
-  const ctx = { console, Math, Date, JSON, CacheService: {}, PropertiesService: {}, UrlFetchApp: {}, Utilities: {} };
+// Code.gs → 全域函式（GAS 服務以空殼替代；純函式不會呼叫到；extra 可注入假服務）
+function loadGas(extra) {
+  const ctx = Object.assign({ console, Math, Date, JSON, CacheService: {}, PropertiesService: {}, UrlFetchApp: {}, Utilities: {} }, extra || {});
   vm.createContext(ctx);
   vm.runInContext(read('Code.gs'), ctx, { filename: 'Code.gs' });
   return ctx;

@@ -1,0 +1,2820 @@
+{
+ "drug": "CARBAMAZEPINE",
+ "reaction": "Stevens-Johnson syndrome",
+ "fetchedAt": "2026-11-17T11:19:05.487Z",
+ "summary": {
+  "drug": "CARBAMAZEPINE",
+  "reaction": "Stevens-Johnson syndrome",
+  "sampled": 100,
+  "valid": 100,
+  "suspect": 87,
+  "interacting": 2,
+  "concomitant": 11,
+  "invalidRole": 0,
+  "combo": 0,
+  "ambiguous": 0,
+  "unmatched": 0,
+  "pct": 89,
+  "lowSample": false,
+  "periodFrom": "2024-03-11",
+  "periodTo": "2026-09-28",
+  "sampleMode": "recent-receivedate",
+  "fetchedAt": "2026-11-17T11:19:02.089Z"
+ },
+ "recount": {
+  "sampled": 100,
+  "valid": 100,
+  "suspect": 87,
+  "interacting": 2,
+  "concomitant": 11,
+  "invalidRole": 0,
+  "combo": 0,
+  "ambiguous": 0,
+  "unmatched": 0,
+  "pct": 89,
+  "lowSample": false,
+  "periodFrom": "2024-03-11",
+  "periodTo": "2026-09-28"
+ },
+ "bytes": 15293270,
+ "ms": 3326,
+ "audit": [
+  {
+   "safetyreportid": "27314763",
+   "receivedate": "20260928",
+   "cat": "suspect",
+   "entries": [
+    {
+     "cls": "target",
+     "rule": 5,
+     "role": 1,
+     "rawRole": "1",
+     "generic_name": [
+      "CARBAMAZEPINE"
+     ],
+     "brand_name": [
+      "CARBAMAZEPINE",
+      "CARBAMAZEPINE ER",
+      "TEGRETOL",
+      "TEGRETOL XR",
+      "CARBAMAZEPIN",
+      "EQUETRO",
+      "CARBATROL"
+     ],
+     "medicinalproduct": "CARBAMAZEPINE"
+    },
+    {
+     "cls": "target",
+     "rule": 5,
+     "role": 1,
+     "rawRole": "1",
+     "generic_name": [
+      "CARBAMAZEPINE"
+     ],
+     "brand_name": [
+      "CARBAMAZEPINE",
+      "CARBAMAZEPINE ER",
+      "TEGRETOL",
+      "TEGRETOL XR",
+      "CARBAMAZEPIN",
+      "EQUETRO",
+      "CARBATROL"
+     ],
+     "medicinalproduct": "CARBAMAZEPINE"
+    }
+   ]
+  },
+  {
+   "safetyreportid": "27279979",
+   "receivedate": "20260918",
+   "cat": "suspect",
+   "entries": [
+    {
+     "cls": "target",
+     "rule": 5,
+     "role": 1,
+     "rawRole": "1",
+     "generic_name": [
+      "CARBAMAZEPINE"
+     ],
+     "brand_name": [
+      "CARBAMAZEPINE",
+      "CARBAMAZEPINE ER",
+      "TEGRETOL",
+      "TEGRETOL XR",
+      "CARBAMAZEPIN",
+      "EQUETRO",
+      "CARBATROL"
+     ],
+     "medicinalproduct": "CARBAMAZEPINE"
+    }
+   ]
+  },
+  {
+   "safetyreportid": "27236638",
+   "receivedate": "20260910",
+   "cat": "concomitant",
+   "entries": [
+    {
+     "cls": "target",
+     "rule": 5,
+     "role": 2,
+     "rawRole": "2",
+     "generic_name": [
+      "CARBAMAZEPINE"
+     ],
+     "brand_name": [
+      "CARBAMAZEPINE",
+      "CARBAMAZEPINE ER",
+      "TEGRETOL",
+      "TEGRETOL XR",
+      "CARBAMAZEPIN",
+      "EQUETRO",
+      "CARBATROL"
+     ],
+     "medicinalproduct": "CARBAMAZEPINE"
+    }
+   ]
+  },
+  {
+   "safetyreportid": "27183608",
+   "receivedate": "20260828",
+   "cat": "suspect",
+   "entries": [
+    {
+     "cls": "target",
+     "rule": 5,
+     "role": 1,
+     "rawRole": "1",
+     "generic_name": [
+      "CARBAMAZEPINE"
+     ],
+     "brand_name": [
+      "TEGRETOL",
+      "TEGRETOL XR"
+     ],
+     "medicinalproduct": "TEGRETOL"
+    },
+    {
+     "cls": "target",
+     "rule": 5,
+     "role": 1,
+     "rawRole": "1",
+     "generic_name": [
+      "CARBAMAZEPINE"
+     ],
+     "brand_name": [
+      "TEGRETOL",
+      "TEGRETOL XR"
+     ],
+     "medicinalproduct": "TEGRETOL"
+    }
+   ]
+  },
+  {
+   "safetyreportid": "27158901",
+   "receivedate": "20260824",
+   "cat": "suspect",
+   "entries": [
+    {
+     "cls": "target",
+     "rule": 5,
+     "role": 1,
+     "rawRole": "1",
+     "generic_name": [
+      "CARBAMAZEPINE"
+     ],
+     "brand_name": [
+      "CARBAMAZEPINE",
+      "CARBAMAZEPINE ER",
+      "TEGRETOL",
+      "TEGRETOL XR",
+      "CARBAMAZEPIN",
+      "EQUETRO",
+      "CARBATROL"
+     ],
+     "medicinalproduct": "CARBAMAZEPINE"
+    }
+   ]
+  },
+  {
+   "safetyreportid": "27159164",
+   "receivedate": "20260824",
+   "cat": "suspect",
+   "entries": [
+    {
+     "cls": "target",
+     "rule": 5,
+     "role": 1,
+     "rawRole": "1",
+     "generic_name": [
+      "CARBAMAZEPINE"
+     ],
+     "brand_name": [
+      "CARBAMAZEPINE",
+      "CARBAMAZEPINE ER",
+      "TEGRETOL",
+      "TEGRETOL XR",
+      "CARBAMAZEPIN",
+      "EQUETRO",
+      "CARBATROL"
+     ],
+     "medicinalproduct": "CARBAMAZEPINE"
+    },
+    {
+     "cls": "target",
+     "rule": 5,
+     "role": 1,
+     "rawRole": "1",
+     "generic_name": [
+      "CARBAMAZEPINE"
+     ],
+     "brand_name": [
+      "CARBAMAZEPINE",
+      "CARBAMAZEPINE ER",
+      "TEGRETOL",
+      "TEGRETOL XR",
+      "CARBAMAZEPIN",
+      "EQUETRO",
+      "CARBATROL"
+     ],
+     "medicinalproduct": "CARBAMAZEPINE"
+    }
+   ]
+  },
+  {
+   "safetyreportid": "27139006",
+   "receivedate": "20260818",
+   "cat": "suspect",
+   "entries": [
+    {
+     "cls": "target",
+     "rule": 5,
+     "role": 1,
+     "rawRole": "1",
+     "generic_name": [
+      "CARBAMAZEPINE"
+     ],
+     "brand_name": [
+      "CARBAMAZEPINE",
+      "CARBAMAZEPINE ER",
+      "TEGRETOL",
+      "TEGRETOL XR",
+      "CARBAMAZEPIN",
+      "EQUETRO",
+      "CARBATROL"
+     ],
+     "medicinalproduct": "CARBAMAZEPINE"
+    }
+   ]
+  },
+  {
+   "safetyreportid": "27042058",
+   "receivedate": "20260726",
+   "cat": "suspect",
+   "entries": [
+    {
+     "cls": "target",
+     "rule": 5,
+     "role": 1,
+     "rawRole": "1",
+     "generic_name": [
+      "CARBAMAZEPINE"
+     ],
+     "brand_name": [
+      "CARBAMAZEPINE",
+      "CARBAMAZEPINE ER",
+      "TEGRETOL",
+      "TEGRETOL XR",
+      "CARBAMAZEPIN",
+      "EQUETRO",
+      "CARBATROL"
+     ],
+     "medicinalproduct": "CARBAMAZEPINE"
+    },
+    {
+     "cls": "target",
+     "rule": 5,
+     "role": 1,
+     "rawRole": "1",
+     "generic_name": [
+      "CARBAMAZEPINE"
+     ],
+     "brand_name": [
+      "CARBAMAZEPINE",
+      "CARBAMAZEPINE ER",
+      "TEGRETOL",
+      "TEGRETOL XR",
+      "CARBAMAZEPIN",
+      "EQUETRO",
+      "CARBATROL"
+     ],
+     "medicinalproduct": "CARBAMAZEPINE"
+    }
+   ]
+  },
+  {
+   "safetyreportid": "27002578",
+   "receivedate": "20260715",
+   "cat": "suspect",
+   "entries": [
+    {
+     "cls": "target",
+     "rule": 5,
+     "role": 1,
+     "rawRole": "1",
+     "generic_name": [
+      "CARBAMAZEPINE"
+     ],
+     "brand_name": [
+      "TEGRETOL",
+      "TEGRETOL XR"
+     ],
+     "medicinalproduct": "TEGRETOL"
+    }
+   ]
+  },
+  {
+   "safetyreportid": "26990041",
+   "receivedate": "20260712",
+   "cat": "suspect",
+   "entries": [
+    {
+     "cls": "target",
+     "rule": 5,
+     "role": 1,
+     "rawRole": "1",
+     "generic_name": [
+      "CARBAMAZEPINE"
+     ],
+     "brand_name": [
+      "EQUETRO"
+     ],
+     "medicinalproduct": "EQUETRO"
+    }
+   ]
+  },
+  {
+   "safetyreportid": "26990063",
+   "receivedate": "20260712",
+   "cat": "suspect",
+   "entries": [
+    {
+     "cls": "target",
+     "rule": 5,
+     "role": 1,
+     "rawRole": "1",
+     "generic_name": [
+      "CARBAMAZEPINE"
+     ],
+     "brand_name": [
+      "EQUETRO"
+     ],
+     "medicinalproduct": "EQUETRO"
+    }
+   ]
+  },
+  {
+   "safetyreportid": "26941913",
+   "receivedate": "20260630",
+   "cat": "suspect",
+   "entries": [
+    {
+     "cls": "target",
+     "rule": 5,
+     "role": 1,
+     "rawRole": "1",
+     "generic_name": [
+      "CARBAMAZEPINE"
+     ],
+     "brand_name": [
+      "CARBAMAZEPINE",
+      "CARBAMAZEPINE ER",
+      "TEGRETOL",
+      "TEGRETOL XR",
+      "CARBAMAZEPIN",
+      "EQUETRO",
+      "CARBATROL"
+     ],
+     "medicinalproduct": "CARBAMAZEPINE"
+    }
+   ]
+  },
+  {
+   "safetyreportid": "26893490",
+   "receivedate": "20260618",
+   "cat": "suspect",
+   "entries": [
+    {
+     "cls": "target",
+     "rule": 5,
+     "role": 1,
+     "rawRole": "1",
+     "generic_name": [
+      "CARBAMAZEPINE"
+     ],
+     "brand_name": [
+      "TEGRETOL",
+      "TEGRETOL XR"
+     ],
+     "medicinalproduct": "TEGRETOL"
+    },
+    {
+     "cls": "target",
+     "rule": 5,
+     "role": 1,
+     "rawRole": "1",
+     "generic_name": [
+      "CARBAMAZEPINE"
+     ],
+     "brand_name": [
+      "TEGRETOL",
+      "TEGRETOL XR"
+     ],
+     "medicinalproduct": "TEGRETOL"
+    },
+    {
+     "cls": "target",
+     "rule": 5,
+     "role": 1,
+     "rawRole": "1",
+     "generic_name": [
+      "CARBAMAZEPINE"
+     ],
+     "brand_name": [
+      "TEGRETOL",
+      "TEGRETOL XR"
+     ],
+     "medicinalproduct": "TEGRETOL"
+    },
+    {
+     "cls": "target",
+     "rule": 5,
+     "role": 1,
+     "rawRole": "1",
+     "generic_name": [
+      "CARBAMAZEPINE"
+     ],
+     "brand_name": [
+      "TEGRETOL",
+      "TEGRETOL XR"
+     ],
+     "medicinalproduct": "TEGRETOL"
+    }
+   ]
+  },
+  {
+   "safetyreportid": "26865602",
+   "receivedate": "20260611",
+   "cat": "suspect",
+   "entries": [
+    {
+     "cls": "target",
+     "rule": 5,
+     "role": 1,
+     "rawRole": "1",
+     "generic_name": [
+      "CARBAMAZEPINE"
+     ],
+     "brand_name": [
+      "TEGRETOL",
+      "TEGRETOL XR"
+     ],
+     "medicinalproduct": "TEGRETOL"
+    }
+   ]
+  },
+  {
+   "safetyreportid": "26816078",
+   "receivedate": "20260529",
+   "cat": "suspect",
+   "entries": [
+    {
+     "cls": "target",
+     "rule": 5,
+     "role": 1,
+     "rawRole": "1",
+     "generic_name": [
+      "CARBAMAZEPINE"
+     ],
+     "brand_name": [
+      "TEGRETOL XR"
+     ],
+     "medicinalproduct": "TEGRETOL XR"
+    }
+   ]
+  },
+  {
+   "safetyreportid": "26739719",
+   "receivedate": "20260511",
+   "cat": "suspect",
+   "entries": [
+    {
+     "cls": "target",
+     "rule": 5,
+     "role": 1,
+     "rawRole": "1",
+     "generic_name": [
+      "CARBAMAZEPINE"
+     ],
+     "brand_name": [
+      "CARBAMAZEPINE",
+      "CARBAMAZEPINE ER",
+      "TEGRETOL",
+      "TEGRETOL XR",
+      "CARBAMAZEPIN",
+      "EQUETRO",
+      "CARBATROL"
+     ],
+     "medicinalproduct": "CARBAMAZEPINE"
+    }
+   ]
+  },
+  {
+   "safetyreportid": "26719603",
+   "receivedate": "20260506",
+   "cat": "suspect",
+   "entries": [
+    {
+     "cls": "target",
+     "rule": 5,
+     "role": 1,
+     "rawRole": "1",
+     "generic_name": [
+      "CARBAMAZEPINE"
+     ],
+     "brand_name": [
+      "CARBAMAZEPINE",
+      "CARBAMAZEPINE ER",
+      "TEGRETOL",
+      "TEGRETOL XR",
+      "CARBAMAZEPIN",
+      "EQUETRO",
+      "CARBATROL"
+     ],
+     "medicinalproduct": "CARBAMAZEPINE"
+    }
+   ]
+  },
+  {
+   "safetyreportid": "26696959",
+   "receivedate": "20260430",
+   "cat": "suspect",
+   "entries": [
+    {
+     "cls": "target",
+     "rule": 5,
+     "role": 1,
+     "rawRole": "1",
+     "generic_name": [
+      "CARBAMAZEPINE"
+     ],
+     "brand_name": [
+      "TEGRETOL",
+      "TEGRETOL XR"
+     ],
+     "medicinalproduct": "TEGRETOL"
+    }
+   ]
+  },
+  {
+   "safetyreportid": "26524915",
+   "receivedate": "20260323",
+   "cat": "concomitant",
+   "entries": [
+    {
+     "cls": "target",
+     "rule": 5,
+     "role": 2,
+     "rawRole": "2",
+     "generic_name": [
+      "CARBAMAZEPINE"
+     ],
+     "brand_name": [
+      "CARBAMAZEPINE",
+      "CARBAMAZEPINE ER",
+      "TEGRETOL",
+      "TEGRETOL XR",
+      "CARBAMAZEPIN",
+      "EQUETRO",
+      "CARBATROL"
+     ],
+     "medicinalproduct": "CARBAMAZEPINE"
+    }
+   ]
+  },
+  {
+   "safetyreportid": "26503561",
+   "receivedate": "20260317",
+   "cat": "suspect",
+   "entries": [
+    {
+     "cls": "target",
+     "rule": 5,
+     "role": 1,
+     "rawRole": "1",
+     "generic_name": [
+      "CARBAMAZEPINE"
+     ],
+     "brand_name": [
+      "CARBAMAZEPINE",
+      "CARBAMAZEPINE ER",
+      "TEGRETOL",
+      "TEGRETOL XR",
+      "CARBAMAZEPIN",
+      "EQUETRO",
+      "CARBATROL"
+     ],
+     "medicinalproduct": "CARBAMAZEPINE"
+    }
+   ]
+  },
+  {
+   "safetyreportid": "26501127",
+   "receivedate": "20260316",
+   "cat": "concomitant",
+   "entries": [
+    {
+     "cls": "target",
+     "rule": 5,
+     "role": 2,
+     "rawRole": "2",
+     "generic_name": [
+      "CARBAMAZEPINE"
+     ],
+     "brand_name": [
+      "CARBAMAZEPINE",
+      "CARBAMAZEPINE ER",
+      "TEGRETOL",
+      "TEGRETOL XR",
+      "CARBAMAZEPIN",
+      "EQUETRO",
+      "CARBATROL"
+     ],
+     "medicinalproduct": "CARBAMAZEPINE"
+    }
+   ]
+  },
+  {
+   "safetyreportid": "26492229",
+   "receivedate": "20260313",
+   "cat": "concomitant",
+   "entries": [
+    {
+     "cls": "target",
+     "rule": 5,
+     "role": 2,
+     "rawRole": "2",
+     "generic_name": [
+      "CARBAMAZEPINE"
+     ],
+     "brand_name": [
+      "CARBAMAZEPINE",
+      "CARBAMAZEPINE ER",
+      "TEGRETOL",
+      "TEGRETOL XR",
+      "CARBAMAZEPIN",
+      "EQUETRO",
+      "CARBATROL"
+     ],
+     "medicinalproduct": "CARBAMAZEPINE"
+    }
+   ]
+  },
+  {
+   "safetyreportid": "26480618",
+   "receivedate": "20260311",
+   "cat": "concomitant",
+   "entries": [
+    {
+     "cls": "target",
+     "rule": 5,
+     "role": 2,
+     "rawRole": "2",
+     "generic_name": [
+      "CARBAMAZEPINE"
+     ],
+     "brand_name": [
+      "CARBAMAZEPINE",
+      "CARBAMAZEPINE ER",
+      "TEGRETOL",
+      "TEGRETOL XR",
+      "CARBAMAZEPIN",
+      "EQUETRO",
+      "CARBATROL"
+     ],
+     "medicinalproduct": "CARBAMAZEPINE"
+    }
+   ]
+  },
+  {
+   "safetyreportid": "26471554",
+   "receivedate": "20260309",
+   "cat": "suspect",
+   "entries": [
+    {
+     "cls": "target",
+     "rule": 5,
+     "role": 1,
+     "rawRole": "1",
+     "generic_name": [
+      "CARBAMAZEPINE"
+     ],
+     "brand_name": [
+      "TEGRETOL",
+      "TEGRETOL XR"
+     ],
+     "medicinalproduct": "TEGRETOL"
+    }
+   ]
+  },
+  {
+   "safetyreportid": "26235514",
+   "receivedate": "20260107",
+   "cat": "suspect",
+   "entries": [
+    {
+     "cls": "target",
+     "rule": 5,
+     "role": 1,
+     "rawRole": "1",
+     "generic_name": [
+      "CARBAMAZEPINE"
+     ],
+     "brand_name": [
+      "TEGRETOL",
+      "TEGRETOL XR"
+     ],
+     "medicinalproduct": "TEGRETOL"
+    }
+   ]
+  },
+  {
+   "safetyreportid": "26231526",
+   "receivedate": "20260106",
+   "cat": "suspect",
+   "entries": [
+    {
+     "cls": "target",
+     "rule": 5,
+     "role": 1,
+     "rawRole": "1",
+     "generic_name": [
+      "CARBAMAZEPINE"
+     ],
+     "brand_name": [
+      "TEGRETOL",
+      "TEGRETOL XR"
+     ],
+     "medicinalproduct": "TEGRETOL"
+    }
+   ]
+  },
+  {
+   "safetyreportid": "26135096",
+   "receivedate": "20251209",
+   "cat": "suspect",
+   "entries": [
+    {
+     "cls": "target",
+     "rule": 5,
+     "role": 1,
+     "rawRole": "1",
+     "generic_name": [
+      "CARBAMAZEPINE"
+     ],
+     "brand_name": [
+      "CARBAMAZEPINE",
+      "CARBAMAZEPINE ER",
+      "TEGRETOL",
+      "TEGRETOL XR",
+      "CARBAMAZEPIN",
+      "EQUETRO",
+      "CARBATROL"
+     ],
+     "medicinalproduct": "CARBAMAZEPINE"
+    }
+   ]
+  },
+  {
+   "safetyreportid": "26127843",
+   "receivedate": "20251206",
+   "cat": "suspect",
+   "entries": [
+    {
+     "cls": "target",
+     "rule": 5,
+     "role": 1,
+     "rawRole": "1",
+     "generic_name": [
+      "CARBAMAZEPINE"
+     ],
+     "brand_name": [
+      "CARBAMAZEPINE",
+      "CARBAMAZEPINE ER",
+      "TEGRETOL",
+      "TEGRETOL XR",
+      "CARBAMAZEPIN",
+      "EQUETRO",
+      "CARBATROL"
+     ],
+     "medicinalproduct": "CARBAMAZEPINE"
+    }
+   ]
+  },
+  {
+   "safetyreportid": "25993727",
+   "receivedate": "20251104",
+   "cat": "suspect",
+   "entries": [
+    {
+     "cls": "target",
+     "rule": 5,
+     "role": 1,
+     "rawRole": "1",
+     "generic_name": [
+      "CARBAMAZEPINE"
+     ],
+     "brand_name": [
+      "CARBAMAZEPINE",
+      "CARBAMAZEPINE ER",
+      "TEGRETOL",
+      "TEGRETOL XR",
+      "CARBAMAZEPIN",
+      "EQUETRO",
+      "CARBATROL"
+     ],
+     "medicinalproduct": "CARBAMAZEPINE"
+    }
+   ]
+  },
+  {
+   "safetyreportid": "25993728",
+   "receivedate": "20251104",
+   "cat": "suspect",
+   "entries": [
+    {
+     "cls": "target",
+     "rule": 5,
+     "role": 1,
+     "rawRole": "1",
+     "generic_name": [
+      "CARBAMAZEPINE"
+     ],
+     "brand_name": [
+      "CARBAMAZEPINE",
+      "CARBAMAZEPINE ER",
+      "TEGRETOL",
+      "TEGRETOL XR",
+      "CARBAMAZEPIN",
+      "EQUETRO",
+      "CARBATROL"
+     ],
+     "medicinalproduct": "CARBAMAZEPINE"
+    }
+   ]
+  },
+  {
+   "safetyreportid": "25993731",
+   "receivedate": "20251104",
+   "cat": "suspect",
+   "entries": [
+    {
+     "cls": "target",
+     "rule": 5,
+     "role": 1,
+     "rawRole": "1",
+     "generic_name": [
+      "CARBAMAZEPINE"
+     ],
+     "brand_name": [
+      "CARBAMAZEPINE",
+      "CARBAMAZEPINE ER",
+      "TEGRETOL",
+      "TEGRETOL XR",
+      "CARBAMAZEPIN",
+      "EQUETRO",
+      "CARBATROL"
+     ],
+     "medicinalproduct": "CARBAMAZEPINE"
+    }
+   ]
+  },
+  {
+   "safetyreportid": "25993733",
+   "receivedate": "20251104",
+   "cat": "suspect",
+   "entries": [
+    {
+     "cls": "target",
+     "rule": 5,
+     "role": 1,
+     "rawRole": "1",
+     "generic_name": [
+      "CARBAMAZEPINE"
+     ],
+     "brand_name": [
+      "CARBAMAZEPINE",
+      "CARBAMAZEPINE ER",
+      "TEGRETOL",
+      "TEGRETOL XR",
+      "CARBAMAZEPIN",
+      "EQUETRO",
+      "CARBATROL"
+     ],
+     "medicinalproduct": "CARBAMAZEPINE"
+    },
+    {
+     "cls": "target",
+     "rule": 5,
+     "role": 1,
+     "rawRole": "1",
+     "generic_name": [
+      "CARBAMAZEPINE"
+     ],
+     "brand_name": [
+      "CARBAMAZEPINE",
+      "CARBAMAZEPINE ER",
+      "TEGRETOL",
+      "TEGRETOL XR",
+      "CARBAMAZEPIN",
+      "EQUETRO",
+      "CARBATROL"
+     ],
+     "medicinalproduct": "CARBAMAZEPINE"
+    }
+   ]
+  },
+  {
+   "safetyreportid": "25979378",
+   "receivedate": "20251030",
+   "cat": "suspect",
+   "entries": [
+    {
+     "cls": "target",
+     "rule": 5,
+     "role": 1,
+     "rawRole": "1",
+     "generic_name": [
+      "CARBAMAZEPINE"
+     ],
+     "brand_name": [
+      "CARBAMAZEPINE",
+      "CARBAMAZEPINE ER",
+      "TEGRETOL",
+      "TEGRETOL XR",
+      "CARBAMAZEPIN",
+      "EQUETRO",
+      "CARBATROL"
+     ],
+     "medicinalproduct": "CARBAMAZEPINE"
+    }
+   ]
+  },
+  {
+   "safetyreportid": "25936046",
+   "receivedate": "20251017",
+   "cat": "suspect",
+   "entries": [
+    {
+     "cls": "target",
+     "rule": 5,
+     "role": 1,
+     "rawRole": "1",
+     "generic_name": [
+      "CARBAMAZEPINE"
+     ],
+     "brand_name": [
+      "CARBAMAZEPINE",
+      "CARBAMAZEPINE ER",
+      "TEGRETOL",
+      "TEGRETOL XR",
+      "CARBAMAZEPIN",
+      "EQUETRO",
+      "CARBATROL"
+     ],
+     "medicinalproduct": "CARBAMAZEPINE"
+    }
+   ]
+  },
+  {
+   "safetyreportid": "25908039",
+   "receivedate": "20251010",
+   "cat": "suspect",
+   "entries": [
+    {
+     "cls": "target",
+     "rule": 5,
+     "role": 1,
+     "rawRole": "1",
+     "generic_name": [
+      "CARBAMAZEPINE"
+     ],
+     "brand_name": [
+      "CARBAMAZEPINE",
+      "CARBAMAZEPINE ER",
+      "TEGRETOL",
+      "TEGRETOL XR",
+      "CARBAMAZEPIN",
+      "EQUETRO",
+      "CARBATROL"
+     ],
+     "medicinalproduct": "CARBAMAZEPINE"
+    }
+   ]
+  },
+  {
+   "safetyreportid": "25858292",
+   "receivedate": "20250929",
+   "cat": "suspect",
+   "entries": [
+    {
+     "cls": "target",
+     "rule": 5,
+     "role": 1,
+     "rawRole": "1",
+     "generic_name": [
+      "CARBAMAZEPINE"
+     ],
+     "brand_name": [
+      "CARBAMAZEPINE",
+      "CARBAMAZEPINE ER",
+      "TEGRETOL",
+      "TEGRETOL XR",
+      "CARBAMAZEPIN",
+      "EQUETRO",
+      "CARBATROL"
+     ],
+     "medicinalproduct": "CARBAMAZEPINE"
+    }
+   ]
+  },
+  {
+   "safetyreportid": "25840134",
+   "receivedate": "20250924",
+   "cat": "suspect",
+   "entries": [
+    {
+     "cls": "target",
+     "rule": 5,
+     "role": 1,
+     "rawRole": "1",
+     "generic_name": [
+      "CARBAMAZEPINE"
+     ],
+     "brand_name": [
+      "CARBAMAZEPINE",
+      "CARBAMAZEPINE ER",
+      "TEGRETOL",
+      "TEGRETOL XR",
+      "CARBAMAZEPIN",
+      "EQUETRO",
+      "CARBATROL"
+     ],
+     "medicinalproduct": "CARBAMAZEPINE"
+    }
+   ]
+  },
+  {
+   "safetyreportid": "25807972",
+   "receivedate": "20250916",
+   "cat": "suspect",
+   "entries": [
+    {
+     "cls": "target",
+     "rule": 5,
+     "role": 1,
+     "rawRole": "1",
+     "generic_name": [
+      "CARBAMAZEPINE"
+     ],
+     "brand_name": [
+      "CARBAMAZEPINE",
+      "CARBAMAZEPINE ER",
+      "TEGRETOL",
+      "TEGRETOL XR",
+      "CARBAMAZEPIN",
+      "EQUETRO",
+      "CARBATROL"
+     ],
+     "medicinalproduct": "CARBAMAZEPINE"
+    }
+   ]
+  },
+  {
+   "safetyreportid": "25749381",
+   "receivedate": "20250902",
+   "cat": "suspect",
+   "entries": [
+    {
+     "cls": "target",
+     "rule": 5,
+     "role": 1,
+     "rawRole": "1",
+     "generic_name": [
+      "CARBAMAZEPINE"
+     ],
+     "brand_name": [
+      "CARBAMAZEPINE",
+      "CARBAMAZEPINE ER",
+      "TEGRETOL",
+      "TEGRETOL XR",
+      "CARBAMAZEPIN",
+      "EQUETRO",
+      "CARBATROL"
+     ],
+     "medicinalproduct": "CARBAMAZEPINE"
+    },
+    {
+     "cls": "target",
+     "rule": 5,
+     "role": 1,
+     "rawRole": "1",
+     "generic_name": [
+      "CARBAMAZEPINE"
+     ],
+     "brand_name": [
+      "CARBAMAZEPINE",
+      "CARBAMAZEPINE ER",
+      "TEGRETOL",
+      "TEGRETOL XR",
+      "CARBAMAZEPIN",
+      "EQUETRO",
+      "CARBATROL"
+     ],
+     "medicinalproduct": "CARBAMAZEPINE"
+    }
+   ]
+  },
+  {
+   "safetyreportid": "25718922",
+   "receivedate": "20250823",
+   "cat": "concomitant",
+   "entries": [
+    {
+     "cls": "target",
+     "rule": 5,
+     "role": 2,
+     "rawRole": "2",
+     "generic_name": [
+      "CARBAMAZEPINE"
+     ],
+     "brand_name": [
+      "TEGRETOL XR"
+     ],
+     "medicinalproduct": "TEGRETOL XR"
+    }
+   ]
+  },
+  {
+   "safetyreportid": "25628551",
+   "receivedate": "20250731",
+   "cat": "suspect",
+   "entries": [
+    {
+     "cls": "target",
+     "rule": 5,
+     "role": 1,
+     "rawRole": "1",
+     "generic_name": [
+      "CARBAMAZEPINE"
+     ],
+     "brand_name": [
+      "CARBAMAZEPINE",
+      "CARBAMAZEPINE ER",
+      "TEGRETOL",
+      "TEGRETOL XR",
+      "CARBAMAZEPIN",
+      "EQUETRO",
+      "CARBATROL"
+     ],
+     "medicinalproduct": "CARBAMAZEPINE"
+    }
+   ]
+  },
+  {
+   "safetyreportid": "25614571",
+   "receivedate": "20250729",
+   "cat": "suspect",
+   "entries": [
+    {
+     "cls": "target",
+     "rule": 5,
+     "role": 1,
+     "rawRole": "1",
+     "generic_name": [
+      "CARBAMAZEPINE"
+     ],
+     "brand_name": [
+      "TEGRETOL",
+      "TEGRETOL XR"
+     ],
+     "medicinalproduct": "TEGRETOL"
+    }
+   ]
+  },
+  {
+   "safetyreportid": "25612140",
+   "receivedate": "20250728",
+   "cat": "suspect",
+   "entries": [
+    {
+     "cls": "target",
+     "rule": 5,
+     "role": 1,
+     "rawRole": "1",
+     "generic_name": [
+      "CARBAMAZEPINE"
+     ],
+     "brand_name": [
+      "TEGRETOL",
+      "TEGRETOL XR"
+     ],
+     "medicinalproduct": "TEGRETOL"
+    }
+   ]
+  },
+  {
+   "safetyreportid": "25603594",
+   "receivedate": "20250725",
+   "cat": "suspect",
+   "entries": [
+    {
+     "cls": "target",
+     "rule": 5,
+     "role": 1,
+     "rawRole": "1",
+     "generic_name": [
+      "CARBAMAZEPINE"
+     ],
+     "brand_name": [
+      "TEGRETOL XR"
+     ],
+     "medicinalproduct": "TEGRETOL XR"
+    }
+   ]
+  },
+  {
+   "safetyreportid": "25505856",
+   "receivedate": "20250702",
+   "cat": "suspect",
+   "entries": [
+    {
+     "cls": "target",
+     "rule": 5,
+     "role": 1,
+     "rawRole": "1",
+     "generic_name": [
+      "CARBAMAZEPINE"
+     ],
+     "brand_name": [
+      "CARBAMAZEPINE",
+      "CARBAMAZEPINE ER",
+      "TEGRETOL",
+      "TEGRETOL XR",
+      "CARBAMAZEPIN",
+      "EQUETRO",
+      "CARBATROL"
+     ],
+     "medicinalproduct": "CARBAMAZEPINE"
+    }
+   ]
+  },
+  {
+   "safetyreportid": "25466184",
+   "receivedate": "20250623",
+   "cat": "suspect",
+   "entries": [
+    {
+     "cls": "target",
+     "rule": 5,
+     "role": 1,
+     "rawRole": "1",
+     "generic_name": [
+      "CARBAMAZEPINE"
+     ],
+     "brand_name": [
+      "CARBAMAZEPINE",
+      "CARBAMAZEPINE ER",
+      "TEGRETOL",
+      "TEGRETOL XR",
+      "CARBAMAZEPIN",
+      "EQUETRO",
+      "CARBATROL"
+     ],
+     "medicinalproduct": "CARBAMAZEPINE"
+    }
+   ]
+  },
+  {
+   "safetyreportid": "25461198",
+   "receivedate": "20250620",
+   "cat": "suspect",
+   "entries": [
+    {
+     "cls": "target",
+     "rule": 5,
+     "role": 1,
+     "rawRole": "1",
+     "generic_name": [
+      "CARBAMAZEPINE"
+     ],
+     "brand_name": [
+      "TEGRETOL",
+      "TEGRETOL XR"
+     ],
+     "medicinalproduct": "TEGRETOL"
+    }
+   ]
+  },
+  {
+   "safetyreportid": "25390820",
+   "receivedate": "20250603",
+   "cat": "concomitant",
+   "entries": [
+    {
+     "cls": "target",
+     "rule": 5,
+     "role": 2,
+     "rawRole": "2",
+     "generic_name": [
+      "CARBAMAZEPINE"
+     ],
+     "brand_name": [
+      "CARBAMAZEPINE",
+      "CARBAMAZEPINE ER",
+      "TEGRETOL",
+      "TEGRETOL XR",
+      "CARBAMAZEPIN",
+      "EQUETRO",
+      "CARBATROL"
+     ],
+     "medicinalproduct": "CARBAMAZEPINE"
+    }
+   ]
+  },
+  {
+   "safetyreportid": "25299488",
+   "receivedate": "20250512",
+   "cat": "suspect",
+   "entries": [
+    {
+     "cls": "target",
+     "rule": 5,
+     "role": 1,
+     "rawRole": "1",
+     "generic_name": [
+      "CARBAMAZEPINE"
+     ],
+     "brand_name": [
+      "CARBAMAZEPINE",
+      "CARBAMAZEPINE ER",
+      "TEGRETOL",
+      "TEGRETOL XR",
+      "CARBAMAZEPIN",
+      "EQUETRO",
+      "CARBATROL"
+     ],
+     "medicinalproduct": "CARBAMAZEPINE"
+    }
+   ]
+  },
+  {
+   "safetyreportid": "25271189",
+   "receivedate": "20250506",
+   "cat": "suspect",
+   "entries": [
+    {
+     "cls": "target",
+     "rule": 5,
+     "role": 1,
+     "rawRole": "1",
+     "generic_name": [
+      "CARBAMAZEPINE"
+     ],
+     "brand_name": [
+      "CARBAMAZEPINE",
+      "CARBAMAZEPINE ER",
+      "TEGRETOL",
+      "TEGRETOL XR",
+      "CARBAMAZEPIN",
+      "EQUETRO",
+      "CARBATROL"
+     ],
+     "medicinalproduct": "CARBAMAZEPINE"
+    }
+   ]
+  },
+  {
+   "safetyreportid": "25262823",
+   "receivedate": "20250502",
+   "cat": "suspect",
+   "entries": [
+    {
+     "cls": "target",
+     "rule": 5,
+     "role": 1,
+     "rawRole": "1",
+     "generic_name": [
+      "CARBAMAZEPINE"
+     ],
+     "brand_name": [
+      "CARBAMAZEPINE",
+      "CARBAMAZEPINE ER",
+      "TEGRETOL",
+      "TEGRETOL XR",
+      "CARBAMAZEPIN",
+      "EQUETRO",
+      "CARBATROL"
+     ],
+     "medicinalproduct": "CARBAMAZEPINE"
+    }
+   ]
+  },
+  {
+   "safetyreportid": "25262826",
+   "receivedate": "20250502",
+   "cat": "suspect",
+   "entries": [
+    {
+     "cls": "target",
+     "rule": 5,
+     "role": 1,
+     "rawRole": "1",
+     "generic_name": [
+      "CARBAMAZEPINE"
+     ],
+     "brand_name": [
+      "CARBAMAZEPINE",
+      "CARBAMAZEPINE ER",
+      "TEGRETOL",
+      "TEGRETOL XR",
+      "CARBAMAZEPIN",
+      "EQUETRO",
+      "CARBATROL"
+     ],
+     "medicinalproduct": "CARBAMAZEPINE"
+    }
+   ]
+  },
+  {
+   "safetyreportid": "25235352",
+   "receivedate": "20250424",
+   "cat": "suspect",
+   "entries": [
+    {
+     "cls": "target",
+     "rule": 5,
+     "role": 1,
+     "rawRole": "1",
+     "generic_name": [
+      "CARBAMAZEPINE"
+     ],
+     "brand_name": [
+      "CARBAMAZEPINE",
+      "CARBAMAZEPINE ER",
+      "TEGRETOL",
+      "TEGRETOL XR",
+      "CARBAMAZEPIN",
+      "EQUETRO",
+      "CARBATROL"
+     ],
+     "medicinalproduct": "CARBAMAZEPINE"
+    }
+   ]
+  },
+  {
+   "safetyreportid": "25219297",
+   "receivedate": "20250421",
+   "cat": "suspect",
+   "entries": [
+    {
+     "cls": "target",
+     "rule": 5,
+     "role": 1,
+     "rawRole": "1",
+     "generic_name": [
+      "CARBAMAZEPINE"
+     ],
+     "brand_name": [
+      "CARBAMAZEPINE",
+      "CARBAMAZEPINE ER",
+      "TEGRETOL",
+      "TEGRETOL XR",
+      "CARBAMAZEPIN",
+      "EQUETRO",
+      "CARBATROL"
+     ],
+     "medicinalproduct": "CARBAMAZEPINE"
+    }
+   ]
+  },
+  {
+   "safetyreportid": "25199347",
+   "receivedate": "20250415",
+   "cat": "suspect",
+   "entries": [
+    {
+     "cls": "target",
+     "rule": 5,
+     "role": 1,
+     "rawRole": "1",
+     "generic_name": [
+      "CARBAMAZEPINE"
+     ],
+     "brand_name": [
+      "CARBAMAZEPINE",
+      "CARBAMAZEPINE ER",
+      "TEGRETOL",
+      "TEGRETOL XR",
+      "CARBAMAZEPIN",
+      "EQUETRO",
+      "CARBATROL"
+     ],
+     "medicinalproduct": "CARBAMAZEPINE"
+    }
+   ]
+  },
+  {
+   "safetyreportid": "25120491",
+   "receivedate": "20250325",
+   "cat": "suspect",
+   "entries": [
+    {
+     "cls": "target",
+     "rule": 5,
+     "role": 1,
+     "rawRole": "1",
+     "generic_name": [
+      "CARBAMAZEPINE"
+     ],
+     "brand_name": [
+      "CARBAMAZEPINE",
+      "CARBAMAZEPINE ER",
+      "TEGRETOL",
+      "TEGRETOL XR",
+      "CARBAMAZEPIN",
+      "EQUETRO",
+      "CARBATROL"
+     ],
+     "medicinalproduct": "CARBAMAZEPINE"
+    }
+   ]
+  },
+  {
+   "safetyreportid": "25056870",
+   "receivedate": "20250310",
+   "cat": "suspect",
+   "entries": [
+    {
+     "cls": "target",
+     "rule": 5,
+     "role": 1,
+     "rawRole": "1",
+     "generic_name": [
+      "CARBAMAZEPINE"
+     ],
+     "brand_name": [
+      "CARBAMAZEPINE",
+      "CARBAMAZEPINE ER",
+      "TEGRETOL",
+      "TEGRETOL XR",
+      "CARBAMAZEPIN",
+      "EQUETRO",
+      "CARBATROL"
+     ],
+     "medicinalproduct": "CARBAMAZEPINE"
+    }
+   ]
+  },
+  {
+   "safetyreportid": "25029654",
+   "receivedate": "20250303",
+   "cat": "interacting",
+   "entries": [
+    {
+     "cls": "target",
+     "rule": 5,
+     "role": 3,
+     "rawRole": "3",
+     "generic_name": [
+      "CARBAMAZEPINE"
+     ],
+     "brand_name": [
+      "CARBAMAZEPINE",
+      "CARBAMAZEPINE ER",
+      "TEGRETOL",
+      "TEGRETOL XR",
+      "CARBAMAZEPIN",
+      "EQUETRO",
+      "CARBATROL"
+     ],
+     "medicinalproduct": "CARBAMAZEPINE"
+    }
+   ]
+  },
+  {
+   "safetyreportid": "25019958",
+   "receivedate": "20250227",
+   "cat": "suspect",
+   "entries": [
+    {
+     "cls": "target",
+     "rule": 5,
+     "role": 1,
+     "rawRole": "1",
+     "generic_name": [
+      "CARBAMAZEPINE"
+     ],
+     "brand_name": [
+      "CARBAMAZEPINE",
+      "CARBAMAZEPINE ER",
+      "TEGRETOL",
+      "TEGRETOL XR",
+      "CARBAMAZEPIN",
+      "EQUETRO",
+      "CARBATROL"
+     ],
+     "medicinalproduct": "CARBAMAZEPINE"
+    }
+   ]
+  },
+  {
+   "safetyreportid": "24962762",
+   "receivedate": "20250213",
+   "cat": "suspect",
+   "entries": [
+    {
+     "cls": "target",
+     "rule": 5,
+     "role": 1,
+     "rawRole": "1",
+     "generic_name": [
+      "CARBAMAZEPINE"
+     ],
+     "brand_name": [
+      "CARBAMAZEPINE",
+      "CARBAMAZEPINE ER",
+      "TEGRETOL",
+      "TEGRETOL XR",
+      "CARBAMAZEPIN",
+      "EQUETRO",
+      "CARBATROL"
+     ],
+     "medicinalproduct": "CARBAMAZEPINE"
+    }
+   ]
+  },
+  {
+   "safetyreportid": "24953064",
+   "receivedate": "20250211",
+   "cat": "suspect",
+   "entries": [
+    {
+     "cls": "target",
+     "rule": 5,
+     "role": 1,
+     "rawRole": "1",
+     "generic_name": [
+      "CARBAMAZEPINE"
+     ],
+     "brand_name": [
+      "CARBAMAZEPINE",
+      "CARBAMAZEPINE ER",
+      "TEGRETOL",
+      "TEGRETOL XR",
+      "CARBAMAZEPIN",
+      "EQUETRO",
+      "CARBATROL"
+     ],
+     "medicinalproduct": "CARBAMAZEPINE"
+    }
+   ]
+  },
+  {
+   "safetyreportid": "24954912",
+   "receivedate": "20250211",
+   "cat": "suspect",
+   "entries": [
+    {
+     "cls": "target",
+     "rule": 5,
+     "role": 1,
+     "rawRole": "1",
+     "generic_name": [
+      "CARBAMAZEPINE"
+     ],
+     "brand_name": [
+      "CARBAMAZEPINE",
+      "CARBAMAZEPINE ER",
+      "TEGRETOL",
+      "TEGRETOL XR",
+      "CARBAMAZEPIN",
+      "EQUETRO",
+      "CARBATROL"
+     ],
+     "medicinalproduct": "CARBAMAZEPINE"
+    }
+   ]
+  },
+  {
+   "safetyreportid": "24938234",
+   "receivedate": "20250206",
+   "cat": "suspect",
+   "entries": [
+    {
+     "cls": "target",
+     "rule": 5,
+     "role": 1,
+     "rawRole": "1",
+     "generic_name": [
+      "CARBAMAZEPINE"
+     ],
+     "brand_name": [
+      "CARBAMAZEPINE",
+      "CARBAMAZEPINE ER",
+      "TEGRETOL",
+      "TEGRETOL XR",
+      "CARBAMAZEPIN",
+      "EQUETRO",
+      "CARBATROL"
+     ],
+     "medicinalproduct": "CARBAMAZEPINE"
+    }
+   ]
+  },
+  {
+   "safetyreportid": "24939089",
+   "receivedate": "20250206",
+   "cat": "suspect",
+   "entries": [
+    {
+     "cls": "target",
+     "rule": 5,
+     "role": 1,
+     "rawRole": "1",
+     "generic_name": [
+      "CARBAMAZEPINE"
+     ],
+     "brand_name": [
+      "CARBAMAZEPINE",
+      "CARBAMAZEPINE ER",
+      "TEGRETOL",
+      "TEGRETOL XR",
+      "CARBAMAZEPIN",
+      "EQUETRO",
+      "CARBATROL"
+     ],
+     "medicinalproduct": "CARBAMAZEPINE"
+    }
+   ]
+  },
+  {
+   "safetyreportid": "24926665",
+   "receivedate": "20250205",
+   "cat": "suspect",
+   "entries": [
+    {
+     "cls": "target",
+     "rule": 5,
+     "role": 1,
+     "rawRole": "1",
+     "generic_name": [
+      "CARBAMAZEPINE"
+     ],
+     "brand_name": [
+      "CARBAMAZEPINE",
+      "CARBAMAZEPINE ER",
+      "TEGRETOL",
+      "TEGRETOL XR",
+      "CARBAMAZEPIN",
+      "EQUETRO",
+      "CARBATROL"
+     ],
+     "medicinalproduct": "CARBAMAZEPINE"
+    }
+   ]
+  },
+  {
+   "safetyreportid": "24899965",
+   "receivedate": "20250129",
+   "cat": "concomitant",
+   "entries": [
+    {
+     "cls": "target",
+     "rule": 5,
+     "role": 2,
+     "rawRole": "2",
+     "generic_name": [
+      "CARBAMAZEPINE"
+     ],
+     "brand_name": [
+      "CARBAMAZEPINE",
+      "CARBAMAZEPINE ER",
+      "TEGRETOL",
+      "TEGRETOL XR",
+      "CARBAMAZEPIN",
+      "EQUETRO",
+      "CARBATROL"
+     ],
+     "medicinalproduct": "CARBAMAZEPINE"
+    }
+   ]
+  },
+  {
+   "safetyreportid": "24901425",
+   "receivedate": "20250129",
+   "cat": "suspect",
+   "entries": [
+    {
+     "cls": "target",
+     "rule": 5,
+     "role": 1,
+     "rawRole": "1",
+     "generic_name": [
+      "CARBAMAZEPINE"
+     ],
+     "brand_name": [
+      "CARBAMAZEPINE",
+      "CARBAMAZEPINE ER",
+      "TEGRETOL",
+      "TEGRETOL XR",
+      "CARBAMAZEPIN",
+      "EQUETRO",
+      "CARBATROL"
+     ],
+     "medicinalproduct": "CARBAMAZEPINE"
+    }
+   ]
+  },
+  {
+   "safetyreportid": "24893543",
+   "receivedate": "20250128",
+   "cat": "suspect",
+   "entries": [
+    {
+     "cls": "target",
+     "rule": 5,
+     "role": 1,
+     "rawRole": "1",
+     "generic_name": [
+      "CARBAMAZEPINE"
+     ],
+     "brand_name": [
+      "CARBAMAZEPINE",
+      "CARBAMAZEPINE ER",
+      "TEGRETOL",
+      "TEGRETOL XR",
+      "CARBAMAZEPIN",
+      "EQUETRO",
+      "CARBATROL"
+     ],
+     "medicinalproduct": "CARBAMAZEPINE"
+    }
+   ]
+  },
+  {
+   "safetyreportid": "24890806",
+   "receivedate": "20250127",
+   "cat": "suspect",
+   "entries": [
+    {
+     "cls": "target",
+     "rule": 5,
+     "role": 1,
+     "rawRole": "1",
+     "generic_name": [
+      "CARBAMAZEPINE"
+     ],
+     "brand_name": [
+      "CARBAMAZEPINE",
+      "CARBAMAZEPINE ER",
+      "TEGRETOL",
+      "TEGRETOL XR",
+      "CARBAMAZEPIN",
+      "EQUETRO",
+      "CARBATROL"
+     ],
+     "medicinalproduct": "CARBAMAZEPINE"
+    }
+   ]
+  },
+  {
+   "safetyreportid": "24857153",
+   "receivedate": "20250117",
+   "cat": "concomitant",
+   "entries": [
+    {
+     "cls": "target",
+     "rule": 5,
+     "role": 2,
+     "rawRole": "2",
+     "generic_name": [
+      "CARBAMAZEPINE"
+     ],
+     "brand_name": [
+      "CARBAMAZEPINE",
+      "CARBAMAZEPINE ER",
+      "TEGRETOL",
+      "TEGRETOL XR",
+      "CARBAMAZEPIN",
+      "EQUETRO",
+      "CARBATROL"
+     ],
+     "medicinalproduct": "CARBAMAZEPINE"
+    }
+   ]
+  },
+  {
+   "safetyreportid": "24851621",
+   "receivedate": "20250116",
+   "cat": "suspect",
+   "entries": [
+    {
+     "cls": "target",
+     "rule": 5,
+     "role": 1,
+     "rawRole": "1",
+     "generic_name": [
+      "CARBAMAZEPINE"
+     ],
+     "brand_name": [
+      "CARBAMAZEPINE",
+      "CARBAMAZEPINE ER",
+      "TEGRETOL",
+      "TEGRETOL XR",
+      "CARBAMAZEPIN",
+      "EQUETRO",
+      "CARBATROL"
+     ],
+     "medicinalproduct": "CARBAMAZEPINE"
+    }
+   ]
+  },
+  {
+   "safetyreportid": "24814036",
+   "receivedate": "20250107",
+   "cat": "suspect",
+   "entries": [
+    {
+     "cls": "target",
+     "rule": 5,
+     "role": 1,
+     "rawRole": "1",
+     "generic_name": [
+      "CARBAMAZEPINE"
+     ],
+     "brand_name": [
+      "CARBAMAZEPINE",
+      "CARBAMAZEPINE ER",
+      "TEGRETOL",
+      "TEGRETOL XR",
+      "CARBAMAZEPIN",
+      "EQUETRO",
+      "CARBATROL"
+     ],
+     "medicinalproduct": "CARBAMAZEPINE"
+    }
+   ]
+  },
+  {
+   "safetyreportid": "24814874",
+   "receivedate": "20250107",
+   "cat": "suspect",
+   "entries": [
+    {
+     "cls": "target",
+     "rule": 5,
+     "role": 1,
+     "rawRole": "1",
+     "generic_name": [
+      "CARBAMAZEPINE"
+     ],
+     "brand_name": [
+      "CARBAMAZEPINE",
+      "CARBAMAZEPINE ER",
+      "TEGRETOL",
+      "TEGRETOL XR",
+      "CARBAMAZEPIN",
+      "EQUETRO",
+      "CARBATROL"
+     ],
+     "medicinalproduct": "CARBAMAZEPINE"
+    }
+   ]
+  },
+  {
+   "safetyreportid": "24810210",
+   "receivedate": "20250106",
+   "cat": "suspect",
+   "entries": [
+    {
+     "cls": "target",
+     "rule": 5,
+     "role": 1,
+     "rawRole": "1",
+     "generic_name": [
+      "CARBAMAZEPINE"
+     ],
+     "brand_name": [
+      "CARBAMAZEPINE",
+      "CARBAMAZEPINE ER",
+      "TEGRETOL",
+      "TEGRETOL XR",
+      "CARBAMAZEPIN",
+      "EQUETRO",
+      "CARBATROL"
+     ],
+     "medicinalproduct": "CARBAMAZEPINE"
+    }
+   ]
+  },
+  {
+   "safetyreportid": "24801975",
+   "receivedate": "20250102",
+   "cat": "suspect",
+   "entries": [
+    {
+     "cls": "target",
+     "rule": 5,
+     "role": 1,
+     "rawRole": "1",
+     "generic_name": [
+      "CARBAMAZEPINE"
+     ],
+     "brand_name": [
+      "CARBAMAZEPINE",
+      "CARBAMAZEPINE ER",
+      "TEGRETOL",
+      "TEGRETOL XR",
+      "CARBAMAZEPIN",
+      "EQUETRO",
+      "CARBATROL"
+     ],
+     "medicinalproduct": "CARBAMAZEPINE"
+    }
+   ]
+  },
+  {
+   "safetyreportid": "24704427",
+   "receivedate": "20241206",
+   "cat": "concomitant",
+   "entries": [
+    {
+     "cls": "target",
+     "rule": 5,
+     "role": 2,
+     "rawRole": "2",
+     "generic_name": [
+      "CARBAMAZEPINE"
+     ],
+     "brand_name": [
+      "CARBAMAZEPINE",
+      "CARBAMAZEPINE ER",
+      "TEGRETOL",
+      "TEGRETOL XR",
+      "CARBAMAZEPIN",
+      "EQUETRO",
+      "CARBATROL"
+     ],
+     "medicinalproduct": "CARBAMAZEPINE"
+    }
+   ]
+  },
+  {
+   "safetyreportid": "24670163",
+   "receivedate": "20241127",
+   "cat": "suspect",
+   "entries": [
+    {
+     "cls": "target",
+     "rule": 5,
+     "role": 1,
+     "rawRole": "1",
+     "generic_name": [
+      "CARBAMAZEPINE"
+     ],
+     "brand_name": [
+      "TEGRETOL",
+      "TEGRETOL XR"
+     ],
+     "medicinalproduct": "TEGRETOL"
+    }
+   ]
+  },
+  {
+   "safetyreportid": "24652422",
+   "receivedate": "20241122",
+   "cat": "suspect",
+   "entries": [
+    {
+     "cls": "target",
+     "rule": 5,
+     "role": 1,
+     "rawRole": "1",
+     "generic_name": [
+      "CARBAMAZEPINE"
+     ],
+     "brand_name": [
+      "CARBAMAZEPINE",
+      "CARBAMAZEPINE ER",
+      "TEGRETOL",
+      "TEGRETOL XR",
+      "CARBAMAZEPIN",
+      "EQUETRO",
+      "CARBATROL"
+     ],
+     "medicinalproduct": "CARBAMAZEPINE"
+    }
+   ]
+  },
+  {
+   "safetyreportid": "24574902",
+   "receivedate": "20241104",
+   "cat": "suspect",
+   "entries": [
+    {
+     "cls": "target",
+     "rule": 5,
+     "role": 1,
+     "rawRole": "1",
+     "generic_name": [
+      "CARBAMAZEPINE"
+     ],
+     "brand_name": [
+      "CARBAMAZEPINE",
+      "CARBAMAZEPINE ER",
+      "TEGRETOL",
+      "TEGRETOL XR",
+      "CARBAMAZEPIN",
+      "EQUETRO",
+      "CARBATROL"
+     ],
+     "medicinalproduct": "CARBAMAZEPINE"
+    }
+   ]
+  },
+  {
+   "safetyreportid": "24530240",
+   "receivedate": "20241021",
+   "cat": "suspect",
+   "entries": [
+    {
+     "cls": "target",
+     "rule": 5,
+     "role": 1,
+     "rawRole": "1",
+     "generic_name": [
+      "CARBAMAZEPINE"
+     ],
+     "brand_name": [
+      "CARBAMAZEPINE",
+      "CARBAMAZEPINE ER",
+      "TEGRETOL",
+      "TEGRETOL XR",
+      "CARBAMAZEPIN",
+      "EQUETRO",
+      "CARBATROL"
+     ],
+     "medicinalproduct": "CARBAMAZEPINE"
+    }
+   ]
+  },
+  {
+   "safetyreportid": "24375612",
+   "receivedate": "20240928",
+   "cat": "suspect",
+   "entries": [
+    {
+     "cls": "target",
+     "rule": 5,
+     "role": 1,
+     "rawRole": "1",
+     "generic_name": [
+      "CARBAMAZEPINE"
+     ],
+     "brand_name": [
+      "CARBAMAZEPINE",
+      "CARBAMAZEPINE ER",
+      "TEGRETOL",
+      "TEGRETOL XR",
+      "CARBAMAZEPIN",
+      "EQUETRO",
+      "CARBATROL"
+     ],
+     "medicinalproduct": "CARBAMAZEPINE"
+    }
+   ]
+  },
+  {
+   "safetyreportid": "24372483",
+   "receivedate": "20240927",
+   "cat": "suspect",
+   "entries": [
+    {
+     "cls": "target",
+     "rule": 5,
+     "role": 1,
+     "rawRole": "1",
+     "generic_name": [
+      "CARBAMAZEPINE"
+     ],
+     "brand_name": [
+      "CARBAMAZEPINE",
+      "CARBAMAZEPINE ER",
+      "TEGRETOL",
+      "TEGRETOL XR",
+      "CARBAMAZEPIN",
+      "EQUETRO",
+      "CARBATROL"
+     ],
+     "medicinalproduct": "CARBAMAZEPINE"
+    }
+   ]
+  },
+  {
+   "safetyreportid": "24354916",
+   "receivedate": "20240923",
+   "cat": "suspect",
+   "entries": [
+    {
+     "cls": "target",
+     "rule": 5,
+     "role": 1,
+     "rawRole": "1",
+     "generic_name": [
+      "CARBAMAZEPINE"
+     ],
+     "brand_name": [
+      "CARBAMAZEPINE",
+      "CARBAMAZEPINE ER",
+      "TEGRETOL",
+      "TEGRETOL XR",
+      "CARBAMAZEPIN",
+      "EQUETRO",
+      "CARBATROL"
+     ],
+     "medicinalproduct": "CARBAMAZEPINE"
+    }
+   ]
+  },
+  {
+   "safetyreportid": "24347830",
+   "receivedate": "20240922",
+   "cat": "suspect",
+   "entries": [
+    {
+     "cls": "target",
+     "rule": 5,
+     "role": 1,
+     "rawRole": "1",
+     "generic_name": [
+      "CARBAMAZEPINE"
+     ],
+     "brand_name": [
+      "CARBAMAZEPINE",
+      "CARBAMAZEPINE ER",
+      "TEGRETOL",
+      "TEGRETOL XR",
+      "CARBAMAZEPIN",
+      "EQUETRO",
+      "CARBATROL"
+     ],
+     "medicinalproduct": "CARBAMAZEPINE"
+    }
+   ]
+  },
+  {
+   "safetyreportid": "24340333",
+   "receivedate": "20240919",
+   "cat": "suspect",
+   "entries": [
+    {
+     "cls": "target",
+     "rule": 5,
+     "role": 1,
+     "rawRole": "1",
+     "generic_name": [
+      "CARBAMAZEPINE"
+     ],
+     "brand_name": [
+      "CARBAMAZEPINE",
+      "CARBAMAZEPINE ER",
+      "TEGRETOL",
+      "TEGRETOL XR",
+      "CARBAMAZEPIN",
+      "EQUETRO",
+      "CARBATROL"
+     ],
+     "medicinalproduct": "CARBAMAZEPINE"
+    }
+   ]
+  },
+  {
+   "safetyreportid": "24214203",
+   "receivedate": "20240815",
+   "cat": "suspect",
+   "entries": [
+    {
+     "cls": "target",
+     "rule": 5,
+     "role": 1,
+     "rawRole": "1",
+     "generic_name": [
+      "CARBAMAZEPINE"
+     ],
+     "brand_name": [
+      "TEGRETOL",
+      "TEGRETOL XR"
+     ],
+     "medicinalproduct": "TEGRETOL"
+    }
+   ]
+  },
+  {
+   "safetyreportid": "24191268",
+   "receivedate": "20240808",
+   "cat": "suspect",
+   "entries": [
+    {
+     "cls": "target",
+     "rule": 5,
+     "role": 1,
+     "rawRole": "1",
+     "generic_name": [
+      "CARBAMAZEPINE"
+     ],
+     "brand_name": [
+      "CARBAMAZEPINE",
+      "CARBAMAZEPINE ER",
+      "TEGRETOL",
+      "TEGRETOL XR",
+      "CARBAMAZEPIN",
+      "EQUETRO",
+      "CARBATROL"
+     ],
+     "medicinalproduct": "CARBAMAZEPINE"
+    }
+   ]
+  },
+  {
+   "safetyreportid": "24171806",
+   "receivedate": "20240805",
+   "cat": "suspect",
+   "entries": [
+    {
+     "cls": "target",
+     "rule": 5,
+     "role": 1,
+     "rawRole": "1",
+     "generic_name": [
+      "CARBAMAZEPINE"
+     ],
+     "brand_name": [
+      "CARBAMAZEPINE",
+      "CARBAMAZEPINE ER",
+      "TEGRETOL",
+      "TEGRETOL XR",
+      "CARBAMAZEPIN",
+      "EQUETRO",
+      "CARBATROL"
+     ],
+     "medicinalproduct": "CARBAMAZEPINE"
+    }
+   ]
+  },
+  {
+   "safetyreportid": "24066378",
+   "receivedate": "20240709",
+   "cat": "suspect",
+   "entries": [
+    {
+     "cls": "target",
+     "rule": 5,
+     "role": 1,
+     "rawRole": "1",
+     "generic_name": [
+      "CARBAMAZEPINE"
+     ],
+     "brand_name": [
+      "CARBAMAZEPINE",
+      "CARBAMAZEPINE ER",
+      "TEGRETOL",
+      "TEGRETOL XR",
+      "CARBAMAZEPIN",
+      "EQUETRO",
+      "CARBATROL"
+     ],
+     "medicinalproduct": "CARBAMAZEPINE"
+    }
+   ]
+  },
+  {
+   "safetyreportid": "23999850",
+   "receivedate": "20240621",
+   "cat": "suspect",
+   "entries": [
+    {
+     "cls": "target",
+     "rule": 5,
+     "role": 1,
+     "rawRole": "1",
+     "generic_name": [
+      "CARBAMAZEPINE"
+     ],
+     "brand_name": [
+      "CARBAMAZEPINE",
+      "CARBAMAZEPINE ER",
+      "TEGRETOL",
+      "TEGRETOL XR",
+      "CARBAMAZEPIN",
+      "EQUETRO",
+      "CARBATROL"
+     ],
+     "medicinalproduct": "CARBAMAZEPINE"
+    }
+   ]
+  },
+  {
+   "safetyreportid": "23949968",
+   "receivedate": "20240607",
+   "cat": "suspect",
+   "entries": [
+    {
+     "cls": "target",
+     "rule": 5,
+     "role": 1,
+     "rawRole": "1",
+     "generic_name": [
+      "CARBAMAZEPINE"
+     ],
+     "brand_name": [
+      "TEGRETOL",
+      "TEGRETOL XR"
+     ],
+     "medicinalproduct": "TEGRETOL"
+    }
+   ]
+  },
+  {
+   "safetyreportid": "23914143",
+   "receivedate": "20240529",
+   "cat": "suspect",
+   "entries": [
+    {
+     "cls": "target",
+     "rule": 5,
+     "role": 1,
+     "rawRole": "1",
+     "generic_name": [
+      "CARBAMAZEPINE"
+     ],
+     "brand_name": [
+      "CARBAMAZEPINE",
+      "CARBAMAZEPINE ER",
+      "TEGRETOL",
+      "TEGRETOL XR",
+      "CARBAMAZEPIN",
+      "EQUETRO",
+      "CARBATROL"
+     ],
+     "medicinalproduct": "CARBAMAZEPINE"
+    },
+    {
+     "cls": "target",
+     "rule": 5,
+     "role": 1,
+     "rawRole": "1",
+     "generic_name": [
+      "CARBAMAZEPINE"
+     ],
+     "brand_name": [
+      "TEGRETOL",
+      "TEGRETOL XR"
+     ],
+     "medicinalproduct": "TEGRETOL"
+    }
+   ]
+  },
+  {
+   "safetyreportid": "23917208",
+   "receivedate": "20240529",
+   "cat": "suspect",
+   "entries": [
+    {
+     "cls": "target",
+     "rule": 5,
+     "role": 1,
+     "rawRole": "1",
+     "generic_name": [
+      "CARBAMAZEPINE"
+     ],
+     "brand_name": [
+      "TEGRETOL",
+      "TEGRETOL XR"
+     ],
+     "medicinalproduct": "TEGRETOL"
+    },
+    {
+     "cls": "target",
+     "rule": 5,
+     "role": 1,
+     "rawRole": "1",
+     "generic_name": [
+      "CARBAMAZEPINE"
+     ],
+     "brand_name": [
+      "CARBAMAZEPINE",
+      "CARBAMAZEPINE ER",
+      "TEGRETOL",
+      "TEGRETOL XR",
+      "CARBAMAZEPIN",
+      "EQUETRO",
+      "CARBATROL"
+     ],
+     "medicinalproduct": "CARBAMAZEPINE"
+    }
+   ]
+  },
+  {
+   "safetyreportid": "23850011",
+   "receivedate": "20240513",
+   "cat": "suspect",
+   "entries": [
+    {
+     "cls": "target",
+     "rule": 5,
+     "role": 1,
+     "rawRole": "1",
+     "generic_name": [
+      "CARBAMAZEPINE"
+     ],
+     "brand_name": [
+      "CARBAMAZEPINE",
+      "CARBAMAZEPINE ER",
+      "TEGRETOL",
+      "TEGRETOL XR",
+      "CARBAMAZEPIN",
+      "EQUETRO",
+      "CARBATROL"
+     ],
+     "medicinalproduct": "CARBAMAZEPINE"
+    }
+   ]
+  },
+  {
+   "safetyreportid": "23837513",
+   "receivedate": "20240509",
+   "cat": "suspect",
+   "entries": [
+    {
+     "cls": "target",
+     "rule": 5,
+     "role": 1,
+     "rawRole": "1",
+     "generic_name": [
+      "CARBAMAZEPINE"
+     ],
+     "brand_name": [
+      "CARBAMAZEPINE",
+      "CARBAMAZEPINE ER",
+      "TEGRETOL",
+      "TEGRETOL XR",
+      "CARBAMAZEPIN",
+      "EQUETRO",
+      "CARBATROL"
+     ],
+     "medicinalproduct": "CARBAMAZEPINE"
+    }
+   ]
+  },
+  {
+   "safetyreportid": "23804911",
+   "receivedate": "20240501",
+   "cat": "suspect",
+   "entries": [
+    {
+     "cls": "target",
+     "rule": 5,
+     "role": 1,
+     "rawRole": "1",
+     "generic_name": [
+      "CARBAMAZEPINE"
+     ],
+     "brand_name": [
+      "TEGRETOL",
+      "TEGRETOL XR"
+     ],
+     "medicinalproduct": "TEGRETOL"
+    },
+    {
+     "cls": "target",
+     "rule": 5,
+     "role": 1,
+     "rawRole": "1",
+     "generic_name": [
+      "CARBAMAZEPINE"
+     ],
+     "brand_name": [
+      "TEGRETOL",
+      "TEGRETOL XR"
+     ],
+     "medicinalproduct": "TEGRETOL"
+    },
+    {
+     "cls": "target",
+     "rule": 5,
+     "role": 1,
+     "rawRole": "1",
+     "generic_name": [
+      "CARBAMAZEPINE"
+     ],
+     "brand_name": [
+      "TEGRETOL",
+      "TEGRETOL XR"
+     ],
+     "medicinalproduct": "TEGRETOL"
+    },
+    {
+     "cls": "target",
+     "rule": 5,
+     "role": 1,
+     "rawRole": "1",
+     "generic_name": [
+      "CARBAMAZEPINE"
+     ],
+     "brand_name": [
+      "TEGRETOL",
+      "TEGRETOL XR"
+     ],
+     "medicinalproduct": "TEGRETOL"
+    },
+    {
+     "cls": "target",
+     "rule": 5,
+     "role": 1,
+     "rawRole": "1",
+     "generic_name": [
+      "CARBAMAZEPINE"
+     ],
+     "brand_name": [
+      "TEGRETOL",
+      "TEGRETOL XR"
+     ],
+     "medicinalproduct": "TEGRETOL"
+    },
+    {
+     "cls": "target",
+     "rule": 5,
+     "role": 1,
+     "rawRole": "1",
+     "generic_name": [
+      "CARBAMAZEPINE"
+     ],
+     "brand_name": [
+      "TEGRETOL",
+      "TEGRETOL XR"
+     ],
+     "medicinalproduct": "TEGRETOL"
+    },
+    {
+     "cls": "target",
+     "rule": 5,
+     "role": 1,
+     "rawRole": "1",
+     "generic_name": [
+      "CARBAMAZEPINE"
+     ],
+     "brand_name": [
+      "TEGRETOL",
+      "TEGRETOL XR"
+     ],
+     "medicinalproduct": "TEGRETOL"
+    }
+   ]
+  },
+  {
+   "safetyreportid": "23708727",
+   "receivedate": "20240404",
+   "cat": "concomitant",
+   "entries": [
+    {
+     "cls": "target",
+     "rule": 5,
+     "role": 2,
+     "rawRole": "2",
+     "generic_name": [
+      "CARBAMAZEPINE"
+     ],
+     "brand_name": [
+      "CARBAMAZEPINE",
+      "CARBAMAZEPINE ER",
+      "TEGRETOL",
+      "TEGRETOL XR",
+      "CARBAMAZEPIN",
+      "EQUETRO",
+      "CARBATROL"
+     ],
+     "medicinalproduct": "CARBAMAZEPINE"
+    }
+   ]
+  },
+  {
+   "safetyreportid": "23652357",
+   "receivedate": "20240320",
+   "cat": "interacting",
+   "entries": [
+    {
+     "cls": "target",
+     "rule": 5,
+     "role": 3,
+     "rawRole": "3",
+     "generic_name": [
+      "CARBAMAZEPINE"
+     ],
+     "brand_name": [
+      "CARBAMAZEPINE",
+      "CARBAMAZEPINE ER",
+      "TEGRETOL",
+      "TEGRETOL XR",
+      "CARBAMAZEPIN",
+      "EQUETRO",
+      "CARBATROL"
+     ],
+     "medicinalproduct": "CARBAMAZEPINE"
+    }
+   ]
+  },
+  {
+   "safetyreportid": "23648447",
+   "receivedate": "20240319",
+   "cat": "suspect",
+   "entries": [
+    {
+     "cls": "target",
+     "rule": 5,
+     "role": 1,
+     "rawRole": "1",
+     "generic_name": [
+      "CARBAMAZEPINE"
+     ],
+     "brand_name": [
+      "CARBAMAZEPINE",
+      "CARBAMAZEPINE ER",
+      "TEGRETOL",
+      "TEGRETOL XR",
+      "CARBAMAZEPIN",
+      "EQUETRO",
+      "CARBATROL"
+     ],
+     "medicinalproduct": "CARBAMAZEPINE"
+    },
+    {
+     "cls": "target",
+     "rule": 5,
+     "role": 1,
+     "rawRole": "1",
+     "generic_name": [
+      "CARBAMAZEPINE"
+     ],
+     "brand_name": [
+      "CARBAMAZEPINE",
+      "CARBAMAZEPINE ER",
+      "TEGRETOL",
+      "TEGRETOL XR",
+      "CARBAMAZEPIN",
+      "EQUETRO",
+      "CARBATROL"
+     ],
+     "medicinalproduct": "CARBAMAZEPINE"
+    }
+   ]
+  },
+  {
+   "safetyreportid": "23621759",
+   "receivedate": "20240311",
+   "cat": "suspect",
+   "entries": [
+    {
+     "cls": "target",
+     "rule": 5,
+     "role": 1,
+     "rawRole": "1",
+     "generic_name": [
+      "CARBAMAZEPINE"
+     ],
+     "brand_name": [
+      "CARBAMAZEPINE",
+      "CARBAMAZEPINE ER",
+      "TEGRETOL",
+      "TEGRETOL XR",
+      "CARBAMAZEPIN",
+      "EQUETRO",
+      "CARBATROL"
+     ],
+     "medicinalproduct": "CARBAMAZEPINE"
+    }
+   ]
+  }
+ ]
+}

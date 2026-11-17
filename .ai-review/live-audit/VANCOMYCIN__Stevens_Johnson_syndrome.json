@@ -1,0 +1,2442 @@
+{
+ "drug": "VANCOMYCIN",
+ "reaction": "Stevens-Johnson syndrome",
+ "fetchedAt": "2026-11-17T11:19:18.787Z",
+ "summary": {
+  "drug": "VANCOMYCIN",
+  "reaction": "Stevens-Johnson syndrome",
+  "sampled": 100,
+  "valid": 99,
+  "suspect": 70,
+  "interacting": 0,
+  "concomitant": 29,
+  "invalidRole": 0,
+  "combo": 0,
+  "ambiguous": 1,
+  "unmatched": 0,
+  "pct": 71,
+  "lowSample": false,
+  "periodFrom": "2023-11-03",
+  "periodTo": "2026-09-30",
+  "sampleMode": "recent-receivedate",
+  "fetchedAt": "2026-11-17T11:19:15.352Z"
+ },
+ "recount": {
+  "sampled": 100,
+  "valid": 99,
+  "suspect": 70,
+  "interacting": 0,
+  "concomitant": 29,
+  "invalidRole": 0,
+  "combo": 0,
+  "ambiguous": 1,
+  "unmatched": 0,
+  "pct": 71,
+  "lowSample": false,
+  "periodFrom": "2023-11-03",
+  "periodTo": "2026-09-30"
+ },
+ "bytes": 16745441,
+ "ms": 1640,
+ "audit": [
+  {
+   "safetyreportid": "27330510",
+   "receivedate": "20260930",
+   "cat": "concomitant",
+   "entries": [
+    {
+     "cls": "target",
+     "rule": 5,
+     "role": 2,
+     "rawRole": "2",
+     "generic_name": [
+      "VANCOMYCIN HYDROCHLORIDE",
+      "VANCOMYCIN"
+     ],
+     "brand_name": [
+      "VANCOMYCIN",
+      "TYZAVAN"
+     ],
+     "medicinalproduct": "VANCOMYCIN"
+    }
+   ]
+  },
+  {
+   "safetyreportid": "27290026",
+   "receivedate": "20260922",
+   "cat": "suspect",
+   "entries": [
+    {
+     "cls": "target",
+     "rule": 5,
+     "role": 1,
+     "rawRole": "1",
+     "generic_name": [
+      "VANCOMYCIN HYDROCHLORIDE",
+      "VANCOMYCIN"
+     ],
+     "brand_name": [
+      "VANCOMYCIN",
+      "TYZAVAN"
+     ],
+     "medicinalproduct": "VANCOMYCIN"
+    }
+   ]
+  },
+  {
+   "safetyreportid": "27238427",
+   "receivedate": "20260910",
+   "cat": "suspect",
+   "entries": [
+    {
+     "cls": "target",
+     "rule": 5,
+     "role": 1,
+     "rawRole": "1",
+     "generic_name": [
+      "VANCOMYCIN HYDROCHLORIDE",
+      "VANCOMYCIN"
+     ],
+     "brand_name": [
+      "VANCOMYCIN",
+      "TYZAVAN"
+     ],
+     "medicinalproduct": "VANCOMYCIN"
+    }
+   ]
+  },
+  {
+   "safetyreportid": "27233275",
+   "receivedate": "20260909",
+   "cat": "suspect",
+   "entries": [
+    {
+     "cls": "target",
+     "rule": 5,
+     "role": 1,
+     "rawRole": "1",
+     "generic_name": [
+      "VANCOMYCIN HYDROCHLORIDE"
+     ],
+     "brand_name": [
+      "VANCOMYCIN HYDROCHLORIDE",
+      "VANCOMYCIN HYDROCHLORIDE FOR ORAL SOLUTION",
+      "VANCOMYCIN",
+      "VANCOCIN",
+      "FIRVANQ"
+     ],
+     "medicinalproduct": "VANCOMYCIN HYDROCHLORIDE"
+    }
+   ]
+  },
+  {
+   "safetyreportid": "27214578",
+   "receivedate": "20260904",
+   "cat": "suspect",
+   "entries": [
+    {
+     "cls": "target",
+     "rule": 5,
+     "role": 1,
+     "rawRole": "1",
+     "generic_name": [
+      "VANCOMYCIN HYDROCHLORIDE",
+      "VANCOMYCIN"
+     ],
+     "brand_name": [
+      "VANCOMYCIN",
+      "TYZAVAN"
+     ],
+     "medicinalproduct": "VANCOMYCIN"
+    }
+   ]
+  },
+  {
+   "safetyreportid": "27045483",
+   "receivedate": "20260727",
+   "cat": "suspect",
+   "entries": [
+    {
+     "cls": "target",
+     "rule": 5,
+     "role": 1,
+     "rawRole": "1",
+     "generic_name": [
+      "VANCOMYCIN HYDROCHLORIDE",
+      "VANCOMYCIN"
+     ],
+     "brand_name": [
+      "VANCOMYCIN",
+      "TYZAVAN"
+     ],
+     "medicinalproduct": "VANCOMYCIN"
+    }
+   ]
+  },
+  {
+   "safetyreportid": "26979810",
+   "receivedate": "20260708",
+   "cat": "concomitant",
+   "entries": [
+    {
+     "cls": "target",
+     "rule": 5,
+     "role": 2,
+     "rawRole": "2",
+     "generic_name": [
+      "VANCOMYCIN HYDROCHLORIDE",
+      "VANCOMYCIN"
+     ],
+     "brand_name": [
+      "VANCOMYCIN",
+      "TYZAVAN"
+     ],
+     "medicinalproduct": "VANCOMYCIN"
+    }
+   ]
+  },
+  {
+   "safetyreportid": "26912833",
+   "receivedate": "20260623",
+   "cat": "suspect",
+   "entries": [
+    {
+     "cls": "target",
+     "rule": 5,
+     "role": 1,
+     "rawRole": "1",
+     "generic_name": [
+      "VANCOMYCIN HYDROCHLORIDE"
+     ],
+     "brand_name": [
+      "VANCOMYCIN HYDROCHLORIDE",
+      "VANCOMYCIN HYDROCHLORIDE FOR ORAL SOLUTION",
+      "VANCOMYCIN",
+      "VANCOCIN",
+      "FIRVANQ"
+     ],
+     "medicinalproduct": "VANCOMYCIN HYDROCHLORIDE"
+    }
+   ]
+  },
+  {
+   "safetyreportid": "26886064",
+   "receivedate": "20260616",
+   "cat": "suspect",
+   "entries": [
+    {
+     "cls": "target",
+     "rule": 5,
+     "role": 1,
+     "rawRole": "1",
+     "generic_name": [
+      "VANCOMYCIN HYDROCHLORIDE",
+      "VANCOMYCIN"
+     ],
+     "brand_name": [
+      "VANCOMYCIN",
+      "TYZAVAN"
+     ],
+     "medicinalproduct": "VANCOMYCIN"
+    }
+   ]
+  },
+  {
+   "safetyreportid": "26845571",
+   "receivedate": "20260606",
+   "cat": "suspect",
+   "entries": [
+    {
+     "cls": "target",
+     "rule": 5,
+     "role": 1,
+     "rawRole": "1",
+     "generic_name": [
+      "VANCOMYCIN HYDROCHLORIDE",
+      "VANCOMYCIN"
+     ],
+     "brand_name": [
+      "VANCOMYCIN",
+      "TYZAVAN"
+     ],
+     "medicinalproduct": "VANCOMYCIN"
+    }
+   ]
+  },
+  {
+   "safetyreportid": "26842253",
+   "receivedate": "20260605",
+   "cat": "suspect",
+   "entries": [
+    {
+     "cls": "target",
+     "rule": 5,
+     "role": 1,
+     "rawRole": "1",
+     "generic_name": [
+      "VANCOMYCIN HYDROCHLORIDE"
+     ],
+     "brand_name": [
+      "VANCOMYCIN HYDROCHLORIDE",
+      "VANCOMYCIN HYDROCHLORIDE FOR ORAL SOLUTION",
+      "VANCOMYCIN",
+      "VANCOCIN",
+      "FIRVANQ"
+     ],
+     "medicinalproduct": "VANCOMYCIN HYDROCHLORIDE"
+    }
+   ]
+  },
+  {
+   "safetyreportid": "26820665",
+   "receivedate": "20260601",
+   "cat": "concomitant",
+   "entries": [
+    {
+     "cls": "target",
+     "rule": 5,
+     "role": 2,
+     "rawRole": "2",
+     "generic_name": [
+      "VANCOMYCIN HYDROCHLORIDE",
+      "VANCOMYCIN"
+     ],
+     "brand_name": [
+      "VANCOMYCIN",
+      "TYZAVAN"
+     ],
+     "medicinalproduct": "VANCOMYCIN"
+    },
+    {
+     "cls": "target",
+     "rule": 5,
+     "role": 2,
+     "rawRole": "2",
+     "generic_name": [
+      "VANCOMYCIN HYDROCHLORIDE",
+      "VANCOMYCIN"
+     ],
+     "brand_name": [
+      "VANCOMYCIN",
+      "TYZAVAN"
+     ],
+     "medicinalproduct": "VANCOMYCIN"
+    }
+   ]
+  },
+  {
+   "safetyreportid": "26810159",
+   "receivedate": "20260528",
+   "cat": "suspect",
+   "entries": [
+    {
+     "cls": "target",
+     "rule": 5,
+     "role": 1,
+     "rawRole": "1",
+     "generic_name": [
+      "VANCOMYCIN HYDROCHLORIDE",
+      "VANCOMYCIN"
+     ],
+     "brand_name": [
+      "VANCOMYCIN",
+      "TYZAVAN"
+     ],
+     "medicinalproduct": "VANCOMYCIN"
+    }
+   ]
+  },
+  {
+   "safetyreportid": "26794816",
+   "receivedate": "20260525",
+   "cat": "suspect",
+   "entries": [
+    {
+     "cls": "target",
+     "rule": 5,
+     "role": 1,
+     "rawRole": "1",
+     "generic_name": [
+      "VANCOMYCIN HYDROCHLORIDE",
+      "VANCOMYCIN"
+     ],
+     "brand_name": [
+      "VANCOMYCIN",
+      "TYZAVAN"
+     ],
+     "medicinalproduct": "VANCOMYCIN"
+    }
+   ]
+  },
+  {
+   "safetyreportid": "26786713",
+   "receivedate": "20260521",
+   "cat": "suspect",
+   "entries": [
+    {
+     "cls": "target",
+     "rule": 5,
+     "role": 1,
+     "rawRole": "1",
+     "generic_name": [
+      "VANCOMYCIN HYDROCHLORIDE",
+      "VANCOMYCIN"
+     ],
+     "brand_name": [
+      "VANCOMYCIN",
+      "TYZAVAN"
+     ],
+     "medicinalproduct": "VANCOMYCIN"
+    }
+   ]
+  },
+  {
+   "safetyreportid": "26765983",
+   "receivedate": "20260518",
+   "cat": "concomitant",
+   "entries": [
+    {
+     "cls": "target",
+     "rule": 5,
+     "role": 2,
+     "rawRole": "2",
+     "generic_name": [
+      "VANCOMYCIN HYDROCHLORIDE",
+      "VANCOMYCIN"
+     ],
+     "brand_name": [
+      "VANCOMYCIN",
+      "TYZAVAN"
+     ],
+     "medicinalproduct": "VANCOMYCIN"
+    }
+   ]
+  },
+  {
+   "safetyreportid": "26666226",
+   "receivedate": "20260424",
+   "cat": "suspect",
+   "entries": [
+    {
+     "cls": "target",
+     "rule": 5,
+     "role": 1,
+     "rawRole": "1",
+     "generic_name": [
+      "VANCOMYCIN HYDROCHLORIDE",
+      "VANCOMYCIN"
+     ],
+     "brand_name": [
+      "VANCOMYCIN",
+      "TYZAVAN"
+     ],
+     "medicinalproduct": "VANCOMYCIN"
+    }
+   ]
+  },
+  {
+   "safetyreportid": "26498189",
+   "receivedate": "20260316",
+   "cat": "suspect",
+   "entries": [
+    {
+     "cls": "target",
+     "rule": 5,
+     "role": 1,
+     "rawRole": "1",
+     "generic_name": [
+      "VANCOMYCIN HYDROCHLORIDE",
+      "VANCOMYCIN"
+     ],
+     "brand_name": [
+      "VANCOMYCIN",
+      "TYZAVAN"
+     ],
+     "medicinalproduct": "VANCOMYCIN"
+    }
+   ]
+  },
+  {
+   "safetyreportid": "26473697",
+   "receivedate": "20260309",
+   "cat": "suspect",
+   "entries": [
+    {
+     "cls": "target",
+     "rule": 5,
+     "role": 1,
+     "rawRole": "1",
+     "generic_name": [
+      "VANCOMYCIN HYDROCHLORIDE",
+      "VANCOMYCIN"
+     ],
+     "brand_name": [
+      "VANCOMYCIN",
+      "TYZAVAN"
+     ],
+     "medicinalproduct": "VANCOMYCIN"
+    }
+   ]
+  },
+  {
+   "safetyreportid": "26461102",
+   "receivedate": "20260305",
+   "cat": "suspect",
+   "entries": [
+    {
+     "cls": "target",
+     "rule": 5,
+     "role": 1,
+     "rawRole": "1",
+     "generic_name": [
+      "VANCOMYCIN HYDROCHLORIDE",
+      "VANCOMYCIN"
+     ],
+     "brand_name": [
+      "VANCOMYCIN",
+      "TYZAVAN"
+     ],
+     "medicinalproduct": "VANCOMYCIN"
+    }
+   ]
+  },
+  {
+   "safetyreportid": "26245112",
+   "receivedate": "20260109",
+   "cat": "suspect",
+   "entries": [
+    {
+     "cls": "target",
+     "rule": 5,
+     "role": 1,
+     "rawRole": "1",
+     "generic_name": [
+      "VANCOMYCIN HYDROCHLORIDE",
+      "VANCOMYCIN"
+     ],
+     "brand_name": [
+      "VANCOMYCIN",
+      "TYZAVAN"
+     ],
+     "medicinalproduct": "VANCOMYCIN"
+    }
+   ]
+  },
+  {
+   "safetyreportid": "26133614",
+   "receivedate": "20251209",
+   "cat": "suspect",
+   "entries": [
+    {
+     "cls": "target",
+     "rule": 5,
+     "role": 1,
+     "rawRole": "1",
+     "generic_name": [
+      "VANCOMYCIN HYDROCHLORIDE",
+      "VANCOMYCIN"
+     ],
+     "brand_name": [
+      "VANCOMYCIN",
+      "TYZAVAN"
+     ],
+     "medicinalproduct": "VANCOMYCIN"
+    }
+   ]
+  },
+  {
+   "safetyreportid": "26135096",
+   "receivedate": "20251209",
+   "cat": "concomitant",
+   "entries": [
+    {
+     "cls": "target",
+     "rule": 5,
+     "role": 2,
+     "rawRole": "2",
+     "generic_name": [
+      "VANCOMYCIN HYDROCHLORIDE",
+      "VANCOMYCIN"
+     ],
+     "brand_name": [
+      "VANCOMYCIN",
+      "TYZAVAN"
+     ],
+     "medicinalproduct": "VANCOMYCIN"
+    }
+   ]
+  },
+  {
+   "safetyreportid": "26023561",
+   "receivedate": "20251111",
+   "cat": "concomitant",
+   "entries": [
+    {
+     "cls": "target",
+     "rule": 5,
+     "role": 2,
+     "rawRole": "2",
+     "generic_name": [
+      "VANCOMYCIN HYDROCHLORIDE",
+      "VANCOMYCIN"
+     ],
+     "brand_name": [
+      "VANCOMYCIN",
+      "TYZAVAN"
+     ],
+     "medicinalproduct": "VANCOMYCIN"
+    }
+   ]
+  },
+  {
+   "safetyreportid": "26024708",
+   "receivedate": "20251111",
+   "cat": "suspect",
+   "entries": [
+    {
+     "cls": "target",
+     "rule": 5,
+     "role": 1,
+     "rawRole": "1",
+     "generic_name": [
+      "VANCOMYCIN HYDROCHLORIDE",
+      "VANCOMYCIN"
+     ],
+     "brand_name": [
+      "VANCOMYCIN",
+      "TYZAVAN"
+     ],
+     "medicinalproduct": "VANCOMYCIN"
+    },
+    {
+     "cls": "target",
+     "rule": 5,
+     "role": 1,
+     "rawRole": "1",
+     "generic_name": [
+      "VANCOMYCIN HYDROCHLORIDE",
+      "VANCOMYCIN"
+     ],
+     "brand_name": [
+      "VANCOMYCIN",
+      "TYZAVAN"
+     ],
+     "medicinalproduct": "VANCOMYCIN"
+    }
+   ]
+  },
+  {
+   "safetyreportid": "26010663",
+   "receivedate": "20251107",
+   "cat": "concomitant",
+   "entries": [
+    {
+     "cls": "target",
+     "rule": 5,
+     "role": 2,
+     "rawRole": "2",
+     "generic_name": [
+      "VANCOMYCIN HYDROCHLORIDE",
+      "VANCOMYCIN"
+     ],
+     "brand_name": [
+      "VANCOMYCIN",
+      "TYZAVAN"
+     ],
+     "medicinalproduct": "VANCOMYCIN"
+    }
+   ]
+  },
+  {
+   "safetyreportid": "25984341",
+   "receivedate": "20251031",
+   "cat": "suspect",
+   "entries": [
+    {
+     "cls": "target",
+     "rule": 5,
+     "role": 1,
+     "rawRole": "1",
+     "generic_name": [
+      "VANCOMYCIN HYDROCHLORIDE"
+     ],
+     "brand_name": [
+      "VANCOMYCIN HYDROCHLORIDE",
+      "VANCOMYCIN HYDROCHLORIDE FOR ORAL SOLUTION",
+      "VANCOMYCIN",
+      "VANCOCIN",
+      "FIRVANQ"
+     ],
+     "medicinalproduct": "VANCOMYCIN HYDROCHLORIDE"
+    },
+    {
+     "cls": "target",
+     "rule": 5,
+     "role": 1,
+     "rawRole": "1",
+     "generic_name": [
+      "VANCOMYCIN HYDROCHLORIDE"
+     ],
+     "brand_name": [
+      "VANCOMYCIN HYDROCHLORIDE",
+      "VANCOMYCIN HYDROCHLORIDE FOR ORAL SOLUTION",
+      "VANCOMYCIN",
+      "VANCOCIN",
+      "FIRVANQ"
+     ],
+     "medicinalproduct": "VANCOMYCIN HYDROCHLORIDE"
+    }
+   ]
+  },
+  {
+   "safetyreportid": "25979952",
+   "receivedate": "20251030",
+   "cat": "concomitant",
+   "entries": [
+    {
+     "cls": "target",
+     "rule": 5,
+     "role": 2,
+     "rawRole": "2",
+     "generic_name": [
+      "VANCOMYCIN HYDROCHLORIDE",
+      "VANCOMYCIN"
+     ],
+     "brand_name": [
+      "VANCOMYCIN",
+      "TYZAVAN"
+     ],
+     "medicinalproduct": "VANCOMYCIN"
+    }
+   ]
+  },
+  {
+   "safetyreportid": "25806813",
+   "receivedate": "20250915",
+   "cat": "suspect",
+   "entries": [
+    {
+     "cls": "target",
+     "rule": 5,
+     "role": 1,
+     "rawRole": "1",
+     "generic_name": [
+      "VANCOMYCIN HYDROCHLORIDE"
+     ],
+     "brand_name": [
+      "VANCOMYCIN HYDROCHLORIDE",
+      "VANCOMYCIN HYDROCHLORIDE FOR ORAL SOLUTION",
+      "VANCOMYCIN",
+      "VANCOCIN",
+      "FIRVANQ"
+     ],
+     "medicinalproduct": "VANCOMYCIN HYDROCHLORIDE"
+    }
+   ]
+  },
+  {
+   "safetyreportid": "25777564",
+   "receivedate": "20250909",
+   "cat": "concomitant",
+   "entries": [
+    {
+     "cls": "target",
+     "rule": 5,
+     "role": 2,
+     "rawRole": "2",
+     "generic_name": [
+      "VANCOMYCIN HYDROCHLORIDE",
+      "VANCOMYCIN"
+     ],
+     "brand_name": [
+      "VANCOMYCIN",
+      "TYZAVAN"
+     ],
+     "medicinalproduct": "VANCOMYCIN"
+    }
+   ]
+  },
+  {
+   "safetyreportid": "25673862",
+   "receivedate": "20250813",
+   "cat": "concomitant",
+   "entries": [
+    {
+     "cls": "target",
+     "rule": 5,
+     "role": 2,
+     "rawRole": "2",
+     "generic_name": [
+      "VANCOMYCIN HYDROCHLORIDE",
+      "VANCOMYCIN"
+     ],
+     "brand_name": [
+      "VANCOMYCIN",
+      "TYZAVAN"
+     ],
+     "medicinalproduct": "VANCOMYCIN"
+    }
+   ]
+  },
+  {
+   "safetyreportid": "25668077",
+   "receivedate": "20250812",
+   "cat": "concomitant",
+   "entries": [
+    {
+     "cls": "target",
+     "rule": 5,
+     "role": 2,
+     "rawRole": "2",
+     "generic_name": [
+      "VANCOMYCIN HYDROCHLORIDE",
+      "VANCOMYCIN"
+     ],
+     "brand_name": [
+      "VANCOMYCIN",
+      "TYZAVAN"
+     ],
+     "medicinalproduct": "VANCOMYCIN"
+    }
+   ]
+  },
+  {
+   "safetyreportid": "25634390",
+   "receivedate": "20250801",
+   "cat": "suspect",
+   "entries": [
+    {
+     "cls": "target",
+     "rule": 5,
+     "role": 1,
+     "rawRole": "1",
+     "generic_name": [
+      "VANCOMYCIN HYDROCHLORIDE",
+      "VANCOMYCIN"
+     ],
+     "brand_name": [
+      "VANCOMYCIN",
+      "TYZAVAN"
+     ],
+     "medicinalproduct": "VANCOMYCIN"
+    }
+   ]
+  },
+  {
+   "safetyreportid": "25600260",
+   "receivedate": "20250724",
+   "cat": "suspect",
+   "entries": [
+    {
+     "cls": "target",
+     "rule": 5,
+     "role": 1,
+     "rawRole": "1",
+     "generic_name": [
+      "VANCOMYCIN HYDROCHLORIDE"
+     ],
+     "brand_name": [
+      "VANCOMYCIN HYDROCHLORIDE",
+      "VANCOMYCIN HYDROCHLORIDE FOR ORAL SOLUTION",
+      "VANCOMYCIN",
+      "VANCOCIN",
+      "FIRVANQ"
+     ],
+     "medicinalproduct": "VANCOMYCIN HYDROCHLORIDE"
+    }
+   ]
+  },
+  {
+   "safetyreportid": "25584767",
+   "receivedate": "20250721",
+   "cat": "suspect",
+   "entries": [
+    {
+     "cls": "target",
+     "rule": 5,
+     "role": 1,
+     "rawRole": "1",
+     "generic_name": [
+      "VANCOMYCIN HYDROCHLORIDE",
+      "VANCOMYCIN"
+     ],
+     "brand_name": [
+      "VANCOMYCIN",
+      "TYZAVAN"
+     ],
+     "medicinalproduct": "VANCOMYCIN"
+    },
+    {
+     "cls": "target",
+     "rule": 5,
+     "role": 1,
+     "rawRole": "1",
+     "generic_name": [
+      "VANCOMYCIN HYDROCHLORIDE",
+      "VANCOMYCIN"
+     ],
+     "brand_name": [
+      "VANCOMYCIN",
+      "TYZAVAN"
+     ],
+     "medicinalproduct": "VANCOMYCIN"
+    }
+   ]
+  },
+  {
+   "safetyreportid": "25539476",
+   "receivedate": "20250710",
+   "cat": "suspect",
+   "entries": [
+    {
+     "cls": "target",
+     "rule": 5,
+     "role": 1,
+     "rawRole": "1",
+     "generic_name": [
+      "VANCOMYCIN HYDROCHLORIDE",
+      "VANCOMYCIN"
+     ],
+     "brand_name": [
+      "VANCOMYCIN",
+      "TYZAVAN"
+     ],
+     "medicinalproduct": "VANCOMYCIN"
+    }
+   ]
+  },
+  {
+   "safetyreportid": "25539665",
+   "receivedate": "20250710",
+   "cat": "suspect",
+   "entries": [
+    {
+     "cls": "target",
+     "rule": 5,
+     "role": 1,
+     "rawRole": "1",
+     "generic_name": [
+      "VANCOMYCIN HYDROCHLORIDE"
+     ],
+     "brand_name": [
+      "VANCOMYCIN HYDROCHLORIDE",
+      "VANCOMYCIN HYDROCHLORIDE FOR ORAL SOLUTION",
+      "VANCOMYCIN",
+      "VANCOCIN",
+      "FIRVANQ"
+     ],
+     "medicinalproduct": "VANCOMYCIN HYDROCHLORIDE"
+    },
+    {
+     "cls": "target",
+     "rule": 5,
+     "role": 1,
+     "rawRole": "1",
+     "generic_name": [
+      "VANCOMYCIN HYDROCHLORIDE"
+     ],
+     "brand_name": [
+      "VANCOMYCIN HYDROCHLORIDE",
+      "VANCOMYCIN HYDROCHLORIDE FOR ORAL SOLUTION",
+      "VANCOMYCIN",
+      "VANCOCIN",
+      "FIRVANQ"
+     ],
+     "medicinalproduct": "VANCOMYCIN HYDROCHLORIDE"
+    },
+    {
+     "cls": "target",
+     "rule": 5,
+     "role": 1,
+     "rawRole": "1",
+     "generic_name": [
+      "VANCOMYCIN HYDROCHLORIDE"
+     ],
+     "brand_name": [
+      "VANCOMYCIN HYDROCHLORIDE",
+      "VANCOMYCIN HYDROCHLORIDE FOR ORAL SOLUTION",
+      "VANCOMYCIN",
+      "VANCOCIN",
+      "FIRVANQ"
+     ],
+     "medicinalproduct": "VANCOMYCIN HYDROCHLORIDE"
+    }
+   ]
+  },
+  {
+   "safetyreportid": "25417201",
+   "receivedate": "20250610",
+   "cat": "suspect",
+   "entries": [
+    {
+     "cls": "target",
+     "rule": 5,
+     "role": 1,
+     "rawRole": "1",
+     "generic_name": [
+      "VANCOMYCIN HYDROCHLORIDE",
+      "VANCOMYCIN"
+     ],
+     "brand_name": [
+      "VANCOMYCIN",
+      "TYZAVAN"
+     ],
+     "medicinalproduct": "VANCOMYCIN"
+    }
+   ]
+  },
+  {
+   "safetyreportid": "25422489",
+   "receivedate": "20250610",
+   "cat": "suspect",
+   "entries": [
+    {
+     "cls": "target",
+     "rule": 5,
+     "role": 1,
+     "rawRole": "1",
+     "generic_name": [
+      "VANCOMYCIN HYDROCHLORIDE"
+     ],
+     "brand_name": [
+      "VANCOMYCIN HYDROCHLORIDE",
+      "VANCOMYCIN HYDROCHLORIDE FOR ORAL SOLUTION",
+      "VANCOMYCIN",
+      "VANCOCIN",
+      "FIRVANQ"
+     ],
+     "medicinalproduct": "VANCOMYCIN HYDROCHLORIDE"
+    }
+   ]
+  },
+  {
+   "safetyreportid": "25322952",
+   "receivedate": "20250516",
+   "cat": "suspect",
+   "entries": [
+    {
+     "cls": "target",
+     "rule": 5,
+     "role": 1,
+     "rawRole": "1",
+     "generic_name": [
+      "VANCOMYCIN HYDROCHLORIDE",
+      "VANCOMYCIN"
+     ],
+     "brand_name": [
+      "VANCOMYCIN",
+      "TYZAVAN"
+     ],
+     "medicinalproduct": "VANCOMYCIN"
+    }
+   ]
+  },
+  {
+   "safetyreportid": "25323581",
+   "receivedate": "20250516",
+   "cat": "suspect",
+   "entries": [
+    {
+     "cls": "target",
+     "rule": 5,
+     "role": 1,
+     "rawRole": "1",
+     "generic_name": [
+      "VANCOMYCIN HYDROCHLORIDE",
+      "VANCOMYCIN"
+     ],
+     "brand_name": [
+      "VANCOMYCIN",
+      "TYZAVAN"
+     ],
+     "medicinalproduct": "VANCOMYCIN"
+    }
+   ]
+  },
+  {
+   "safetyreportid": "25314845",
+   "receivedate": "20250514",
+   "cat": "concomitant",
+   "entries": [
+    {
+     "cls": "target",
+     "rule": 5,
+     "role": 2,
+     "rawRole": "2",
+     "generic_name": [
+      "VANCOMYCIN HYDROCHLORIDE",
+      "VANCOMYCIN"
+     ],
+     "brand_name": [
+      "VANCOMYCIN",
+      "TYZAVAN"
+     ],
+     "medicinalproduct": "VANCOMYCIN"
+    }
+   ]
+  },
+  {
+   "safetyreportid": "25307445",
+   "receivedate": "20250513",
+   "cat": "suspect",
+   "entries": [
+    {
+     "cls": "target",
+     "rule": 5,
+     "role": 1,
+     "rawRole": "1",
+     "generic_name": [
+      "VANCOMYCIN HYDROCHLORIDE",
+      "VANCOMYCIN"
+     ],
+     "brand_name": [
+      "VANCOMYCIN",
+      "TYZAVAN"
+     ],
+     "medicinalproduct": "VANCOMYCIN"
+    }
+   ]
+  },
+  {
+   "safetyreportid": "25196479",
+   "receivedate": "20250415",
+   "cat": "concomitant",
+   "entries": [
+    {
+     "cls": "target",
+     "rule": 5,
+     "role": 2,
+     "rawRole": "2",
+     "generic_name": [
+      "VANCOMYCIN HYDROCHLORIDE",
+      "VANCOMYCIN"
+     ],
+     "brand_name": [
+      "VANCOMYCIN",
+      "TYZAVAN"
+     ],
+     "medicinalproduct": "VANCOMYCIN"
+    }
+   ]
+  },
+  {
+   "safetyreportid": "25177859",
+   "receivedate": "20250409",
+   "cat": "concomitant",
+   "entries": [
+    {
+     "cls": "target",
+     "rule": 5,
+     "role": 2,
+     "rawRole": "2",
+     "generic_name": [
+      "VANCOMYCIN HYDROCHLORIDE",
+      "VANCOMYCIN"
+     ],
+     "brand_name": [
+      "VANCOMYCIN",
+      "TYZAVAN"
+     ],
+     "medicinalproduct": "VANCOMYCIN"
+    },
+    {
+     "cls": "target",
+     "rule": 5,
+     "role": 2,
+     "rawRole": "2",
+     "generic_name": [
+      "VANCOMYCIN HYDROCHLORIDE",
+      "VANCOMYCIN"
+     ],
+     "brand_name": [
+      "VANCOMYCIN",
+      "TYZAVAN"
+     ],
+     "medicinalproduct": "VANCOMYCIN"
+    },
+    {
+     "cls": "target",
+     "rule": 5,
+     "role": 2,
+     "rawRole": "2",
+     "generic_name": [
+      "VANCOMYCIN HYDROCHLORIDE",
+      "VANCOMYCIN"
+     ],
+     "brand_name": [
+      "VANCOMYCIN",
+      "TYZAVAN"
+     ],
+     "medicinalproduct": "VANCOMYCIN"
+    },
+    {
+     "cls": "target",
+     "rule": 5,
+     "role": 2,
+     "rawRole": "2",
+     "generic_name": [
+      "VANCOMYCIN HYDROCHLORIDE",
+      "VANCOMYCIN"
+     ],
+     "brand_name": [
+      "VANCOMYCIN",
+      "TYZAVAN"
+     ],
+     "medicinalproduct": "VANCOMYCIN"
+    }
+   ]
+  },
+  {
+   "safetyreportid": "25179557",
+   "receivedate": "20250409",
+   "cat": "suspect",
+   "entries": [
+    {
+     "cls": "target",
+     "rule": 5,
+     "role": 1,
+     "rawRole": "1",
+     "generic_name": [
+      "VANCOMYCIN HYDROCHLORIDE"
+     ],
+     "brand_name": [
+      "VANCOMYCIN HYDROCHLORIDE",
+      "VANCOMYCIN HYDROCHLORIDE FOR ORAL SOLUTION",
+      "VANCOMYCIN",
+      "VANCOCIN",
+      "FIRVANQ"
+     ],
+     "medicinalproduct": "VANCOMYCIN HYDROCHLORIDE"
+    }
+   ]
+  },
+  {
+   "safetyreportid": "25174442",
+   "receivedate": "20250408",
+   "cat": "concomitant",
+   "entries": [
+    {
+     "cls": "target",
+     "rule": 5,
+     "role": 2,
+     "rawRole": "2",
+     "generic_name": [
+      "VANCOMYCIN HYDROCHLORIDE",
+      "VANCOMYCIN"
+     ],
+     "brand_name": [
+      "VANCOMYCIN",
+      "TYZAVAN"
+     ],
+     "medicinalproduct": "VANCOMYCIN"
+    }
+   ]
+  },
+  {
+   "safetyreportid": "25160333",
+   "receivedate": "20250404",
+   "cat": "concomitant",
+   "entries": [
+    {
+     "cls": "target",
+     "rule": 5,
+     "role": 2,
+     "rawRole": "2",
+     "generic_name": [
+      "VANCOMYCIN HYDROCHLORIDE"
+     ],
+     "brand_name": [
+      "VANCOMYCIN HYDROCHLORIDE",
+      "VANCOMYCIN HYDROCHLORIDE FOR ORAL SOLUTION",
+      "VANCOMYCIN",
+      "VANCOCIN",
+      "FIRVANQ"
+     ],
+     "medicinalproduct": "VANCOMYCIN HYDROCHLORIDE"
+    }
+   ]
+  },
+  {
+   "safetyreportid": "25080764",
+   "receivedate": "20250315",
+   "cat": "suspect",
+   "entries": [
+    {
+     "cls": "target",
+     "rule": 5,
+     "role": 1,
+     "rawRole": "1",
+     "generic_name": [
+      "VANCOMYCIN HYDROCHLORIDE",
+      "VANCOMYCIN"
+     ],
+     "brand_name": [
+      "VANCOMYCIN",
+      "TYZAVAN"
+     ],
+     "medicinalproduct": "VANCOMYCIN"
+    },
+    {
+     "cls": "target",
+     "rule": 5,
+     "role": 2,
+     "rawRole": "2",
+     "generic_name": [
+      "VANCOMYCIN HYDROCHLORIDE",
+      "VANCOMYCIN"
+     ],
+     "brand_name": [
+      "VANCOMYCIN",
+      "TYZAVAN"
+     ],
+     "medicinalproduct": "VANCOMYCIN"
+    }
+   ]
+  },
+  {
+   "safetyreportid": "25058824",
+   "receivedate": "20250307",
+   "cat": "concomitant",
+   "entries": [
+    {
+     "cls": "target",
+     "rule": 5,
+     "role": 2,
+     "rawRole": "2",
+     "generic_name": [
+      "VANCOMYCIN HYDROCHLORIDE",
+      "VANCOMYCIN"
+     ],
+     "brand_name": [
+      "VANCOMYCIN",
+      "TYZAVAN"
+     ],
+     "medicinalproduct": "VANCOMYCIN"
+    }
+   ]
+  },
+  {
+   "safetyreportid": "25016702",
+   "receivedate": "20250227",
+   "cat": "suspect",
+   "entries": [
+    {
+     "cls": "target",
+     "rule": 5,
+     "role": 1,
+     "rawRole": "1",
+     "generic_name": [
+      "VANCOMYCIN HYDROCHLORIDE"
+     ],
+     "brand_name": [
+      "VANCOMYCIN HYDROCHLORIDE",
+      "VANCOMYCIN HYDROCHLORIDE FOR ORAL SOLUTION",
+      "VANCOMYCIN",
+      "VANCOCIN",
+      "FIRVANQ"
+     ],
+     "medicinalproduct": "VANCOMYCIN HYDROCHLORIDE"
+    }
+   ]
+  },
+  {
+   "safetyreportid": "25014125",
+   "receivedate": "20250226",
+   "cat": "suspect",
+   "entries": [
+    {
+     "cls": "target",
+     "rule": 5,
+     "role": 1,
+     "rawRole": "1",
+     "generic_name": [
+      "VANCOMYCIN HYDROCHLORIDE",
+      "VANCOMYCIN"
+     ],
+     "brand_name": [
+      "VANCOMYCIN",
+      "TYZAVAN"
+     ],
+     "medicinalproduct": "VANCOMYCIN"
+    }
+   ]
+  },
+  {
+   "safetyreportid": "25008249",
+   "receivedate": "20250225",
+   "cat": "concomitant",
+   "entries": [
+    {
+     "cls": "target",
+     "rule": 5,
+     "role": 2,
+     "rawRole": "2",
+     "generic_name": [
+      "VANCOMYCIN HYDROCHLORIDE",
+      "VANCOMYCIN"
+     ],
+     "brand_name": [
+      "VANCOMYCIN",
+      "TYZAVAN"
+     ],
+     "medicinalproduct": "VANCOMYCIN"
+    }
+   ]
+  },
+  {
+   "safetyreportid": "24975008",
+   "receivedate": "20250217",
+   "cat": "suspect",
+   "entries": [
+    {
+     "cls": "target",
+     "rule": 5,
+     "role": 1,
+     "rawRole": "1",
+     "generic_name": [
+      "VANCOMYCIN HYDROCHLORIDE",
+      "VANCOMYCIN"
+     ],
+     "brand_name": [
+      "VANCOMYCIN",
+      "TYZAVAN"
+     ],
+     "medicinalproduct": "VANCOMYCIN"
+    }
+   ]
+  },
+  {
+   "safetyreportid": "24967347",
+   "receivedate": "20250214",
+   "cat": "suspect",
+   "entries": [
+    {
+     "cls": "target",
+     "rule": 5,
+     "role": 1,
+     "rawRole": "1",
+     "generic_name": [
+      "VANCOMYCIN HYDROCHLORIDE",
+      "VANCOMYCIN"
+     ],
+     "brand_name": [
+      "VANCOMYCIN",
+      "TYZAVAN"
+     ],
+     "medicinalproduct": "VANCOMYCIN"
+    }
+   ]
+  },
+  {
+   "safetyreportid": "24941790",
+   "receivedate": "20250207",
+   "cat": "suspect",
+   "entries": [
+    {
+     "cls": "target",
+     "rule": 5,
+     "role": 1,
+     "rawRole": "1",
+     "generic_name": [
+      "VANCOMYCIN HYDROCHLORIDE",
+      "VANCOMYCIN"
+     ],
+     "brand_name": [
+      "VANCOMYCIN",
+      "TYZAVAN"
+     ],
+     "medicinalproduct": "VANCOMYCIN"
+    }
+   ]
+  },
+  {
+   "safetyreportid": "24847329",
+   "receivedate": "20250116",
+   "cat": "suspect",
+   "entries": [
+    {
+     "cls": "target",
+     "rule": 5,
+     "role": 1,
+     "rawRole": "1",
+     "generic_name": [
+      "VANCOMYCIN HYDROCHLORIDE",
+      "VANCOMYCIN"
+     ],
+     "brand_name": [
+      "VANCOMYCIN",
+      "TYZAVAN"
+     ],
+     "medicinalproduct": "VANCOMYCIN"
+    }
+   ]
+  },
+  {
+   "safetyreportid": "24839553",
+   "receivedate": "20250114",
+   "cat": "suspect",
+   "entries": [
+    {
+     "cls": "target",
+     "rule": 5,
+     "role": 1,
+     "rawRole": "1",
+     "generic_name": [
+      "VANCOMYCIN HYDROCHLORIDE",
+      "VANCOMYCIN"
+     ],
+     "brand_name": [
+      "VANCOMYCIN",
+      "TYZAVAN"
+     ],
+     "medicinalproduct": "VANCOMYCIN"
+    }
+   ]
+  },
+  {
+   "safetyreportid": "24833459",
+   "receivedate": "20250112",
+   "cat": "suspect",
+   "entries": [
+    {
+     "cls": "target",
+     "rule": 5,
+     "role": 1,
+     "rawRole": "1",
+     "generic_name": [
+      "VANCOMYCIN HYDROCHLORIDE",
+      "VANCOMYCIN"
+     ],
+     "brand_name": [
+      "VANCOMYCIN",
+      "TYZAVAN"
+     ],
+     "medicinalproduct": "VANCOMYCIN"
+    }
+   ]
+  },
+  {
+   "safetyreportid": "24829419",
+   "receivedate": "20250110",
+   "cat": "suspect",
+   "entries": [
+    {
+     "cls": "target",
+     "rule": 5,
+     "role": 1,
+     "rawRole": "1",
+     "generic_name": [
+      "VANCOMYCIN HYDROCHLORIDE",
+      "VANCOMYCIN"
+     ],
+     "brand_name": [
+      "VANCOMYCIN",
+      "TYZAVAN"
+     ],
+     "medicinalproduct": "VANCOMYCIN"
+    }
+   ]
+  },
+  {
+   "safetyreportid": "24830539",
+   "receivedate": "20250110",
+   "cat": "suspect",
+   "entries": [
+    {
+     "cls": "target",
+     "rule": 5,
+     "role": 1,
+     "rawRole": "1",
+     "generic_name": [
+      "VANCOMYCIN HYDROCHLORIDE"
+     ],
+     "brand_name": [
+      "VANCOMYCIN HYDROCHLORIDE",
+      "VANCOMYCIN HYDROCHLORIDE FOR ORAL SOLUTION",
+      "VANCOMYCIN",
+      "VANCOCIN",
+      "FIRVANQ"
+     ],
+     "medicinalproduct": "VANCOMYCIN HYDROCHLORIDE"
+    }
+   ]
+  },
+  {
+   "safetyreportid": "24757388",
+   "receivedate": "20241220",
+   "cat": "suspect",
+   "entries": [
+    {
+     "cls": "target",
+     "rule": 5,
+     "role": 1,
+     "rawRole": "1",
+     "generic_name": [
+      "VANCOMYCIN HYDROCHLORIDE",
+      "VANCOMYCIN"
+     ],
+     "brand_name": [
+      "VANCOMYCIN",
+      "TYZAVAN"
+     ],
+     "medicinalproduct": "VANCOMYCIN"
+    }
+   ]
+  },
+  {
+   "safetyreportid": "24760843",
+   "receivedate": "20241220",
+   "cat": "suspect",
+   "entries": [
+    {
+     "cls": "target",
+     "rule": 5,
+     "role": 1,
+     "rawRole": "1",
+     "generic_name": [
+      "VANCOMYCIN HYDROCHLORIDE",
+      "VANCOMYCIN"
+     ],
+     "brand_name": [
+      "VANCOMYCIN",
+      "TYZAVAN"
+     ],
+     "medicinalproduct": "VANCOMYCIN"
+    }
+   ]
+  },
+  {
+   "safetyreportid": "24752856",
+   "receivedate": "20241219",
+   "cat": "suspect",
+   "entries": [
+    {
+     "cls": "target",
+     "rule": 5,
+     "role": 1,
+     "rawRole": "1",
+     "generic_name": [
+      "VANCOMYCIN HYDROCHLORIDE",
+      "VANCOMYCIN"
+     ],
+     "brand_name": [
+      "VANCOMYCIN",
+      "TYZAVAN"
+     ],
+     "medicinalproduct": "VANCOMYCIN"
+    }
+   ]
+  },
+  {
+   "safetyreportid": "24752956",
+   "receivedate": "20241219",
+   "cat": "suspect",
+   "entries": [
+    {
+     "cls": "target",
+     "rule": 5,
+     "role": 1,
+     "rawRole": "1",
+     "generic_name": [
+      "VANCOMYCIN HYDROCHLORIDE",
+      "VANCOMYCIN"
+     ],
+     "brand_name": [
+      "VANCOMYCIN",
+      "TYZAVAN"
+     ],
+     "medicinalproduct": "VANCOMYCIN"
+    }
+   ]
+  },
+  {
+   "safetyreportid": "24644553",
+   "receivedate": "20241121",
+   "cat": "suspect",
+   "entries": [
+    {
+     "cls": "target",
+     "rule": 5,
+     "role": 1,
+     "rawRole": "1",
+     "generic_name": [
+      "VANCOMYCIN HYDROCHLORIDE"
+     ],
+     "brand_name": [
+      "VANCOMYCIN HYDROCHLORIDE",
+      "VANCOMYCIN HYDROCHLORIDE FOR ORAL SOLUTION",
+      "VANCOMYCIN",
+      "VANCOCIN",
+      "FIRVANQ"
+     ],
+     "medicinalproduct": "VANCOMYCIN HYDROCHLORIDE"
+    }
+   ]
+  },
+  {
+   "safetyreportid": "24641376",
+   "receivedate": "20241120",
+   "cat": "concomitant",
+   "entries": [
+    {
+     "cls": "target",
+     "rule": 5,
+     "role": 2,
+     "rawRole": "2",
+     "generic_name": [
+      "VANCOMYCIN HYDROCHLORIDE",
+      "VANCOMYCIN"
+     ],
+     "brand_name": [
+      "VANCOMYCIN",
+      "TYZAVAN"
+     ],
+     "medicinalproduct": "VANCOMYCIN"
+    }
+   ]
+  },
+  {
+   "safetyreportid": "24634713",
+   "receivedate": "20241119",
+   "cat": "concomitant",
+   "entries": [
+    {
+     "cls": "target",
+     "rule": 5,
+     "role": 2,
+     "rawRole": "2",
+     "generic_name": [
+      "VANCOMYCIN HYDROCHLORIDE",
+      "VANCOMYCIN"
+     ],
+     "brand_name": [
+      "VANCOMYCIN",
+      "TYZAVAN"
+     ],
+     "medicinalproduct": "VANCOMYCIN"
+    }
+   ]
+  },
+  {
+   "safetyreportid": "24636537",
+   "receivedate": "20241119",
+   "cat": "concomitant",
+   "entries": [
+    {
+     "cls": "target",
+     "rule": 5,
+     "role": 2,
+     "rawRole": "2",
+     "generic_name": [
+      "VANCOMYCIN HYDROCHLORIDE",
+      "VANCOMYCIN"
+     ],
+     "brand_name": [
+      "VANCOMYCIN",
+      "TYZAVAN"
+     ],
+     "medicinalproduct": "VANCOMYCIN"
+    }
+   ]
+  },
+  {
+   "safetyreportid": "24637905",
+   "receivedate": "20241119",
+   "cat": "concomitant",
+   "entries": [
+    {
+     "cls": "target",
+     "rule": 5,
+     "role": 2,
+     "rawRole": "2",
+     "generic_name": [
+      "VANCOMYCIN HYDROCHLORIDE",
+      "VANCOMYCIN"
+     ],
+     "brand_name": [
+      "VANCOMYCIN",
+      "TYZAVAN"
+     ],
+     "medicinalproduct": "VANCOMYCIN"
+    }
+   ]
+  },
+  {
+   "safetyreportid": "24623346",
+   "receivedate": "20241115",
+   "cat": "concomitant",
+   "entries": [
+    {
+     "cls": "target",
+     "rule": 5,
+     "role": 2,
+     "rawRole": "2",
+     "generic_name": [
+      "VANCOMYCIN HYDROCHLORIDE",
+      "VANCOMYCIN"
+     ],
+     "brand_name": [
+      "VANCOMYCIN",
+      "TYZAVAN"
+     ],
+     "medicinalproduct": "VANCOMYCIN"
+    }
+   ]
+  },
+  {
+   "safetyreportid": "24625689",
+   "receivedate": "20241115",
+   "cat": "concomitant",
+   "entries": [
+    {
+     "cls": "target",
+     "rule": 5,
+     "role": 2,
+     "rawRole": "2",
+     "generic_name": [
+      "VANCOMYCIN HYDROCHLORIDE",
+      "VANCOMYCIN"
+     ],
+     "brand_name": [
+      "VANCOMYCIN",
+      "TYZAVAN"
+     ],
+     "medicinalproduct": "VANCOMYCIN"
+    }
+   ]
+  },
+  {
+   "safetyreportid": "24562301",
+   "receivedate": "20241029",
+   "cat": "suspect",
+   "entries": [
+    {
+     "cls": "target",
+     "rule": 5,
+     "role": 1,
+     "rawRole": "1",
+     "generic_name": [
+      "VANCOMYCIN HYDROCHLORIDE"
+     ],
+     "brand_name": [
+      "VANCOMYCIN HYDROCHLORIDE",
+      "VANCOMYCIN HYDROCHLORIDE FOR ORAL SOLUTION",
+      "VANCOMYCIN",
+      "VANCOCIN",
+      "FIRVANQ"
+     ],
+     "medicinalproduct": "VANCOMYCIN HYDROCHLORIDE"
+    }
+   ]
+  },
+  {
+   "safetyreportid": "24524575",
+   "receivedate": "20241019",
+   "cat": "suspect",
+   "entries": [
+    {
+     "cls": "target",
+     "rule": 5,
+     "role": 1,
+     "rawRole": "1",
+     "generic_name": [
+      "VANCOMYCIN HYDROCHLORIDE",
+      "VANCOMYCIN"
+     ],
+     "brand_name": [
+      "VANCOMYCIN",
+      "TYZAVAN"
+     ],
+     "medicinalproduct": "VANCOMYCIN"
+    }
+   ]
+  },
+  {
+   "safetyreportid": "24376445",
+   "receivedate": "20240930",
+   "cat": "suspect",
+   "entries": [
+    {
+     "cls": "target",
+     "rule": 5,
+     "role": 1,
+     "rawRole": "1",
+     "generic_name": [
+      "VANCOMYCIN HYDROCHLORIDE",
+      "VANCOMYCIN"
+     ],
+     "brand_name": [
+      "VANCOMYCIN",
+      "TYZAVAN"
+     ],
+     "medicinalproduct": "VANCOMYCIN"
+    }
+   ]
+  },
+  {
+   "safetyreportid": "24131047",
+   "receivedate": "20240724",
+   "cat": "suspect",
+   "entries": [
+    {
+     "cls": "target",
+     "rule": 5,
+     "role": 1,
+     "rawRole": "1",
+     "generic_name": [
+      "VANCOMYCIN HYDROCHLORIDE",
+      "VANCOMYCIN"
+     ],
+     "brand_name": [
+      "VANCOMYCIN",
+      "TYZAVAN"
+     ],
+     "medicinalproduct": "VANCOMYCIN"
+    }
+   ]
+  },
+  {
+   "safetyreportid": "23966417",
+   "receivedate": "20240612",
+   "cat": "concomitant",
+   "entries": [
+    {
+     "cls": "target",
+     "rule": 5,
+     "role": 2,
+     "rawRole": "2",
+     "generic_name": [
+      "VANCOMYCIN HYDROCHLORIDE"
+     ],
+     "brand_name": [
+      "VANCOMYCIN HYDROCHLORIDE",
+      "VANCOMYCIN HYDROCHLORIDE FOR ORAL SOLUTION",
+      "VANCOMYCIN",
+      "VANCOCIN",
+      "FIRVANQ"
+     ],
+     "medicinalproduct": "VANCOMYCIN HYDROCHLORIDE"
+    }
+   ]
+  },
+  {
+   "safetyreportid": "23939637",
+   "receivedate": "20240605",
+   "cat": "suspect",
+   "entries": [
+    {
+     "cls": "target",
+     "rule": 5,
+     "role": 1,
+     "rawRole": "1",
+     "generic_name": [
+      "VANCOMYCIN HYDROCHLORIDE",
+      "VANCOMYCIN"
+     ],
+     "brand_name": [
+      "VANCOMYCIN",
+      "TYZAVAN"
+     ],
+     "medicinalproduct": "VANCOMYCIN"
+    }
+   ]
+  },
+  {
+   "safetyreportid": "23888689",
+   "receivedate": "20240523",
+   "cat": "suspect",
+   "entries": [
+    {
+     "cls": "target",
+     "rule": 5,
+     "role": 1,
+     "rawRole": "1",
+     "generic_name": [
+      "VANCOMYCIN HYDROCHLORIDE",
+      "VANCOMYCIN"
+     ],
+     "brand_name": [
+      "VANCOMYCIN",
+      "TYZAVAN"
+     ],
+     "medicinalproduct": "VANCOMYCIN"
+    }
+   ]
+  },
+  {
+   "safetyreportid": "23799332",
+   "receivedate": "20240428",
+   "cat": "suspect",
+   "entries": [
+    {
+     "cls": "target",
+     "rule": 5,
+     "role": 1,
+     "rawRole": "1",
+     "generic_name": [
+      "VANCOMYCIN HYDROCHLORIDE"
+     ],
+     "brand_name": [
+      "VANCOMYCIN HYDROCHLORIDE",
+      "VANCOMYCIN HYDROCHLORIDE FOR ORAL SOLUTION",
+      "VANCOMYCIN",
+      "VANCOCIN",
+      "FIRVANQ"
+     ],
+     "medicinalproduct": "VANCOMYCIN HYDROCHLORIDE"
+    }
+   ]
+  },
+  {
+   "safetyreportid": "23787359",
+   "receivedate": "20240426",
+   "cat": "concomitant",
+   "entries": [
+    {
+     "cls": "target",
+     "rule": 5,
+     "role": 2,
+     "rawRole": "2",
+     "generic_name": [
+      "VANCOMYCIN HYDROCHLORIDE",
+      "VANCOMYCIN"
+     ],
+     "brand_name": [
+      "VANCOMYCIN",
+      "TYZAVAN"
+     ],
+     "medicinalproduct": "VANCOMYCIN"
+    }
+   ]
+  },
+  {
+   "safetyreportid": "23615354",
+   "receivedate": "20240311",
+   "cat": "suspect",
+   "entries": [
+    {
+     "cls": "target",
+     "rule": 5,
+     "role": 1,
+     "rawRole": "1",
+     "generic_name": [
+      "VANCOMYCIN HYDROCHLORIDE",
+      "VANCOMYCIN"
+     ],
+     "brand_name": [
+      "VANCOMYCIN",
+      "TYZAVAN"
+     ],
+     "medicinalproduct": "VANCOMYCIN"
+    }
+   ]
+  },
+  {
+   "safetyreportid": "23600604",
+   "receivedate": "20240305",
+   "cat": "ambiguous",
+   "entries": [
+    {
+     "cls": "ambiguous",
+     "rule": 2,
+     "role": 2,
+     "rawRole": "2",
+     "generic_name": [],
+     "brand_name": [],
+     "medicinalproduct": "Vancomycin (1,000 and 1,250 mg)"
+    }
+   ]
+  },
+  {
+   "safetyreportid": "23592998",
+   "receivedate": "20240304",
+   "cat": "concomitant",
+   "entries": [
+    {
+     "cls": "target",
+     "rule": 5,
+     "role": 2,
+     "rawRole": "2",
+     "generic_name": [
+      "VANCOMYCIN HYDROCHLORIDE",
+      "VANCOMYCIN"
+     ],
+     "brand_name": [
+      "VANCOMYCIN",
+      "TYZAVAN"
+     ],
+     "medicinalproduct": "VANCOMYCIN"
+    }
+   ]
+  },
+  {
+   "safetyreportid": "23520077",
+   "receivedate": "20240214",
+   "cat": "suspect",
+   "entries": [
+    {
+     "cls": "target",
+     "rule": 5,
+     "role": 1,
+     "rawRole": "1",
+     "generic_name": [
+      "VANCOMYCIN HYDROCHLORIDE",
+      "VANCOMYCIN"
+     ],
+     "brand_name": [
+      "VANCOMYCIN",
+      "TYZAVAN"
+     ],
+     "medicinalproduct": "VANCOMYCIN"
+    }
+   ]
+  },
+  {
+   "safetyreportid": "23522828",
+   "receivedate": "20240214",
+   "cat": "suspect",
+   "entries": [
+    {
+     "cls": "target",
+     "rule": 5,
+     "role": 1,
+     "rawRole": "1",
+     "generic_name": [
+      "VANCOMYCIN HYDROCHLORIDE",
+      "VANCOMYCIN"
+     ],
+     "brand_name": [
+      "VANCOMYCIN",
+      "TYZAVAN"
+     ],
+     "medicinalproduct": "VANCOMYCIN"
+    }
+   ]
+  },
+  {
+   "safetyreportid": "23510776",
+   "receivedate": "20240212",
+   "cat": "suspect",
+   "entries": [
+    {
+     "cls": "target",
+     "rule": 5,
+     "role": 1,
+     "rawRole": "1",
+     "generic_name": [
+      "VANCOMYCIN HYDROCHLORIDE",
+      "VANCOMYCIN"
+     ],
+     "brand_name": [
+      "VANCOMYCIN",
+      "TYZAVAN"
+     ],
+     "medicinalproduct": "VANCOMYCIN"
+    }
+   ]
+  },
+  {
+   "safetyreportid": "23509338",
+   "receivedate": "20240210",
+   "cat": "suspect",
+   "entries": [
+    {
+     "cls": "target",
+     "rule": 5,
+     "role": 1,
+     "rawRole": "1",
+     "generic_name": [
+      "VANCOMYCIN HYDROCHLORIDE",
+      "VANCOMYCIN"
+     ],
+     "brand_name": [
+      "VANCOMYCIN",
+      "TYZAVAN"
+     ],
+     "medicinalproduct": "VANCOMYCIN"
+    }
+   ]
+  },
+  {
+   "safetyreportid": "23506599",
+   "receivedate": "20240209",
+   "cat": "suspect",
+   "entries": [
+    {
+     "cls": "target",
+     "rule": 5,
+     "role": 1,
+     "rawRole": "1",
+     "generic_name": [
+      "VANCOMYCIN HYDROCHLORIDE"
+     ],
+     "brand_name": [
+      "VANCOMYCIN HYDROCHLORIDE",
+      "VANCOMYCIN HYDROCHLORIDE FOR ORAL SOLUTION",
+      "VANCOMYCIN",
+      "VANCOCIN",
+      "FIRVANQ"
+     ],
+     "medicinalproduct": "VANCOMYCIN HYDROCHLORIDE"
+    }
+   ]
+  },
+  {
+   "safetyreportid": "23501619",
+   "receivedate": "20240208",
+   "cat": "suspect",
+   "entries": [
+    {
+     "cls": "target",
+     "rule": 5,
+     "role": 1,
+     "rawRole": "1",
+     "generic_name": [
+      "VANCOMYCIN HYDROCHLORIDE",
+      "VANCOMYCIN"
+     ],
+     "brand_name": [
+      "VANCOMYCIN",
+      "TYZAVAN"
+     ],
+     "medicinalproduct": "VANCOMYCIN"
+    }
+   ]
+  },
+  {
+   "safetyreportid": "23464504",
+   "receivedate": "20240201",
+   "cat": "concomitant",
+   "entries": [
+    {
+     "cls": "target",
+     "rule": 5,
+     "role": 2,
+     "rawRole": "2",
+     "generic_name": [
+      "VANCOMYCIN HYDROCHLORIDE",
+      "VANCOMYCIN"
+     ],
+     "brand_name": [
+      "VANCOMYCIN",
+      "TYZAVAN"
+     ],
+     "medicinalproduct": "VANCOMYCIN"
+    }
+   ]
+  },
+  {
+   "safetyreportid": "23443883",
+   "receivedate": "20240125",
+   "cat": "suspect",
+   "entries": [
+    {
+     "cls": "target",
+     "rule": 5,
+     "role": 1,
+     "rawRole": "1",
+     "generic_name": [
+      "VANCOMYCIN HYDROCHLORIDE",
+      "VANCOMYCIN"
+     ],
+     "brand_name": [
+      "VANCOMYCIN",
+      "TYZAVAN"
+     ],
+     "medicinalproduct": "VANCOMYCIN"
+    }
+   ]
+  },
+  {
+   "safetyreportid": "23405371",
+   "receivedate": "20240112",
+   "cat": "concomitant",
+   "entries": [
+    {
+     "cls": "target",
+     "rule": 5,
+     "role": 2,
+     "rawRole": "2",
+     "generic_name": [
+      "VANCOMYCIN HYDROCHLORIDE",
+      "VANCOMYCIN"
+     ],
+     "brand_name": [
+      "VANCOMYCIN",
+      "TYZAVAN"
+     ],
+     "medicinalproduct": "VANCOMYCIN"
+    }
+   ]
+  },
+  {
+   "safetyreportid": "23378342",
+   "receivedate": "20240108",
+   "cat": "suspect",
+   "entries": [
+    {
+     "cls": "target",
+     "rule": 5,
+     "role": 1,
+     "rawRole": "1",
+     "generic_name": [
+      "VANCOMYCIN HYDROCHLORIDE",
+      "VANCOMYCIN"
+     ],
+     "brand_name": [
+      "VANCOMYCIN",
+      "TYZAVAN"
+     ],
+     "medicinalproduct": "VANCOMYCIN"
+    }
+   ]
+  },
+  {
+   "safetyreportid": "23364244",
+   "receivedate": "20240104",
+   "cat": "suspect",
+   "entries": [
+    {
+     "cls": "target",
+     "rule": 5,
+     "role": 1,
+     "rawRole": "1",
+     "generic_name": [
+      "VANCOMYCIN HYDROCHLORIDE",
+      "VANCOMYCIN"
+     ],
+     "brand_name": [
+      "VANCOMYCIN",
+      "TYZAVAN"
+     ],
+     "medicinalproduct": "VANCOMYCIN"
+    }
+   ]
+  },
+  {
+   "safetyreportid": "23287599",
+   "receivedate": "20231210",
+   "cat": "suspect",
+   "entries": [
+    {
+     "cls": "target",
+     "rule": 5,
+     "role": 1,
+     "rawRole": "1",
+     "generic_name": [
+      "VANCOMYCIN HYDROCHLORIDE",
+      "VANCOMYCIN"
+     ],
+     "brand_name": [
+      "VANCOMYCIN",
+      "TYZAVAN"
+     ],
+     "medicinalproduct": "VANCOMYCIN"
+    },
+    {
+     "cls": "target",
+     "rule": 5,
+     "role": 2,
+     "rawRole": "2",
+     "generic_name": [
+      "VANCOMYCIN HYDROCHLORIDE",
+      "VANCOMYCIN"
+     ],
+     "brand_name": [
+      "VANCOMYCIN",
+      "TYZAVAN"
+     ],
+     "medicinalproduct": "VANCOMYCIN"
+    }
+   ]
+  },
+  {
+   "safetyreportid": "23235370",
+   "receivedate": "20231128",
+   "cat": "suspect",
+   "entries": [
+    {
+     "cls": "target",
+     "rule": 5,
+     "role": 1,
+     "rawRole": "1",
+     "generic_name": [
+      "VANCOMYCIN HYDROCHLORIDE",
+      "VANCOMYCIN"
+     ],
+     "brand_name": [
+      "VANCOMYCIN",
+      "TYZAVAN"
+     ],
+     "medicinalproduct": "VANCOMYCIN"
+    }
+   ]
+  },
+  {
+   "safetyreportid": "23226026",
+   "receivedate": "20231124",
+   "cat": "suspect",
+   "entries": [
+    {
+     "cls": "target",
+     "rule": 5,
+     "role": 1,
+     "rawRole": "1",
+     "generic_name": [
+      "VANCOMYCIN HYDROCHLORIDE",
+      "VANCOMYCIN"
+     ],
+     "brand_name": [
+      "VANCOMYCIN",
+      "TYZAVAN"
+     ],
+     "medicinalproduct": "VANCOMYCIN"
+    }
+   ]
+  },
+  {
+   "safetyreportid": "23222662",
+   "receivedate": "20231123",
+   "cat": "suspect",
+   "entries": [
+    {
+     "cls": "target",
+     "rule": 5,
+     "role": 1,
+     "rawRole": "1",
+     "generic_name": [
+      "VANCOMYCIN HYDROCHLORIDE",
+      "VANCOMYCIN"
+     ],
+     "brand_name": [
+      "VANCOMYCIN",
+      "TYZAVAN"
+     ],
+     "medicinalproduct": "VANCOMYCIN"
+    }
+   ]
+  },
+  {
+   "safetyreportid": "23145465",
+   "receivedate": "20231103",
+   "cat": "suspect",
+   "entries": [
+    {
+     "cls": "target",
+     "rule": 5,
+     "role": 1,
+     "rawRole": "1",
+     "generic_name": [
+      "VANCOMYCIN HYDROCHLORIDE",
+      "VANCOMYCIN"
+     ],
+     "brand_name": [
+      "VANCOMYCIN",
+      "TYZAVAN"
+     ],
+     "medicinalproduct": "VANCOMYCIN"
+    }
+   ]
+  }
+ ]
+}

@@ -176,3 +176,74 @@ ROR/PRR 等群體訊號可直接作為個案因果評估中「藥物 notoriety�
   共用同一份程式（`<drug-suggest:begin/end>` 區塊，兩版 HTML 逐字相同，測試比對），不經 `google.script.run`、不消耗 UrlFetch 配額。
 - **取捨**：openFDA 無 key 時有每日請求上限，故 typeahead 不帶 key、以快取與冷卻節流；NDC 名稱為 SPL 標示文字，
   與 FAERS `openfda.*` 欄位同源但不保證涵蓋 `medicinalproduct` 自由文字的所有寫法。
+
+## 9. 疑似藥比例（Suspect Drug Proportion，輔助指標，v2.4.0）
+
+探索性輔助資訊，**不是**發生率、因果機率或已驗證的因果評估；**不納入綜合分數、不影響排序與規則式解讀**。
+規格與審查紀錄：`.ai-review/plan.md`（v0.3）、`plan-review.md`、`plan-verdict.md`；實測與人工稽核：`.ai-review/acceptance.md`。
+
+### 9.1 定義
+
+```
+pct = round((Suspect + Interacting) / (Suspect + Interacting + Concomitant) × 100)
+```
+
+openFDA `patient.drug[].drugcharacterization`：1 = Suspect、2 = Concomitant、3 = Interacting。
+openFDA 不提供 FAERS ASCII 的 `role_cod`，**無法區分 PS／SS**。
+
+### 9.2 抽樣
+
+- 查詢＝`_drugTok(name) AND patient.reaction.reactionmeddrapt:"reaction"`（與 ROR 的 `a` 相同）＋`limit=100&sort=receivedate:desc`。
+- `receivedate` 為 FDA **首次**收到通報的日期 → 「最近通報抽樣」，**非隨機**；顯示抽樣期間（全部抽樣通報的最早～最晚合法日期）。
+- 不做重複通報（case 版本、跨廠商）去重。
+
+### 9.3 條目辨識（每個 `patient.drug[]` 條目，依序判定）
+
+記號：`tokens` = 大寫、非英數轉空白後切分；SALTS = 有限鹽類／水合清單
+（HYDROCHLORIDE, HCL, SODIUM, POTASSIUM, CALCIUM, MAGNESIUM, SULFATE, PHOSPHATE, ACETATE, MALEATE, MESYLATE, TARTRATE, CITRATE,
+SUCCINATE, FUMARATE, BESYLATE, BROMIDE, CHLORIDE, HYDROBROMIDE, DIHYDRATE, MONOHYDRATE, ANHYDROUS）。
+每列決定一次正規化模式：查詢名去鹽後仍有字 → STRIP（比對主成分）；否則（如 POTASSIUM CHLORIDE）→ FULL（比對完整名稱）。
+STRIP 模式下去鹽後為空的元素保留完整名稱，不刪除。
+
+| # | 條件 | 分類 |
+|---|---|---|
+| 1 | generic／brand／medicinalproduct 皆不含查詢主成分（以完整 token 為單位） | 無關 |
+| 2 | 無 `openfda.generic_name` | **成分無法確認**（名稱相等≠單方） |
+| 3 | 任一 generic_name 含 AND／WITH／+／逗號／字母間斜線 | 複方 |
+| 4 | generic_name 去鹽後主成分不只一種 | 複方 |
+| 5 | 每個 generic_name 去鹽後皆等於查詢主成分 | **目標藥** |
+| 6 | 某 brand_name 等於查詢（商品名查詢） | **目標藥** |
+| 7 | 其餘（如 INSULIN → INSULIN GLARGINE） | 成分無法確認 |
+
+`openfda.generic_name` 是該條目對到之**所有仿單的聯集**（例：`["VANCOMYCIN HYDROCHLORIDE","VANCOMYCIN"]`），
+不是成分清單，故以「去鹽後主成分集合」判斷複方，而非陣列長度（以長度判斷會把 82/100 筆 Vancomycin 誤判為複方）。
+
+### 9.4 通報分類（每份通報恰一類）
+
+1. 有目標藥條目 → 取其中有效角色（字串 "1"/"2"/"3" 或數字 1/2/3）的最高優先者 **Suspect > Interacting > Concomitant**；
+   皆無效 → 角色無效（排除）。同報的複方／無法確認條目不影響。
+2. 無目標藥、有複方 → 複方（排除）
+3. 無目標藥／複方、有無法確認 → 成分無法確認（排除）
+4. 其餘（含結構異常）→ 未對應（排除）
+
+有效分母＝Suspect＋Interacting＋Concomitant；為 0 時不計算比例（顯示「資料不足」）；1–9 標示「樣本少」。
+
+### 9.5 API 與失敗處理
+
+| 情況 | 重試 | 結果 |
+|---|---|---|
+| 網路錯誤、逾時（Pages 每次 60 s）、429、5xx | 2 s 後 1 次（整次操作最多 2 次） | 錯誤＋重試鈕 |
+| 404 且 `NOT_FOUND`，或 200 且 `results=[]` | 否 | 查無通報（資料不足） |
+| 其他非 200、200 格式異常、回應 > 40 MB | 否 | 錯誤（不截斷計算、不顯示 0%） |
+
+- 錯誤不快取；錯誤訊息不含 API key 或請求 URL。
+- GAS 版前端等待上限 150 s：只結束前端等待並讓下一列開始，**無法中止已送出的伺服器端執行**（仍佔配額）。
+- 一次只跑一個比例請求，前一個結束後間隔 1.8 s（無 key）／0.3 s（有 key）才開始下一個。
+
+### 9.6 已知限制
+
+- Suspect／Interacting 是通報者判定，非因果；受 notoriety bias、通報習慣、適應症與用藥情境影響。
+- 不可用兩藥比例差（如 89% vs 70%）判定相對致病機率；藥物角色為通報層級，同報多 ADR 時不針對單一 ADR。
+- **保守漏配**：SALTS 以外的酯類／鹽類（如 ESTRADIOL VALERATE、LITHIUM CARBONATE）與缺協調學名的紀錄會被排除，分母因此變小；
+  實測 Carbamazepine／Vancomycin × SJS／TEN 四組中排除 0–1 筆（2026-11-17）。
+- 回應量大（實測未壓縮 12–31 MB／100 筆），醫院網路下可能需數秒至數十秒。

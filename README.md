@@ -50,6 +50,10 @@ This tool operationalizes question 1: using a **symptom → drug** reverse query
   plus RxNorm spelling suggestions (e.g. `vancomycn` → Vancomycin). Nothing is auto-accepted; unverified names need an explicit confirmation before running
 - **Analysis interpretation**: a rule-based Traditional Chinese summary under the results table (signal summary, whether temporal weighting changed the ranking,
   fixed interpretation limits). No LLM call, no extra cost, no causal claims
+- **Suspect Drug Proportion (auxiliary, v2.4.0)**: per row, on demand, samples up to the 100 most recent FAERS reports
+  (by FDA receive date) that contain the drug and the reaction, and shows how often the *target drug itself* was coded
+  Suspect or Interacting — e.g. `89% (n=100)` — with an expandable breakdown. Not an incidence, not a causal probability,
+  and **not part of the composite score or ranking**
 
 ## Architecture
 
@@ -122,6 +126,36 @@ Both modes share the same statistical and temporal logic; they differ only in "w
 Zero-dependency tests (Node ≥ 18): `node --test tests/*.test.js`
 — interpretation rules, autocomplete (mocked APIs: debounce, race, 429, timeout, combination/salt handling), and a golden regression
 check that ROR/PRR/χ²/temporal weights are unchanged and that `Code.gs` and `docs/app.js` produce identical interpretations.
+Suspect Drug Proportion: matching/counting rules, transport error table (mocked fetch / UrlFetchApp), the front-end loader,
+and a frozen `analyzeADR` golden generated from the pre-feature commit (`tests/tools/gen-analyze-golden.js`).
+Live check against openFDA (manual): `LIVE=1 node --test tests/live/suspect.live.test.js`.
+
+## Suspect Drug Proportion (auxiliary indicator)
+
+```
+Suspect Drug Proportion (%) = (Suspect + Interacting) / (Suspect + Interacting + Concomitant) × 100
+```
+
+- **Sample**: the same search as the ROR `a` cell (drug ∩ reaction), `limit=100`, `sort=receivedate:desc` —
+  a *most-recent* sample, **not random** and not all reports. `n` is the actual valid denominator, never a fixed 100.
+- **Target matching is per drug entry**: a report counts only by the role of the analysed drug itself in `patient.drug[]`,
+  never because some other drug in the report is Suspect. An entry is accepted only if its harmonised
+  `openfda.generic_name` reduces (after stripping a short salt list) to exactly the queried ingredient, or its
+  `openfda.brand_name` equals a brand-name query. Entries **without** `openfda.generic_name`, combination products,
+  and names that only partially match (e.g. INSULIN vs INSULIN GLARGINE) are **excluded and counted separately**;
+  nothing is inferred.
+- **One vote per report**: multiple entries of the target in one report count once, using Suspect > Interacting > Concomitant;
+  missing/invalid `drugcharacterization` is excluded.
+- **Display**: `89% (n=100)`; `n<10` adds "樣本少" (small sample); `n=0` shows "資料不足" (insufficient data).
+  The breakdown lists Suspect / Interacting / Concomitant / invalid role / combination / unconfirmed / unmatched counts and the sample period.
+- **openFDA cost**: one request per row and only when you click 「載入比例」. Each response is large
+  (measured 12–31 MB uncompressed, ~5.6 MB gzip for 100 reports) because openFDA cannot return selected fields.
+  Requests run one at a time with the existing throttle (1.8 s without key / 0.3 s with key), one retry on 429/5xx/network/timeout,
+  60 s per attempt (Pages), 150 s front-end wait (GAS), responses over 40 MB are rejected rather than truncated.
+  Results are cached (Pages: in memory; GAS: CacheService summary only, 1 h).
+- **Limitations**: Suspect is the reporter's role assignment, not causality; notoriety bias, reporting habits and indication
+  affect it; two drugs' proportions (e.g. 89% vs 70%) cannot be compared as relative causal likelihood; roles are report-level,
+  not specific to one of several reactions; openFDA does not distinguish PS/SS. See `docs/methodology.md` §9.
 
 ## MedDRA Licensing Note
 

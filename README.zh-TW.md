@@ -50,6 +50,9 @@
   （如 `vancomycn` → Vancomycin）；不自動採用任何建議，未驗證藥名須明確確認才執行
 - **本次分析解讀**：結果表下方以規則式產生繁中解讀（訊號摘要、時序是否改變排序、固定判讀限制）；
   不呼叫 LLM、無額外費用、不做因果宣稱
+- **疑似藥比例（輔助指標，v2.4.0）**：逐列按需載入，抽樣最多 100 筆同時含此藥與此症狀的最近 FAERS 通報
+  （依 FDA 收件日），計算**目標藥本身**被標為 Suspect 或 Interacting 的比例（如 `89% (n=100)`），可展開細項；
+  非發生率、非因果機率，**不納入綜合分數與排序**
 
 ## 架構
 
@@ -122,6 +125,29 @@
 零依賴測試（Node ≥ 18）：`node --test tests/*.test.js`
 — 涵蓋解讀規則、Autocomplete（mock API：debounce、race、429、timeout、複方/鹽類處理），以及 golden 回歸：
 ROR/PRR/χ²/時序權重不變，且 `Code.gs` 與 `docs/app.js` 的解讀輸出逐字一致。
+疑似藥比例：比對／計數規則、傳輸錯誤決策表（mock fetch／UrlFetchApp）、前端載入 controller，以及由功能前 commit
+凍結的 `analyzeADR` golden（`tests/tools/gen-analyze-golden.js`）。
+實際連線 openFDA（手動）：`LIVE=1 node --test tests/live/suspect.live.test.js`。
+
+## 疑似藥比例（輔助指標）
+
+```
+疑似藥比例 (%) = (Suspect + Interacting) / (Suspect + Interacting + Concomitant) × 100
+```
+
+- **抽樣**：與 ROR 的 `a`（藥∩症狀）同一查詢，`limit=100`、`sort=receivedate:desc`——**最近通報抽樣，非隨機、非全部通報**。
+  `n` 為實際有效分母，不固定顯示 100。
+- **逐條目比對目標藥**：只看分析中那顆藥在 `patient.drug[]` 裡自己的角色；**不因同報其他藥是 Suspect 就算成 Suspect**。
+  條目須其 `openfda.generic_name`（去除有限鹽類清單後）與查詢主成分完全相等，或查詢商品名時 `openfda.brand_name` 相等，才算目標藥。
+  **缺協調學名（openfda.generic_name）的紀錄、複方、只部分相符的名稱（如 INSULIN 與 INSULIN GLARGINE）一律排除並另行計數**，不推估。
+- **每份通報只計一次**：同報目標藥多筆紀錄依 Suspect > Interacting > Concomitant 取一；`drugcharacterization` 缺漏或無效者排除。
+- **顯示**：`89% (n=100)`；`n<10` 加註「樣本少」；`n=0` 顯示「資料不足」。細項列出 Suspect／Interacting／Concomitant／
+  角色無效／複方／成分無法確認／未對應的計數與抽樣期間。
+- **openFDA 用量**：每列點「載入比例」才發 1 次請求。openFDA 無法只取部分欄位，100 筆回應實測未壓縮 12–31 MB（gzip 約 5.6 MB）。
+  一次只跑一個請求並沿用既有節流（無 key 1.8 秒／有 key 0.3 秒）；429／5xx／網路／逾時重試 1 次；Pages 每次嘗試 60 秒上限、
+  GAS 前端最多等 150 秒；回應超過 40 MB 直接報錯、不截斷計算。結果快取（Pages 記憶體；GAS CacheService 只存摘要 1 小時）。
+- **限制**：Suspect 是通報者的角色判定，非因果；受 notoriety bias、通報習慣、適應症影響；不能以 89% 與 70% 判定兩藥相對致病機率；
+  藥物角色屬通報層級，同報多 ADR 時並非針對單一 ADR；openFDA 不區分 PS／SS。詳見 `docs/methodology.md` §9。
 
 ## MedDRA 授權須知
 

@@ -1,6 +1,6 @@
 // ============================================================
 // FAERS ADR 嫌疑藥排序 — 靜態（純前端）分析引擎
-// Version: 2.3.0  |  License: MIT  |  教學/練習用途，非臨床決策工具
+// Version: 2.4.0  |  License: MIT  |  教學/練習用途，非臨床決策工具
 // ------------------------------------------------------------
 // 本檔是 Code.gs 的瀏覽器移植版：直接以 fetch 打 OpenFDA（支援 CORS），
 // 不需任何後端。API key 存於瀏覽器 localStorage（使用者自備、不上傳第三方）。
@@ -15,7 +15,7 @@
   'use strict';
 
   var CONFIG = {
-    VERSION: '2.3.0',
+    VERSION: '2.4.0',
     ENDPOINT: 'https://api.fda.gov/drug/event.json',
     MAX_DRUGS: 10,
     MIN_REPORTS: 3,             // 訊號最低通報數 (a≥3)
@@ -33,7 +33,14 @@
       { maxGap: 7,        factor: 0.7, label: '停藥≤7d' },
       { maxGap: 30,       factor: 0.4, label: '停藥8–30d' },
       { maxGap: Infinity, factor: 0.1, label: '停藥>30d' }
-    ]
+    ],
+    // ── 疑似藥比例（輔助指標；不參與排序）──────────────────────
+    SP_LIMIT: 100,           // 每組藥+ADR 最多抽樣通報數（最近通報，依 receivedate 排序）
+    SP_MIN_VALID: 10,        // 有效分母低於此值標示「樣本少」
+    SP_MAX_BYTES: 40000000,  // 解壓後回應位元組上限；超過即報錯，不截斷計算
+    SP_TIMEOUT_MS: 60000,    // Pages：每次嘗試期限（送出→body 解析完成）
+    SP_RETRY_DELAY: 2000,    // 429／5xx／網路／逾時重試前等待；整次操作最多 2 次嘗試
+    SP_CACHE_TTL: 3600,      // GAS CacheService 摘要快取秒數
   };
 
   var LS_KEY = 'faers_openfda_api_key';
@@ -371,6 +378,285 @@
     return (json.meta && json.meta.results) ? json.meta.results.total : 0;
   }
 
+  // ============================================================
+  // 疑似藥比例（Suspect Drug Proportion）— 純函式（v2.4.0 起）
+  // 探索性輔助指標：抽樣通報中，目標藥被通報者標記為 Suspect(1)/Interacting(3) 的比例。
+  // Suspect 是通報者的角色判定，非因果；本指標不納入綜合分數、不影響排序與解讀文字。
+  // ⚠ 同步維護：Code.gs 與 docs/app.js 各一份，邏輯須一致（tests/suspect-*.test.js 比對兩端輸出）。
+  // 規則來源：.ai-review/plan.md §5 D3（條目辨識）、D4（通報分類）、D5（摘要）、§7（回應判定）。
+  // ============================================================
+  var SP_SALTS = ['HYDROCHLORIDE', 'HCL', 'SODIUM', 'POTASSIUM', 'CALCIUM', 'MAGNESIUM', 'SULFATE', 'PHOSPHATE',
+    'ACETATE', 'MALEATE', 'MESYLATE', 'TARTRATE', 'CITRATE', 'SUCCINATE', 'FUMARATE', 'BESYLATE', 'BROMIDE',
+    'CHLORIDE', 'HYDROBROMIDE', 'DIHYDRATE', 'MONOHYDRATE', 'ANHYDROUS'];
+
+  function _spTokens(s) {
+    if (typeof s !== 'string') return null;
+    var t = s.toUpperCase().replace(/[^A-Z0-9]+/g, ' ').trim();
+    return t ? t.split(' ') : [];
+  }
+  function _spIsSalt(t) { return SP_SALTS.indexOf(t) > -1; }
+  function _spStrArr(x) {
+    return Array.isArray(x) ? x.filter(function (e) { return typeof e === 'string' && e.trim() !== ''; }) : [];
+  }
+  // 複方訊號：AND / WITH / + / 逗號 / 字母間斜線（數字間斜線如 500MG/5ML 不算）
+  function _spCombo(s) { return /\bAND\b|\bWITH\b|\+|,|[A-Z]\s*\/\s*[A-Z]/.test(String(s).toUpperCase()); }
+
+  // 本列比對器：正規化模式每列決定一次（STRIP：去鹽後仍有 token；FULL：藥名全由鹽類組成）
+  function _spMatcher(drugName) {
+    var base = _spTokens(_clean(drugName)) || [];
+    var strip = base.filter(function (x) { return !_spIsSalt(x); }).length > 0;
+    function moiety(s) {
+      var t = _spTokens(s);
+      if (t === null) return null;
+      if (!strip) return t.join(' ');
+      var r = t.filter(function (x) { return !_spIsSalt(x); });
+      return r.length ? r.join(' ') : '#' + t.join(' ');      // 去鹽後為空：保留完整 tokens，不刪除該元素
+    }
+    var M = base.length ? moiety(_clean(drugName)) : '';
+    return {
+      mode: strip ? 'STRIP' : 'FULL',
+      M: M,
+      moiety: moiety,
+      exact: function (v) { return M !== '' && moiety(v) === M; },
+      hit: function (v) {
+        var t = _spTokens(v);
+        return M !== '' && t !== null && t.length > 0 && (' ' + t.join(' ') + ' ').indexOf(' ' + M + ' ') > -1;
+      }
+    };
+  }
+
+  // D3：單一 patient.drug[] 條目 → { cls: none|ambiguous|combo|target, rule: 決策表列號 }
+  function _spClassifyEntry(d, m) {
+    if (!d || typeof d !== 'object' || Array.isArray(d)) return { cls: 'none', rule: 1 };
+    var of = (d.openfda && typeof d.openfda === 'object' && !Array.isArray(d.openfda)) ? d.openfda : {};
+    var GN = _spStrArr(of.generic_name), BN = _spStrArr(of.brand_name);
+    var MP = (typeof d.medicinalproduct === 'string' && d.medicinalproduct.trim() !== '') ? [d.medicinalproduct] : [];
+    if (!GN.concat(BN, MP).some(m.hit)) return { cls: 'none', rule: 1 };
+    if (!GN.length) return { cls: 'ambiguous', rule: 2 };      // 無協調 generic：名稱相等不足以確認單方
+    if (GN.some(_spCombo)) return { cls: 'combo', rule: 3 };
+    var set = {};
+    GN.forEach(function (g) { set[m.moiety(g)] = true; });
+    if (Object.keys(set).length > 1) return { cls: 'combo', rule: 4 };
+    if (GN.every(m.exact)) return { cls: 'target', rule: 5 };
+    if (BN.some(m.exact)) return { cls: 'target', rule: 6 };
+    return { cls: 'ambiguous', rule: 7 };
+  }
+
+  // 有效角色只認字串 "1"/"2"/"3" 或數字 1/2/3；其餘（含 true、"1 "、陣列）皆無效 → 0
+  function _spRole(v) {
+    if (v === '1' || v === 1) return 1;
+    if (v === '2' || v === 2) return 2;
+    if (v === '3' || v === 3) return 3;
+    return 0;
+  }
+  var SP_ROLE_RANK = { 1: 3, 3: 2, 2: 1 };                     // 優先順序 Suspect > Interacting > Concomitant
+  var SP_ROLE_CAT = { 1: 'suspect', 3: 'interacting', 2: 'concomitant' };
+
+  // D4：單份通報 → { cat, entries }；entries 為所有 hit 候選條目（稽核用）
+  function _spClassifyReport(r, m) {
+    var drugs = (r && typeof r === 'object' && !Array.isArray(r) && r.patient && typeof r.patient === 'object' &&
+      Array.isArray(r.patient.drug)) ? r.patient.drug : [];
+    var entries = [], best = 0, hasTarget = false, hasCombo = false, hasAmb = false;
+    drugs.forEach(function (d) {
+      var c = _spClassifyEntry(d, m);
+      if (c.cls === 'none') return;
+      var role = _spRole(d.drugcharacterization);
+      var of = (d.openfda && typeof d.openfda === 'object') ? d.openfda : {};
+      entries.push({ cls: c.cls, rule: c.rule, role: role, rawRole: d.drugcharacterization === undefined ? null : d.drugcharacterization,
+        generic_name: _spStrArr(of.generic_name), brand_name: _spStrArr(of.brand_name),
+        medicinalproduct: typeof d.medicinalproduct === 'string' ? d.medicinalproduct : null });
+      if (c.cls === 'target') {
+        hasTarget = true;
+        if (role && (!best || SP_ROLE_RANK[role] > SP_ROLE_RANK[best])) best = role;
+      } else if (c.cls === 'combo') hasCombo = true;
+      else hasAmb = true;
+    });
+    var cat = hasTarget ? (best ? SP_ROLE_CAT[best] : 'invalidRole')
+      : hasCombo ? 'combo' : hasAmb ? 'ambiguous' : 'unmatched';
+    return { cat: cat, entries: entries };
+  }
+
+  // 合法日曆日期 YYYYMMDD → 'YYYY-MM-DD'；否則 null
+  function _spDate(s) {
+    if (typeof s !== 'string' || !/^\d{8}$/.test(s)) return null;
+    var y = +s.slice(0, 4), mo = +s.slice(4, 6), d = +s.slice(6, 8);
+    var dt = new Date(Date.UTC(y, mo - 1, d));
+    if (dt.getUTCFullYear() !== y || dt.getUTCMonth() !== mo - 1 || dt.getUTCDate() !== d) return null;
+    return s.slice(0, 4) + '-' + s.slice(4, 6) + '-' + s.slice(6, 8);
+  }
+
+  // D5：抽樣通報陣列 → 計數摘要（不含 drug/reaction/fetchedAt）
+  function computeSuspectProportion(reports, drugName) {
+    var list = Array.isArray(reports) ? reports : [];
+    var m = _spMatcher(drugName);
+    var n = { suspect: 0, interacting: 0, concomitant: 0, invalidRole: 0, combo: 0, ambiguous: 0, unmatched: 0 };
+    var from = null, to = null;
+    list.forEach(function (r) {
+      n[_spClassifyReport(r, m).cat]++;
+      var dt = (r && typeof r === 'object') ? _spDate(r.receivedate) : null;
+      if (dt) {
+        if (from === null || dt < from) from = dt;
+        if (to === null || dt > to) to = dt;
+      }
+    });
+    var valid = n.suspect + n.interacting + n.concomitant;
+    return {
+      sampled: list.length, valid: valid,
+      suspect: n.suspect, interacting: n.interacting, concomitant: n.concomitant,
+      invalidRole: n.invalidRole, combo: n.combo, ambiguous: n.ambiguous, unmatched: n.unmatched,
+      pct: valid ? Math.round((n.suspect + n.interacting) / valid * 100) : null,
+      lowSample: valid >= 1 && valid < CONFIG.SP_MIN_VALID,
+      periodFrom: from, periodTo: to
+    };
+  }
+
+  function _spSummary(drug, reaction, results) {
+    var s = computeSuspectProportion(results, drug);
+    var out = { drug: drug, reaction: reaction };
+    Object.keys(s).forEach(function (k) { out[k] = s[k]; });
+    out.sampleMode = 'recent-receivedate';
+    out.fetchedAt = new Date().toISOString();
+    return out;
+  }
+
+  // §7 錯誤決策表（單次嘗試，傳輸層已處理網路例外與逾時）
+  // → {kind:'ok',results} | {kind:'empty'} | {kind:'retry',reason,status} | {kind:'error',reason,status}
+  function _spClassifyResponse(status, tooLarge, text) {
+    if (status === 429) return { kind: 'retry', reason: 'ratelimit', status: status };
+    if (status >= 500 && status <= 599) return { kind: 'retry', reason: 'server', status: status };
+    if (status === 404) {
+      try {
+        var e = JSON.parse(text);
+        if (e && e.error && e.error.code === 'NOT_FOUND') return { kind: 'empty' };
+      } catch (err) { /* 非 JSON 的 404 → 視為錯誤 */ }
+      return { kind: 'error', reason: 'http', status: status };
+    }
+    if (status !== 200) return { kind: 'error', reason: 'http', status: status };
+    if (tooLarge) return { kind: 'error', reason: 'toolarge', status: status };
+    var j;
+    try { j = JSON.parse(text); } catch (err) { return { kind: 'error', reason: 'format', status: status }; }
+    if (!j || typeof j !== 'object' || j.error || !Array.isArray(j.results)) return { kind: 'error', reason: 'format', status: status };
+    if (!j.results.length) return { kind: 'empty' };
+    return { kind: 'ok', results: j.results };
+  }
+
+  // 使用者可見錯誤訊息：不含 API key 或請求 URL
+  function _spErrorMessage(reason, status) {
+    switch (reason) {
+      case 'network': return '網路錯誤，無法連線 openFDA';
+      case 'timeout': return '逾時（' + Math.round(CONFIG.SP_TIMEOUT_MS / 1000) + 's）';
+      case 'ratelimit': return 'openFDA 限速，請稍後重試或設定 API Key';
+      case 'server': return 'openFDA 伺服器錯誤 HTTP ' + status;
+      case 'http': return 'openFDA 回應 HTTP ' + status;
+      case 'toolarge': return '回應過大（超過 ' + Math.round(CONFIG.SP_MAX_BYTES / 1000000) + ' MB）';
+      case 'format': return '回應格式異常';
+      default: return '疑似藥比例查詢失敗';
+    }
+  }
+
+  // UTF-8 位元組數是否超過上限（僅在無法取得原始位元組時使用；字元數先做上下界快篩）
+  function _spUtf8Over(text, cap) {
+    var n = text.length;
+    if (n > cap) return true;
+    if (n * 3 <= cap) return false;
+    var bytes = 0;
+    for (var i = 0; i < n; i++) {
+      var c = text.charCodeAt(i);
+      if (c < 0x80) bytes += 1;
+      else if (c < 0x800) bytes += 2;
+      else if (c >= 0xD800 && c <= 0xDBFF && i + 1 < n) { bytes += 4; i++; }
+      else bytes += 3;
+      if (bytes > cap) return true;
+    }
+    return false;
+  }
+
+  // 查詢身分 key（無歧義；不做大小寫等額外正規化）
+  function _spKey(drug, reaction) { return JSON.stringify([_clean(drug), _clean(reaction)]); }
+
+  // 抽樣查詢 URL：與 analyzeADR 的 a（藥∩症狀）同一 search 表達式
+  function _spUrl(drug, reaction, apiKey) {
+    var url = CONFIG.ENDPOINT + '?search=' + _drugTok(drug) + '+AND+' + _tok('patient.reaction.reactionmeddrapt', reaction) +
+      '&limit=' + CONFIG.SP_LIMIT + '&sort=receivedate:desc';
+    if (apiKey) url += '&api_key=' + encodeURIComponent(apiKey);
+    return url;
+  }
+
+
+  // ── 疑似藥比例：Pages 傳輸（逐列按需；記憶體快取＋同 key 併發合併）──
+  // 錯誤不入快取；錯誤訊息不含 API key 或 URL。
+  var _spCache = new Map(), _spInflight = new Map();
+  var SP_TIMEOUT = {};                                       // 逾時哨兵
+
+  async function _spAttempt(url) {
+    var ms = CONFIG.SP_TIMEOUT_MS, start = Date.now(), timer = null, ctrl = null;
+    try { ctrl = new AbortController(); } catch (e) { ctrl = null; }
+    var expired = new Promise(function (resolve) {
+      timer = setTimeout(function () {
+        if (ctrl) { try { ctrl.abort(); } catch (e) { /* ignore */ } }
+        resolve(SP_TIMEOUT);
+      }, ms);
+    });
+    try {
+      var resp = await Promise.race([fetch(url, ctrl ? { signal: ctrl.signal } : {}), expired]);
+      if (resp === SP_TIMEOUT) return { kind: 'retry', reason: 'timeout' };
+      var buf = await Promise.race([resp.arrayBuffer(), expired]);
+      if (buf === SP_TIMEOUT) return { kind: 'retry', reason: 'timeout' };
+      var tooLarge = buf.byteLength > CONFIG.SP_MAX_BYTES;
+      var text = (resp.status === 200 && tooLarge) ? '' : new TextDecoder('utf-8').decode(buf);
+      var c = _spClassifyResponse(resp.status, tooLarge, text);
+      if (Date.now() - start > ms) return { kind: 'retry', reason: 'timeout' };   // JSON.parse 不可中斷：完成後檢查期限
+      return c;
+    } catch (e) {
+      return { kind: 'retry', reason: 'network' };
+    } finally {
+      clearTimeout(timer);
+    }
+  }
+
+  async function _spRun(drug, reaction) {
+    var url = _spUrl(drug, reaction, _apiKey());
+    var last = null;
+    for (var attempt = 1; attempt <= 2; attempt++) {
+      if (attempt > 1) await _sleep(CONFIG.SP_RETRY_DELAY);
+      var r = await _spAttempt(url);
+      if (r.kind === 'ok' || r.kind === 'empty') {
+        return { success: true, data: _spSummary(drug, reaction, r.kind === 'ok' ? r.results : []) };
+      }
+      last = r;
+      if (r.kind !== 'retry') break;
+    }
+    return { success: false, error: _spErrorMessage(last.reason, last.status), reason: last.reason };
+  }
+
+  function suspectProportion(drug, reaction) {
+    var d = String(drug === null || drug === undefined ? '' : drug).trim();
+    var rx = String(reaction === null || reaction === undefined ? '' : reaction).trim();
+    if (!_clean(d) || !_clean(rx)) return Promise.resolve({ success: false, error: '藥品與症狀不得為空' });
+    var key = _spKey(d, rx);
+    if (_spCache.has(key)) return Promise.resolve({ success: true, data: _spCache.get(key), cached: true });
+    if (_spInflight.has(key)) return _spInflight.get(key);
+    var p = _spRun(d, rx).then(function (res) {
+      _spInflight.delete(key);
+      if (res.success) _spCache.set(key, res.data);
+      return res;
+    }, function () {
+      _spInflight.delete(key);
+      return { success: false, error: '疑似藥比例計算失敗（系統錯誤）', reason: 'internal' };
+    });
+    _spInflight.set(key, p);
+    return p;
+  }
+
+  // 稽核輸出（live 整合驗收用）：與 computeSuspectProportion 同一分類函式，逐報列出候選條目與裁決
+  function _spAudit(reports, drugName) {
+    var m = _spMatcher(drugName);
+    return (Array.isArray(reports) ? reports : []).map(function (r) {
+      var c = _spClassifyReport(r, m);
+      return { safetyreportid: r && r.safetyreportid, receivedate: r && r.receivedate, cat: c.cat, entries: c.entries };
+    });
+  }
+
   // ── 主進入點（async）；回傳形狀同 Code.gs.analyzeADR ───────────────
   // payload = { reaction, onsetDate, drugs:[{name,startDate,stopDate,nameInfo?}] }
   // nameInfo（選用）：前端藥名選取紀錄，僅透傳供解讀，不影響查詢字串與統計
@@ -456,7 +742,19 @@
     generateInterpretation: generateInterpretation,
     // 測試用（不改變行為）：讓 tests/ 以相同輸入比對兩端數學
     _stats: _stats,
-    _temporal: _temporal
+    _temporal: _temporal,
+    // 疑似藥比例（輔助指標；不參與 analyzeADR）
+    suspectProportion: suspectProportion,
+    computeSuspectProportion: computeSuspectProportion,
+    _spClassifyResponse: _spClassifyResponse,
+    _spErrorMessage: _spErrorMessage,
+    _spUtf8Over: _spUtf8Over,
+    _spKey: _spKey,
+    _spUrl: _spUrl,
+    _spAudit: _spAudit,
+    // 測試用：僅允許覆寫 SP_* 設定（縮短逾時等）
+    _spSetConfig: function (o) { Object.keys(o || {}).forEach(function (k) { if (/^SP_/.test(k)) CONFIG[k] = o[k]; }); },
+    _spResetCache: function () { _spCache.clear(); _spInflight.clear(); }
   };
 
 })(typeof window !== 'undefined' ? window : this);
