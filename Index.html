@@ -44,6 +44,27 @@
     .result-table th{position:sticky;top:0;background:var(--accent);color:#fff;padding:.45rem .4rem;font-weight:500;white-space:nowrap;}
     .result-table td{padding:.45rem .4rem;border-bottom:1px solid var(--border);text-align:center;vertical-align:middle;}
     .result-table tr:nth-child(even) td{background:#FAF7F1;}
+    /* 疑似藥比例欄（逐列載入；不參與排序） */
+    #resultTable tr:nth-child(even) td{background:transparent;}
+    #resultTable tr.alt td{background:#FAF7F1;}
+    .sp-cell{white-space:nowrap;}
+    .btn-sp{background:#fff;border:1px solid var(--accent);color:var(--accent);border-radius:var(--radius-input);padding:.25rem .7rem;font-size:.78rem;cursor:pointer;min-height:44px;min-width:44px;white-space:nowrap;transition:var(--transition);margin-top:.15rem;}
+    .btn-sp:hover{background:var(--accent);color:#fff;}
+    .btn-sp:focus-visible{outline:2px solid var(--accent);outline-offset:2px;}
+    .sp-val{font-weight:500;font-size:.88rem;white-space:nowrap;}
+    .sp-none{color:var(--text-muted);font-weight:500;}
+    .sp-low{font-size:.72rem;color:#7A4F19;}
+    .sp-err{font-size:.72rem;color:var(--danger);white-space:normal;width:9rem;margin:0 auto;}
+    .spinner-sp{display:inline-block;width:.85rem;height:.85rem;border:2px solid var(--border);border-right-color:var(--accent);border-radius:50%;animation:spin .7s linear infinite;vertical-align:-.15em;}
+    #resultTable tr.sp-detail td{text-align:left;padding:.25rem .6rem .75rem;}
+    .sp-detail-body{position:sticky;left:.6rem;max-width:min(44rem, calc(100vw - 5.5rem));}  /* 橫捲表格內細項固定在可視區 */
+    .sp-detail-title{font-weight:700;font-size:.82rem;color:var(--accent);margin:.25rem 0;}
+    .sp-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(14rem,1fr));gap:0 1.5rem;margin:.25rem 0 .5rem;font-size:.82rem;}
+    .sp-grid div{display:flex;justify-content:space-between;gap:.75rem;border-bottom:1px dotted var(--border);padding:.2rem 0;}
+    .sp-grid dt{font-weight:400;}
+    .sp-grid dd{margin:0;font-family:'JetBrains Mono',monospace;white-space:nowrap;}
+    .sp-note{font-size:.82rem;margin:.4rem 0 .25rem;max-width:40em;}
+    .sp-limits{font-size:.72rem;color:var(--text-muted);padding-left:1.1rem;margin:0;max-width:40em;}
     .td-left{text-align:left!important;}
     .bsig{background:var(--danger);} .bweak{background:var(--warning);} .bnone{background:var(--text-muted);} .bexcl{background:#9AA0A6;}
     .notice{font-size:.78rem;border-left:3px solid var(--warning);background:#FDF6EC;padding:.6rem .8rem;border-radius:var(--radius-input);color:#7A4F19;margin-top:.75rem;}
@@ -262,6 +283,7 @@
         停藥後發生（dechallenge）：再乘衰減 ≤7d×0.7、8–30d×0.4、&gt;30d×0.1。<br>
         綜合分數 = 時序權重 × ln(ROR)（ROR≤1 計 0）；用於排序，非機率。<br>
         本次分析解讀：依上表數據以固定規則產生文字（不呼叫 AI、不重新查詢）；ROR-only 對照排序同分時依 95% CI 下界、再依綜合排序順位。<br>
+        疑似藥比例（輔助指標）：按「載入比例」才查詢該列；抽樣最近 100 筆同時含此藥名與症狀的通報（依 FDA 收件日），計算目標藥被通報者標為 Suspect 或 Interacting 的比例 =（S+I）/（S+I+C）。缺協調學名、複方、成分無法確認或角色無效者排除；不納入綜合分數與排序，非發生率、非因果機率。<br>
         藥名建議：openFDA NDC（前綴）＋ RxNorm（拼字近似），僅為輸入輔助；FAERS 查詢仍以欄位內文字原樣比對三欄，不展開同義詞。
       </div>
     </details>
@@ -364,6 +386,7 @@ function loadKeyStatus(){
       var b=document.getElementById('keyBadge');
       b.textContent=r.hasKey?('有 Key · 240/min'):('無 Key · 40/min');
       b.className='rate-badge ms-2 '+(r.hasKey?'key-ok':'key-none');
+      if(typeof SPLoader!=='undefined') SPLoader.setHasKey(r.hasKey===true);
     })
     .withFailureHandler(function(){})
     .getApiKeyStatus();
@@ -754,6 +777,197 @@ var DrugSuggest = (function(){
 })();
 // <drug-suggest:end>
 
+// <sp-loader:begin>
+// 疑似藥比例：逐列按需載入的前端 controller（兩版 HTML 逐字相同；tests/sp-loader.test.js 以 vm 測試）
+// - 單一佇列：同時至多 1 個前端工作；前一工作結束到下一工作開始 ≥ sleepMs（無 key 1800ms／有 key 300ms）
+// - 狀態依查詢身分 key 保存：idle | queued | loading | done | empty | error；重繪時各列依自身 key 取狀態
+// - GAS 版前端等待上限 150s（watchdog）：只結束前端等待並釋放佇列，伺服器端執行可能仍在進行
+// - 只負責流程與文字格式；計數由後端 computeSuspectProportion 計算，此處不重算
+var SPLoader = (function () {
+  var NOTE = '疑似藥比例表示抽樣 FAERS 通報中，目標藥物被標記為 Suspect 或 Interacting 的比例，並非 ADR 發生率或因果機率。';
+  var LIMITS = [
+    'Suspect／Interacting 是通報者對藥物角色的判定，不代表已確認因果關係。',
+    '僅抽樣最多 100 筆「最近通報」（依 FDA 首次收件日排序），非隨機、非全部 FAERS 通報。',
+    '比例受 notoriety bias、通報習慣、適應症與用藥情境影響；不可用兩藥比例差（如 89% 與 70%）判定相對致病機率。',
+    '藥物角色屬通報層級：同一通報含多個 ADR 時，並非針對本次症狀的獨立判定。',
+    'openFDA 不區分 PS／SS（主要／次要嫌疑藥），本表合併為 Suspect。',
+    '缺協調學名（openfda.generic_name）、複方或成分無法確認的紀錄一律排除，不推估。',
+    '本指標不納入綜合分數，也不影響排序。'
+  ];
+  var WATCHDOG_MS = 150000;
+
+  function clean(s) { return String(s === null || s === undefined ? '' : s).replace(/["\\]/g, '').trim(); }
+  function key(drug, reaction) { return JSON.stringify([clean(drug), clean(reaction)]); }
+  function num(x) { var v = Number(x); return isFinite(v) ? v : 0; }
+
+  // 摘要 → 主顯示文字；n 一律取有效分母 S+I+C
+  function format(s) {
+    var n = s ? num(s.suspect) + num(s.interacting) + num(s.concomitant) : 0;
+    if (!s || n === 0 || s.pct === null || s.pct === undefined) return { text: '資料不足', insufficient: true, low: false, n: 0 };
+    return { text: s.pct + '% (n=' + n + ')', insufficient: false, low: s.lowSample === true, n: n };
+  }
+  function detailRows(s) {
+    var period = (s.periodFrom && s.periodTo) ? (s.periodFrom + ' ～ ' + s.periodTo) : '—';
+    return [
+      ['抽樣通報數', String(num(s.sampled))],
+      ['有效分母（S+I+C）', String(num(s.suspect) + num(s.interacting) + num(s.concomitant))],
+      ['Suspect（疑似藥）', String(num(s.suspect))],
+      ['Interacting（交互作用藥）', String(num(s.interacting))],
+      ['Concomitant（併用藥）', String(num(s.concomitant))],
+      ['角色缺漏或無效（排除）', String(num(s.invalidRole))],
+      ['複方（排除）', String(num(s.combo))],
+      ['成分無法確認（排除）', String(num(s.ambiguous))],
+      ['未對應到目標藥（排除）', String(num(s.unmatched))],
+      ['抽樣期間（FDA 收件日）', period]
+    ];
+  }
+
+  function create(o) {
+    var states = {}, queue = [], running = false, lastEnd = -Infinity, seq = 0;
+    function notify(k) { if (o.onChange) o.onChange(k); }
+    function get(drug, reaction) { return states[key(drug, reaction)] || { status: 'idle' }; }
+    function request(drug, reaction) {
+      var k = key(drug, reaction), st = states[k];
+      if (!clean(drug) || !clean(reaction)) return false;
+      if (st && st.status !== 'error') return false;          // 排隊中／載入中／已完成：不重複送出
+      states[k] = { status: 'queued' };
+      queue.push({ k: k, drug: drug, reaction: reaction });
+      notify(k);
+      pump();
+      return true;
+    }
+    function pump() {
+      if (running || !queue.length) return;
+      running = true;
+      var wait = Math.max(0, lastEnd + o.sleepMs() - o.now());
+      o.setTimeout(function () { start(queue.shift()); }, wait);
+    }
+    function start(job) {
+      var token = ++seq, settled = false, wd = null;
+      states[job.k] = { status: 'loading', token: token };
+      notify(job.k);
+      function finish(res) {
+        if (settled) return;                                  // watchdog 後晚到的結果丟棄
+        settled = true;
+        if (wd !== null) o.clearTimeout(wd);
+        var cur = states[job.k];
+        if (cur && cur.token === token) {
+          if (res && res.success && res.data) {
+            states[job.k] = { status: num(res.data.sampled) === 0 ? 'empty' : 'done', data: res.data, token: token };
+          } else {
+            states[job.k] = { status: 'error', error: (res && res.error) || '疑似藥比例查詢失敗', token: token };
+          }
+          notify(job.k);
+        }
+        running = false;
+        lastEnd = o.now();
+        pump();
+      }
+      if (o.watchdogMs) {
+        wd = o.setTimeout(function () {
+          finish({ success: false, error: '等待伺服器回應超過 ' + Math.round(o.watchdogMs / 1000) + ' 秒，已停止等待；可稍後重試' });
+        }, o.watchdogMs);
+      }
+      var p;
+      try { p = Promise.resolve(o.transport(job.drug, job.reaction)); } catch (e) { p = Promise.reject(e); }
+      p.then(finish, function () { finish({ success: false, error: '疑似藥比例查詢失敗（系統錯誤）' }); });
+    }
+    return { get: get, request: request, key: key };
+  }
+
+  // 依執行環境選擇 transport：GAS（google.script.run）或 Pages（FAERSApp）
+  var hasKey = false;
+  function setHasKey(v) { hasKey = v === true; }
+  function defaults(g, onChange) {
+    var isGas = !!(g.google && g.google.script && g.google.script.run);
+    var transport = isGas
+      ? function (drug, reaction) {
+        return new Promise(function (resolve) {
+          g.google.script.run
+            .withSuccessHandler(function (r) { resolve(r); })
+            .withFailureHandler(function () { resolve({ success: false, error: '伺服器呼叫失敗，請稍後重試' }); })
+            .suspectProportion(drug, reaction);
+        });
+      }
+      : function (drug, reaction) { return g.FAERSApp.suspectProportion(drug, reaction); };
+    return {
+      transport: transport,
+      watchdogMs: isGas ? WATCHDOG_MS : 0,                    // Pages 由引擎內 60s／次期限處理
+      sleepMs: function () { return hasKey ? 300 : 1800; },
+      now: function () { return Date.now(); },
+      setTimeout: function (fn, ms) { return g.setTimeout(fn, ms); },
+      clearTimeout: function (id) { g.clearTimeout(id); },
+      onChange: onChange
+    };
+  }
+
+  return { create: create, defaults: defaults, format: format, detailRows: detailRows, key: key, setHasKey: setHasKey,
+    NOTE: NOTE, LIMITS: LIMITS, WATCHDOG_MS: WATCHDOG_MS };
+})();
+// <sp-loader:end>
+
+// ── 疑似藥比例欄：渲染（流程與狀態由 SPLoader controller 管理；全 DOM 建構，不用 innerHTML）──
+var spCtl=null, spCells={}, spSeq=0;
+function spInit(){
+  if(window.FAERSApp && FAERSApp.getApiKeyStatus) SPLoader.setHasKey(FAERSApp.getApiKeyStatus().hasKey===true);
+  if(!spCtl) spCtl=SPLoader.create(SPLoader.defaults(window,function(k){ (spCells[k]||[]).forEach(spPaint); }));
+}
+function spText(text,cls){ var d=mk('div'); if(cls) d.className=cls; d.textContent=text; return d; }
+function spBtn(text){ var b=mk('button'); b.type='button'; b.className='btn-sp'; b.textContent=text; return b; }
+function spPaint(e){
+  var st=spCtl.get(e.drug,e.rx), box=mk('div');
+  box.setAttribute('aria-live','polite');
+  e.td.textContent=''; e.td.appendChild(box);
+  if(st.status==='idle'){
+    var b=spBtn('載入比例'); b.setAttribute('aria-label','載入 '+e.drug+' 的疑似藥比例');
+    b.addEventListener('click',function(){ spCtl.request(e.drug,e.rx); });
+    box.appendChild(b);
+  }else if(st.status==='queued'){
+    box.appendChild(spText('排隊中…','hint'));
+  }else if(st.status==='loading'){
+    var sp=mk('span'); sp.className='spinner-sp'; sp.setAttribute('aria-hidden','true');
+    var ld=spText('','hint'); ld.appendChild(sp); ld.appendChild(document.createTextNode(' 載入中…'));
+    box.appendChild(ld);
+  }else if(st.status==='error'){
+    box.appendChild(spText(st.error,'sp-err'));
+    var rb=spBtn('重試'); rb.setAttribute('aria-label','重試載入 '+e.drug+' 的疑似藥比例');
+    rb.addEventListener('click',function(){ spCtl.request(e.drug,e.rx); });
+    box.appendChild(rb);
+  }else{
+    var f=SPLoader.format(st.data);
+    box.appendChild(spText(f.text, f.insufficient?'sp-val sp-none':'sp-val num'));
+    if(f.low) box.appendChild(spText('樣本少','sp-low'));
+    var db=spBtn(e.open?'收合細項':'細項');
+    db.setAttribute('aria-expanded',e.open?'true':'false'); db.setAttribute('aria-controls',e.det.id);
+    db.addEventListener('click',function(){ e.open=!e.open; spPaint(e); });
+    box.appendChild(db);
+  }
+  var show=e.open && (st.status==='done'||st.status==='empty');
+  e.det.hidden=!show;
+  if(show) spPaintDetail(e,st);
+}
+function spPaintDetail(e,st){
+  var s=st.data, wrap=mk('div'); wrap.className='sp-detail-body';
+  e.detTd.textContent=''; e.detTd.appendChild(wrap);
+  wrap.appendChild(spText('疑似藥比例細項：'+e.drug+' × '+e.rx,'sp-detail-title'));
+  wrap.appendChild(spText('最近通報抽樣（依 FDA 首次收件日排序，非隨機）；最多 100 筆。','hint'));
+  if(st.status==='empty'){
+    wrap.appendChild(spText('查無同時符合此藥名與症狀的 FAERS 通報。請確認藥名與症狀（英文 MedDRA PT）拼寫後重新分析。','sp-note'));
+  }else if(SPLoader.format(s).insufficient){
+    wrap.appendChild(spText('有效分母為 0：抽樣通報中的目標藥紀錄皆為複方、成分無法確認、角色缺漏或未對應，因此不計算比例。','sp-note'));
+  }
+  var dl=mk('dl'); dl.className='sp-grid';
+  SPLoader.detailRows(s).forEach(function(row){
+    var g=mk('div'), dt=mk('dt'), dd=mk('dd'); dt.textContent=row[0]; dd.textContent=row[1];
+    g.appendChild(dt); g.appendChild(dd); dl.appendChild(g);
+  });
+  wrap.appendChild(dl);
+  wrap.appendChild(spText(SPLoader.NOTE,'sp-note'));
+  var ul=mk('ul'); ul.className='sp-limits';
+  SPLoader.LIMITS.forEach(function(t){ var li=mk('li'); li.textContent=t; ul.appendChild(li); });
+  wrap.appendChild(ul);
+}
+
 // ── 藥品列（含起始/停用/仍在用 + 時序軸連動）─────────────
 var _uidSeq = 0;
 function addDrugRow(name, start, stop){
@@ -1003,12 +1217,13 @@ function renderResults(data){
   }
 
   var hdr=mk('tr');
-  ['#','藥品','a','ROR (95% CI)','PRR','χ²(Yates)','訊號','潛伏 (天)','時序','綜合分數','因果評估']
+  ['#','藥品','a','ROR (95% CI)','PRR','χ²(Yates)','訊號','潛伏 (天)','時序','綜合分數','因果評估','疑似藥比例']
   .forEach(function(h){var th=mk('th');th.textContent=h;hdr.appendChild(th);});
   tbl.appendChild(hdr);
+  spInit(); spCells={};
 
-  data.results.forEach(function(r){
-    var tr=mk('tr');
+  data.results.forEach(function(r,ri){
+    var tr=mk('tr'); if(ri%2===1) tr.className='alt';
     tr.appendChild(cell(r.rank));
     var td2=cell(r.drug,'td-left'); td2.style.fontWeight='500';
     if(r.nameInfo && r.nameInfo.verified===false){ var uv=mk('div'); uv.className='hint'; uv.style.fontWeight='400'; uv.textContent='未驗證藥名'; td2.appendChild(uv); }
@@ -1038,6 +1253,14 @@ function renderResults(data){
 
     tr.appendChild(cell(r.composite,'num'));
 
+    // 疑似藥比例欄＋可展開細項列（逐列按需載入，不影響排序）
+    var spTd=mk('td'); spTd.className='sp-cell';
+    var det=mk('tr'); det.className='sp-detail'+(ri%2===1?' alt':''); det.hidden=true; det.id='spdet-'+(++spSeq);
+    var detTd=mk('td'); detTd.colSpan=hdr.children.length; det.appendChild(detTd);
+    var spE={td:spTd, det:det, detTd:detTd, drug:r.drug, rx:m.reaction, open:false};
+    var spK=SPLoader.key(r.drug,m.reaction); (spCells[spK]=spCells[spK]||[]).push(spE);
+    spPaint(spE);
+
     // 因果評估按鈕
     var asTd=mk('td');
     var asBtn=mk('button'); asBtn.type='button'; asBtn.className='btn-assess'; asBtn.textContent='評分';
@@ -1046,7 +1269,9 @@ function renderResults(data){
       openAssessment(r, others, data.meta);
     });
     asTd.appendChild(asBtn); tr.appendChild(asTd);
+    tr.appendChild(spTd);                       // 疑似藥比例置於最後一欄：不移動既有欄位
     tbl.appendChild(tr);
+    tbl.appendChild(det);
   });
 
   // ALDEN 啟動鈕：僅 SJS/TEN 顯示
